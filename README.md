@@ -365,20 +365,20 @@ Let's have a look at an example of how to build a notification service based on 
 export class NotificationService {
     private _subject = new Subject<any>();
  
-    notify(news: string) : void {
+    notify(news: string): void {
         this._subject.next({ news: news });
     }
  
-    flush() : void {
+    listen(): Observable<any> {
+        return this._subject.asObservable();
+    }
+
+    flush(): void {
         this._subject.next();
     }
 
-    complete() : void {
-         return this._subject.complete();
-    }
-
-    listen() : Observable<any> {
-        return this._subject.asObservable();
+    complete(): void {
+        return this._subject.complete();
     }
 }
 ```
