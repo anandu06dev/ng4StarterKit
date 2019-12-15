@@ -156,7 +156,7 @@ The view model and domain model may possess different data schemas to keep the d
 - Anemic Domain Model
 - Rich Domain Model
 
-The anemic domain model is quite often used in CRUD-based web applications as data container, conform to RESTlike practices. The anemic domain model, however, is considered an 
+The anemic domain model is quite often used in CRUD-based web applications as data container, conform to RESTful practices. The anemic domain model, however, is considered an 
 anti-pattern because it does not contain business logic except `get` and `set` (or CRUD) methods and introduces a tight coupling with the UI controller. It thus follows 
 that the rich domain model is a more suitable candidate for most model cases. When including a rich domain model representation in the UI controller, the **domain logic will not 
 be spread across different layers multiple times**. 
@@ -401,7 +401,7 @@ UML-Diagram:
 
 If we are going to develop a single page application with the router module, we should think primarily about the component hierarchy and sketch 
 wireframes alongside the tree path. That way, we easily can approach a UX-Driven API design. The top-down flow ensures that the GUI 
-storyboard is compatible with the resource representation enforced by RESTlike practices. By mapping a GUI storyboard to the component tree 
+storyboard is compatible with the resource representation enforced by RESTful practices. By mapping a GUI storyboard to the component tree 
 we are able to identify full business use cases. The following phase model will be used as a basis:
 
 `Information Architecture` &rarr; `Interaction Design` &rarr; `Visual Design` &rarr; `Usability Testing`
