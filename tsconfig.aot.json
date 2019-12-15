@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true
+  },
+  "lib": [
+    "es2015",
+    "dom"
+  ],
+  "typeRoots": [
+    "node_modules/@types"
+  ],
+  "types": [
+    "node"
+  ],
+  "files": [
+    "src/app/main/app.module.ts",
+    "src/app/main/bootstrap-aot.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "aot",
+    "skipMetadataEmit" : true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    //"**/*.ngfactory.ts",
+    //"**/*.shim.ts",
+    "src/app/main/bootstrap.ts",
+    "src/app/polyfills.ts"
+  ]
+}
+
+
+
