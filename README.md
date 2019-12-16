@@ -302,12 +302,12 @@ class Customer {
 }
 ``` 
 
-Normally, in Angular services are used to share state, beyond the lifetime of a component:
+Normally, services in Angular are used to share state, beyond the lifetime of a component:
 
 ## Router Service
 
 Angular's router service allows us to manage addressable state and view state. Simply put, the router state determines which components are visible on the screen and 
-it handles navigation between application states (HATEOAS). Any state transition results in a URL change! It is very important to notice, due to the router is a resource-oriented engine, 
+it manages navigation between application states (HATEOAS). Any state transition results in a URL change! It is very important to notice, due to the router is a resource-oriented engine, 
 we **cannot place more than one component into the same location at the same time** (~Auxiliary Routes!). This means, if building a router SPA, we should desire a UX-Driven Design method 
 to determine the appropriate data model and types for the Web API. The UI project should introduce User-Centered Design (UCD), where user actions define the component and URL workflow.
 
@@ -332,7 +332,7 @@ export class PropertyService{
 ## State Management Service
 
 Build a basic state management service to share state and communicate state changes using Angular's built-in change detection, along with the operations, 
-transformations, and rules for creating, manipulating and storing that data. We could use a state management service for any type of application data 
+transformations, and rules for creating, manipulating and storing that data. Use a state management service for any type of application data 
 that requires state or storage management. Let's have a look at an example of how to define a state management service for a customer entity: 
            
 ```
@@ -399,8 +399,8 @@ UML-Diagram:
 
 # Component Tree Design
 
-If we are going to develop a single page application with the router module, we should think primarily about the component hierarchy and sketch 
-wireframes alongside the tree path. That way, we easily can approach a UX-Driven API design. The top-down flow ensures that the GUI 
+If we are going to develop a single page application with the router module, we should primarily think about of the component hierarchy and sketch 
+wireframes alongside the component tree. That way, we can easily approach a UX-Driven API design. The top-down flow ensures that the GUI 
 storyboard is compatible with the resource representation enforced by RESTful practices. By mapping a GUI storyboard to the component tree 
 we are able to identify full business use cases. The following phase model will be used as a basis:
 
@@ -416,14 +416,14 @@ but can be crucial to desktop applications. For more information about REST data
 
 ## Navigation Patterns
 
-As mentioned before, the angular router is a strict resource-oriented engine (HATEOAS), where we have only limited possibilities with regards 
+As mentioned before, the Angular router module is a strict resource-oriented engine (HATEOAS) where we have only limited possibilities with regards 
 to arbitrary interaction and navigation patterns. The most commonly used navigation patterns are master-master and master-details: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
-Indeed auxiliary/secondary routes allows us to activate additional components on the same path, but with limitations and sacrifices to a non-standard URL pattern. 
-A custom router module or an internal API such as the `ComponentFactoryResolver` may help to counteract a freestyle approach by creating
-and loading components dynamically outside of the router context. It is therefore appropriate for mobile devices such as tablets and smart phones. 
+Indeed auxiliary/secondary routes allows us to activate additional components on the equal path, but bringing limitations and sacrifices to a non-standard URL pattern. 
+A custom router module or an internal API like the `ComponentFactoryResolver` may help to counteract a freestyle approach by creating
+and loading components dynamically outside of the router context. The router module is therefore appropriate only for mobile devices such as tablets and smart phones. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Aux.PNG)
 
