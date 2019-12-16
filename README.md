@@ -399,7 +399,7 @@ UML-Diagram:
 
 # Component Tree Design
 
-If we are going to develop a single page application with the router module, we should primarily think about of the component hierarchy and sketch 
+When developing a single page application with the router module, we should primarily think of the component hierarchy and sketch 
 wireframes alongside the component tree. That way, we can easily approach a UX-Driven API design. The top-down flow ensures that the GUI 
 storyboard is compatible with the resource representation enforced by RESTful practices. By mapping a GUI storyboard to the component tree 
 we are able to identify full business use cases. The following phase model will be used as a basis:
