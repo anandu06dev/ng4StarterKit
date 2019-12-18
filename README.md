@@ -426,8 +426,8 @@ but bringing limitations and sacrifices to a non-standard pattern that does not 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Aux.PNG)
 
-Applying a freestyle approach in which we can load a few components at random places at the same time is not possible! A 3rd party 
-router module or any built-in API like the `ComponentFactoryResolver` API may help to counteract a freestyle approach by creating and loading 
+Applying a freestyle approach in which we can load a few components at random places at the same time is not possible! 
+A 3rd party router module or any built-in API like the `ComponentFactoryResolver` API may help to counteract a freestyle approach by creating and loading 
 components dynamically outside of the router context. The router module is therefore appropriate for mobile devices such as tablets and smart phones. 
 
 # Summary
