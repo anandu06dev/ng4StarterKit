@@ -399,7 +399,7 @@ UML-Diagram:
 
 # Component Tree Design
 
-When developing a single page application with the router module, we should primarily think of the component hierarchy and sketch 
+When developing a single page application based on the router module, we should primarily think of the component hierarchy and sketch 
 wireframes alongside the component tree. That way, we can easily approach a UX-Driven API design. The top-down flow ensures that the GUI 
 storyboard is compatible with the resource representation enforced by RESTful practices. By mapping a GUI storyboard to the component tree 
 we are able to identify full business use cases. The following phase model will be used as a basis:
@@ -409,29 +409,27 @@ we are able to identify full business use cases. The following phase model will 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/component_tree.PNG)
 
 Almost conform to REST and HATEOAS, we notice a clear navigation path which makes it considerable to map wireframes to the navigation tree. 
-It is obvious that this approach does not comply with any task/command based UX projection. Very often service providers create Web APIs where 
-clients have to stitch data together by themselves in order to match their custom UX requirements because it is unmanageable to provide read models 
-for every client's use case! It thus follows, approaching CQRS (read models) does not make much sense! A HATEOAS approach is excellent for mobile devices 
+It is obvious that this approach does not comply with a task/command based UX projection. Very often service providers create Web APIs where 
+clients have to stitch data together by themselves in order to match custom UX requirements because it is not feasible to prepare read models 
+for every client's specific use case! It thus follows, approaching CQRS (read models) does not make much sense here! A HATEOAS approach is excellent for mobile devices 
 but can be crucial to desktop applications. For more information about REST data aggregation please visit: https://phauer.com/2015/restful-api-design-best-practices/ 
 
 ## Navigation Patterns
 
-As mentioned before, the Angular router module is a strict resource-oriented engine (HATEOAS) where we have limited possibilities with regards 
+As mentioned before, the Angular router module is a resource-oriented engine (HATEOAS) where we have limited possibilities with regards 
 to arbitrary interaction and navigation patterns. The most commonly used navigation patterns are master - master and master - details: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
-Indeed secondary (auxiliary) and componentless (master - children) routes allows us to initiate multiple components on an equal path, 
-but bringing limitations and sacrifices to a non-standard URL pattern that does not comply with REST URLs. 
+Indeed secondary (auxiliary) and componentless (master - children) routes allows us to initiate multiple components on the same URL, 
+but bringing limitations and sacrifices to a non-standard pattern that does not comply with RESTful URL patterns. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Aux.PNG)
 
-Applying a freestyle approach in which we can load only several components on random places at the same time is not possible. 
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Freestyle.PNG)
-
-A custom router module or an internal API like the `ComponentFactoryResolver` may help to counteract a freestyle approach by creating
-and loading components dynamically outside of the router context. The router module is therefore appropriate for mobile devices such as tablets and smart phones. 
+Applying a freestyle approach in which we can load a few components at random places at the same time is not possible! A 3rd party 
+router module or any built-in API like the `ComponentFactoryResolver` API may help to counteract a freestyle approach by creating and loading 
+components dynamically outside of the router context. The router module is therefore appropriate for mobile devices such as tablets and smart phones. 
+Writing SPA desktop applications based on Angular's router module should be considered with caution.
 
 # Summary
 
