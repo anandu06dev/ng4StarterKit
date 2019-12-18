@@ -416,13 +416,13 @@ but can be crucial to desktop applications. For more information about REST data
 
 ## Navigation Patterns
 
-As mentioned before, the Angular router module is a resource-oriented engine (HATEOAS) where we have limited possibilities with regards 
-to arbitrary interaction and navigation patterns. The most commonly used navigation patterns are master - master and master - details: 
+As mentioned before, the router engine is a resource-oriented engine (HATEOAS) where we have limited possibilities with regards 
+to arbitrary interaction and navigation patterns. The most commonly used navigation patterns are: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
-Indeed secondary (auxiliary) and componentless (master - children) routes allows us to initiate multiple components on the same URL, 
-but bringing limitations and sacrifices to a non-standard pattern that does not comply with RESTful URL patterns. 
+Indeed secondary (auxiliary) and componentless (master - children) routes allow us to initiate multiple components on the same URL, 
+but bringing limitations and sacrifices to a non-standard pattern that does not comply with RESTful practices. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Aux.PNG)
 
