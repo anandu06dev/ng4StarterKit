@@ -436,7 +436,7 @@ With multi-layered applications it is clear that critical decisions have to be m
 requirements at the macro-level, which includes decisions on the scope of:
 
 - SPA vs. MPA
-- UX first vs. API first
+- UX vs. API first
 - Smart vs. Dump client
 - Public vs. Private API
 - Mobile vs. Desktop first
