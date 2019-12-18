@@ -416,16 +416,22 @@ but can be crucial to desktop applications. For more information about REST data
 
 ## Navigation Patterns
 
-As mentioned before, the Angular router module is a strict resource-oriented engine (HATEOAS) where we have only limited possibilities with regards 
-to arbitrary interaction and navigation patterns. The most commonly used navigation patterns are master-master and master-details: 
+As mentioned before, the Angular router module is a strict resource-oriented engine (HATEOAS) where we have limited possibilities with regards 
+to arbitrary interaction and navigation patterns. The most commonly used navigation patterns are master - master and master - details: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
-Indeed auxiliary/secondary routes allows us to activate additional components on the equal path, but bringing limitations and sacrifices to a non-standard URL pattern. 
-A custom router module or an internal API like the `ComponentFactoryResolver` may help to counteract a freestyle approach by creating
-and loading components dynamically outside of the router context. The router module is therefore appropriate only for mobile devices such as tablets and smart phones. 
+Indeed secondary (auxiliary) and componentless (master - children) routes allows us to initiate multiple components on an equal path, 
+but bringing limitations and sacrifices to a non-standard URL pattern that does not comply with REST URLs. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Aux.PNG)
+
+Applying a freestyle approach in which we can load only several components on random places at the same time is not possible. 
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Freestyle.PNG)
+
+A custom router module or an internal API like the `ComponentFactoryResolver` may help to counteract a freestyle approach by creating
+and loading components dynamically outside of the router context. The router module is therefore appropriate for mobile devices such as tablets and smart phones. 
 
 # Summary
 
