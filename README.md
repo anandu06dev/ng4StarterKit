@@ -125,7 +125,7 @@ successfully we must adhere to a few basic guidelines:
 
 **» Service API design**<br/>
 
-Services encapsulate business functionality and handle the shared context. The service API design depends much on its shared context. 
+Services encapsulate business functionality and handle the shared context. The service API design depends much on the shared context! 
 We relate to stateful services if we need to share data across components. Normally, simple services in Angular processes HTTP API calls that include CRUD operations. 
 **A great service API exposes Observables, Subjects or BehaviourSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
 data in private or even public variables may cause various issue. If we share services with other components, we must keep track of changes by applying reactive techniques 
@@ -134,7 +134,7 @@ to prevent stale data. If there is no shared context, it is a good idea to simpl
 Factors that affects the service API design:
 
 - SPA vs. MPA
-- UX first vs. API first
+- UX vs. API first
 - Offline vs. Online first
 - Amount of data fetched from the server
 
@@ -149,7 +149,7 @@ Angular promotes two types of models:
 - `View Model`: This object represents data required by a view. It does not represent a real world object.
 - `Domain Model`: This object represents data and logic related to the business domain. It represents a real world object.  
 
-The view model and domain model may possess different data schemas to keep the domain model agnostic of the view!
+The view model and domain model may possess different data schemas to keep the domain model agnostic of the view layer.
 
 **» Implementation patterns**<br/>
 
@@ -233,14 +233,15 @@ handle the mapping of data queries from/to a DTO in dedicated Command/Query obje
 
 When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
 all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
-response schema to an interconnected web of objects: 
+response schema to a complex object graph: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
 
-For example, HAL is a hypermedia type that offers hypermedia links in the response, so that we can make transitions through the application state only by 
-navigating hypermedia. But we need to map the resource model schema to the domain model schema. Therefore, it is important to choose a response schema that also includes 
-domain values, rather than hypermedia. We cannot map hypermedia links to a rich domain model so easily. Many additional requests may be required; in the worst case for every resource. 
-The **JSON API** specification seems to be a good solution to this problem. The Web API layer should include hypermedia, as well as data.
+For example, HAL is a hypermedia type that offers hypermedia links in the response schema, so that we can make transitions through the application state by 
+navigating hypermedia. However, we have to map the resource model schema to the domain model schema. Therefore, it is important to choose a response schema 
+that also includes domain values, rather than just hypermedia links. We cannot map hypermedia links to a domain model so easily. Many additional requests may be 
+required; in the worst case for every resource, which may result in the n+1 problem. The Web API layer not only should include hypermedia links but also data. There are many 
+HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution for this problem. 
 
 **» CQS vs. CQRS**<br/>
  
@@ -251,23 +252,25 @@ counteract successfully by defining additional layers of abstraction**. In conju
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the server response schema to the rich domain model, we can convert rich domain models to arbitrary view models. A rich domain model should not be 
-presented in the view layer or sent via message bus. The adapter or assembler pattern enables two incompatible models to work together.
+After mapping the server response schema to the domain model, we can replicate rich domain models to arbitrary view models. A rich domain model should not be 
+presented in the view layer or sent via message bus. The domain model focuses on invariants and use cases rather than presentational layer requirements.
+The adapter or assembler pattern enables two incompatible models to work together.
  
 **» Offline First & Client-side Storage**<br/>
 
 Complying with the **Offline First** paradigm, we must ensure that business logic works entirely offline. Modern applications should handle a 
 dropped connection gracefully. Like **Progressive Web Apps** (PWA) we want offline capabilities, so that users can interact with the application 
-until the network is reachable again. The HTML5 IndexedDB is a large-scale storage system with a great browser support. The flexibility of 
-IndexedDB when creating object stores with different schemas provides a solid ground for saving and persisting aggregates on the client-side:
+until the network is reachable again. The HTML5 IndexedDB is a large-scale storage system with great browser support. The flexibility of 
+IndexedDB when creating object stores with different schemas provides a solid ground for saving and persisting data (Aggregates) on the client-side:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContextSync.PNG)
 
 While Service Workers are mandatory to enable caching of assets like images, videos and stylesheets, we prefer offline capabilities 
-build around the IndexedDB storage and synchronize data custom-made. The main difference here is that PWAs will take over control of at which point 
-data will be cached and retrieved from the server. We also want to take advantage of native platform features like push notifications. 
-With Angular 6 and the @angular/pwa module we have great support for building PWAs very easily, but we only use `asset groups` and omit `data groups`.
-Native features are considered as add-ons to the aforementioned IndexedDB approach, in which the focus is on client-side persistence as first-class citizen.
+build around the IndexedDB database to store and synchronize data custom-made. With Angular 6 and the @angular/pwa module we have great support 
+for building PWAs very easily. But we only use `asset groups` and omit `data groups` to retain control over the client cache, because PWAs will take over control 
+of at which point data will be cached and retrieved from the server. The Angular 6 PWA module is not capable of caching POST requests without manual instructions.
+Of course we wish to take advantage of native platform features like push notifications etc. Native features are considered as add-ons to the aforementioned 
+IndexedDB approach, in which the focus is on client-side persistence as first-class citizen.
 
 **» CQRS in Angular**<br/>
  
@@ -408,11 +411,12 @@ we are able to identify full business use cases. The following phase model will 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/component_tree.PNG)
 
-Almost conform to REST and HATEOAS, we notice a clear navigation path which makes it considerable to map wireframes to the navigation tree. 
-It is obvious that this approach does not comply with a task/command based UX projection. Very often service providers create Web APIs where 
-clients have to stitch data together by themselves in order to match custom UX requirements because it is not feasible to prepare read models 
-for every client's specific use case! It thus follows, approaching CQRS (read models) does not make much sense here! A HATEOAS approach is excellent for mobile devices 
-but can be crucial to desktop applications. For more information about REST data aggregation please visit: https://phauer.com/2015/restful-api-design-best-practices/ 
+Almost conform to REST and HATEOAS, we notice a clear navigation path which makes it considerable to map wireframes to the component tree. 
+It is obvious that this approach does not comply with a DDD task-based UI projection because the router configuration is tide coupled to HATEOAS.
+Moreover, while with task-based UI components we expect appropriate view models, the HATEOAS approach provides us with CRUD-based resource models. 
+Very often service providers create RESTful Web APIs, where clients have to stitch data together by themselves. In order to match custom UX requirements 
+it is not feasible to prepare read models for every client's use case! In this context a HATEOAS approach is excellent for mobile devices and CRUD-based applications, 
+but can be crucial to smart desktop applications. For more information about REST data aggregation please visit: https://phauer.com/2015/restful-api-design-best-practices/ 
 
 ## Navigation Patterns
 
@@ -421,14 +425,24 @@ to arbitrary interaction and navigation patterns. The most commonly used navigat
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
-Indeed secondary (auxiliary) and componentless (master - children) routes allow us to initiate multiple components on the same URL, 
-but bringing limitations and sacrifices to a non-standard pattern that does not comply with RESTful practices. 
+With the master-master and master-details interaction pattern we comply with RESTful resource association and resource aggregation 
+in reference to one and only one component at a time. Indeed secondary (auxiliary) and pathless (master - children) routes allow us 
+to initiate multiple components in parallel but bringing limitations and sacrifices to a special syntax that does not comply 
+with RESTful practices. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Aux.PNG)
 
-Applying a freestyle approach in which we can load a few components at random places at the same time is not possible!
-A 3rd party router module or any built-in API like the `ComponentFactoryResolver` API may help to counteract a freestyle approach by creating and loading 
-components dynamically outside of the router context. The router module is therefore appropriate for mobile devices such as tablets and smart phones. 
+Pathless or componentless routes are a good way to share data between related subcomponents. This kind of routes also provide a way
+to load multiple components in parallel at a time. However, deep-linking is not supported how it should be. Nevertheless, it exists
+a workaround to enable deep-linking. This is achieved by checking route params to be available in named router outlets:
+
+`<router-outlet *ngIf="id==='22'" name='employee'></router-outlet>` 
+
+The pathless strategy is not well documented, especially when it comes to deep-linking it leads to unexpected behaviour.
+Secondary (Auxiliary) routes should be addressed in any use case that requires a few components to be instantiated at 
+random places at a time. The router module is therefore well suited for mobile applications. 
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Freestyle.PNG)
 
 # Summary
 
