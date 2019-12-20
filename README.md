@@ -426,7 +426,7 @@ to arbitrary interaction and navigation patterns. The most commonly used navigat
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
 With the master-master and master-details interaction pattern we comply with RESTful resource association and resource aggregation 
-in reference to one and only one component at a time. Indeed secondary (auxiliary) and pathless (master - children) routes allow us 
+as reference to one and only one component. Indeed secondary (auxiliary) and pathless (master - children) routes allow us 
 to initiate multiple components in parallel but bringing limitations and sacrifices to a special syntax that does not comply 
 with RESTful practices. 
 
@@ -439,10 +439,8 @@ a hack to enable deep-linking to some extend. This is achieved by checking route
 `<router-outlet *ngIf="id==='22'" name='employee'></router-outlet>` 
 
 The pathless strategy is not well documented, especially when it comes to deep-linking it leads to unexpected behaviour.
-Secondary (Auxiliary) routes should be addressed in any use case that requires a few components to be instantiated at 
-random places at a time. The router module is therefore well suited for mobile applications. 
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Freestyle.PNG)
+Secondary (Auxiliary) routes should be addressed in any use case that requires a few components to be initiated in 
+parallel at random places. The router module is therefore well suited for mobile related navigation patterns. 
 
 # Summary
 
