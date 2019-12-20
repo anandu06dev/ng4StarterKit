@@ -434,7 +434,7 @@ with RESTful practices.
 
 Pathless or componentless routes are a good way to share data between related subcomponents. This kind of routes also provide a way
 to load multiple components in parallel at a time. However, deep-linking is not supported how it should be. Nevertheless, it exists
-a workaround to enable deep-linking. This is achieved by checking route params to be available in named router outlets:
+a hack to enable deep-linking to some extend. This is achieved by checking route params in named router outlets or in Route Guards:
 
 `<router-outlet *ngIf="id==='22'" name='employee'></router-outlet>` 
 
