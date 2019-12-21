@@ -237,12 +237,13 @@ response schema to a complex object graph:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
 
-For example, HAL is a hypermedia type that offers hypermedia links in the response schema, so that we can make transitions through the application state by 
-navigating hypermedia. However, we have to map the resource model schema to the domain model schema. Therefore, it is important to choose a response schema 
-that also includes domain values, rather than just hypermedia links. We cannot map hypermedia links to a domain model so easily. Many additional requests may be 
-required; in the worst case for every resource, which may result in the n+1 problem. It thus follows, the Web API layer not only 
-should include hypermedia links but also data. There are many HATEOAS implementation patterns like the **JSON API** specification, 
-which seems to be a good solution for this problem. 
+For example, HAL is a hypermedia type that offers hypermedia links in the response schema, so that we can make transitions 
+through the application state by navigating hypermedia. However, we have to map the resource model schema to the domain model 
+schema. Therefore, it is important to choose a response schema that also includes domain values, rather than just hypermedia links. 
+We cannot map hypermedia links to a domain model object so easily. Many additional requests may be required; in the worst case 
+for every resource, which may result in the n+1 problem. It thus follows, the Web API layer not only should include hypermedia 
+links but also data. There are many HATEOAS implementation patterns like the **JSON API** specification, which seems to be a 
+good solution for this problem. 
 
 **» CQS vs. CQRS**<br/>
  
