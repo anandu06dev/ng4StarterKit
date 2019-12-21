@@ -1,4 +1,4 @@
-# Angular 4 Project Starter 
+# Angular Project Starter 
 An introduction to building large-scale web applications with Angular.
 
 # Application Architecture 
@@ -57,13 +57,13 @@ business use cases. For reusability improvements we should target application se
 and focus on layers to separate technical from business concerns.
 
 # Application Artifacts
-Angular intrinsically provides artifacts, which makes it easy to apply patterns of DDD, such as modules, controllers, factories, services or entities.
+Angular intrinsically provides artifacts, which makes it easy to apply patterns of DDD such as modules, controllers, factories, services or entities.
 
 ## Modules
-The module system modularize code into reusable blocks. The application can contain multiple modules of different types. But the entry point is 
-the root module. If working with the module system it is essential to architect a clear module structure. While **feature modules** encapsulate 
+The module system modularize code into reusable blocks. The application can contain multiple modules of different types, but the entry point is 
+the root module! If working with the module system it is essential to architect a clear module structure. While **feature modules** encapsulate 
 blocks of code that is not intended to be used outside that module, makes feature modules a good candidate for the **bounded bontext** pattern. 
-**shared modules** contain the most commonly used code, so that it can be reused, as you please. The **root module** can contain an unlimited amount 
+**shared modules** contain the most commonly used code to be reused as pleased. The **root module** can contain an unlimited amount 
 of feature modules. The **core module** shares its content application wide as singleton.
 
 **» Module Organisation**<br/>
@@ -79,7 +79,7 @@ of feature modules. The **core module** shares its content application wide as s
 **» Bounded Context**<br/>
 
 The bounded context pattern in Domain-Driven Design defines areas in a domain model and decomposes a domain within a domain. 
-In an service-based environment a bounded context marks the boundaries of services. Similar to feature modules in Angular we 
+In a service-based environment a bounded context marks the boundaries of services. Similar to feature modules in Angular we 
 structure code into domain contexts. Feature modules are reusable units and comply with the **micro frontend** pattern. In Domain-Driven 
 Design these blocks are considered areas of a domain model. Mapping bounded contexts to feature modules allows us to structure modules 
 in a domain driven context. The following image shows the interaction between bounded contexts and feature modules:
@@ -149,7 +149,7 @@ Angular promotes two types of models:
 - `View Model`: This object represents data required by a view. It does not represent a real world object.
 - `Domain Model`: This object represents data and logic related to the business domain. It represents a real world object.  
 
-The view model and domain model may possess different data schemas to keep the domain model agnostic of the view layer.
+The view model and domain model may possess different schemas to keep the domain model agnostic of the view layer.
 
 **» Implementation patterns**<br/>
 
