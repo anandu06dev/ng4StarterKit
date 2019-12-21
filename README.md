@@ -240,8 +240,9 @@ response schema to a complex object graph:
 For example, HAL is a hypermedia type that offers hypermedia links in the response schema, so that we can make transitions through the application state by 
 navigating hypermedia. However, we have to map the resource model schema to the domain model schema. Therefore, it is important to choose a response schema 
 that also includes domain values, rather than just hypermedia links. We cannot map hypermedia links to a domain model so easily. Many additional requests may be 
-required; in the worst case for every resource, which may result in the n+1 problem. The Web API layer not only should include hypermedia links but also data. There are many 
-HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution for this problem. 
+required; in the worst case for every resource, which may result in the n+1 problem. It thus follows, the Web API layer not only 
+should include hypermedia links but also data. There are many HATEOAS implementation patterns like the **JSON API** specification, 
+which seems to be a good solution for this problem. 
 
 **» CQS vs. CQRS**<br/>
  
@@ -267,7 +268,7 @@ IndexedDB when creating object stores with different schemas provides a solid gr
 
 While Service Workers are mandatory to enable caching of assets like images, videos and stylesheets, we prefer offline capabilities 
 build around the IndexedDB database to store and synchronize data custom-made. With Angular 6 and the @angular/pwa module we have great support 
-for building PWAs very easily. But we only use `asset groups` and omit `data groups` to retain control over the client cache, because PWAs will take over control 
+for building PWAs very easily. But we only use `asset groups` and omit `data groups` to retain control over the client cache, otherwise the PWA module will take over control 
 of at which point data will be cached and retrieved from the server. The Angular 6 PWA module is not capable of caching POST requests without manual instructions.
 Of course we wish to take advantage of native platform features like push notifications etc. Native features are considered as add-ons to the aforementioned 
 IndexedDB approach, in which the focus is on client-side persistence as first-class citizen.
