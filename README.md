@@ -424,12 +424,9 @@ but can be crucial to smart desktop applications. For more information about RES
 
 As layout complexity increases with screen resolution, it requires careful considerations when starting from a mobile-first approach 
 and scaling up to desktop layouts. Traditional desktop layouts require more complex interaction and navigation patterns because UX engineers 
-normally address usability problems at first place and do not take into account any RESTful practices.
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Notebooks.PNG)
-
-As mentioned before, the router engine is a resource-oriented engine (HATEOAS) with which we have limited possibilities regarding arbitrary 
-navigation patterns. The most commonly used navigation patterns are: 
+normally address usability problems at first place and do not take into account any RESTful practices. As mentioned before, the 
+router engine is a resource-oriented engine (HATEOAS) with which we have limited possibilities regarding arbitrary navigation patterns. 
+The most commonly used navigation patterns are: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
