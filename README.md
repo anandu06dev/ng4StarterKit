@@ -448,6 +448,8 @@ The pathless strategy is not well documented, especially when it comes to deep-l
 Secondary (Auxiliary) routes should be addressed in any use case that requires a few components to be initiated in 
 parallel at random places. The router module is therefore well suited for mobile related navigation patterns. 
 
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Notebooks.PNG)
+
 # Summary
 
 With multi-layered applications it is clear that critical decisions have to be made regarding technical aspects at the micro-level. Most of them are determined by the 
