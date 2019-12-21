@@ -421,8 +421,8 @@ but can be crucial to smart desktop applications. For more information about RES
 ## Navigation Patterns
 
 As layout complexity increases with screen resolution, it requires careful consideration when starting from a mobile-first approach 
-and scaling up to desktop interaction. As mentioned before, the router engine is a resource-oriented engine (HATEOAS) where we have 
-limited possibilities with regards to arbitrary interaction and navigation patterns.The most commonly used navigation patterns are: 
+and scaling up to desktop layouts. As mentioned before, the router engine is a resource-oriented engine (HATEOAS) where we have 
+limited possibilities regarding arbitrary navigation patterns. The most commonly used navigation patterns are: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
@@ -436,7 +436,7 @@ with RESTful practices.
 Pathless or componentless routes are a good way to share data between sibling components. This kind of routes provide a way
 to load multiple components at a time. However, deep-linking is not supported how it should be. It exists a hack to enable 
 deep-linking to some extend. This is achieved by checking route params in named router outlets or by intervening with
-Resolvers or Route Guards. If specific invariants evaluate to true we will display the component:
+Resolvers or Route Guards. If specific invariants evaluate to true, we will display the component:
 
 `<router-outlet *ngIf="id==='22'" name='employee'></router-outlet>` 
 
