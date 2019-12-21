@@ -420,21 +420,23 @@ but can be crucial to smart desktop applications. For more information about RES
 
 ## Navigation Patterns
 
-As mentioned before, the router engine is a resource-oriented engine (HATEOAS) where we have limited possibilities with regards 
-to arbitrary interaction and navigation patterns. The most commonly used navigation patterns are: 
+As layout complexity increases with screen resolution, it requires careful consideration when starting from a mobile-first approach 
+and scaling up to desktop interaction. As mentioned before, the router engine is a resource-oriented engine (HATEOAS) where we have 
+limited possibilities with regards to arbitrary interaction and navigation patterns.The most commonly used navigation patterns are: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
-With the master-master and master-details interaction pattern we comply with RESTful resource association and resource aggregation 
-as reference to one and only one component. Indeed secondary (auxiliary) and pathless (master - children) routes allow us 
-to initiate multiple components in parallel but bringing limitations and sacrifices to a special syntax that does not comply 
+With the master-master and master-details patterns we comply with RESTful resource association and resource aggregation 
+referencing one and only one component. Indeed secondary (auxiliary) and pathless (master-children) routes allows us 
+to initiate multiple components in parallel, but bringing limitations and sacrifices to a special syntax that does not comply 
 with RESTful practices. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Aux.PNG)
 
-Pathless or componentless routes are a good way to share data between related subcomponents. This kind of routes also provide a way
-to load multiple components in parallel at a time. However, deep-linking is not supported how it should be. Nevertheless, it exists
-a hack to enable deep-linking to some extend. This is achieved by checking route params in named router outlets or in Route Guards:
+Pathless or componentless routes are a good way to share data between sibling components. This kind of routes provide a way
+to load multiple components at a time. However, deep-linking is not supported how it should be. It exists a hack to enable 
+deep-linking to some extend. This is achieved by checking route params in named router outlets or by intervening with
+Resolvers or Route Guards. If specific invariants evaluate to true we will display the component:
 
 `<router-outlet *ngIf="id==='22'" name='employee'></router-outlet>` 
 
