@@ -130,13 +130,7 @@ We relate to stateful services if we need to share data across components. Norma
 **A great service API exposes Observables, Subjects or BehaviourSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
 data in private or even public variables may cause various issue. If we share services with other components, we must keep track of changes by applying reactive techniques 
 to prevent stale data. If there is no shared context, it is a good idea to simply use a Data Access Service (DAS) and store temporary data as properties in the component classes.
-
-Factors that affects the service API design:
-
-- SPA vs. MPA
-- UX vs. API first
-- Offline vs. Online first
-- Amount of data fetched from the server
+Factors that affect the service API design at most is the amount of data fetched from the server.
 
 ## Model Pattern  
 
@@ -241,9 +235,9 @@ For example, HAL is a hypermedia type that offers hypermedia links in the respon
 through the application state by navigating hypermedia. However, we have to map the resource model schema to the domain model 
 schema. Therefore, it is important to choose a response schema that also includes domain values, rather than just hypermedia links. 
 We cannot map hypermedia links to a domain model object so easily. Many additional requests may be required; in the worst case 
-for every resource, which may result in the n+1 problem. It thus follows, the Web API layer not only should include hypermedia 
-links but also data. There are many HATEOAS implementation patterns like the **JSON API** specification, which seems to be a 
-good solution for this problem. 
+for every resource, which may result in the n+1 problem, over- and underfetching. It thus follows, the Web API layer not 
+only should include hypermedia links but also data. There are many HATEOAS implementation patterns like the **JSON API** 
+specification, which seems to be a good solution for this problem. 
 
 **» CQS vs. CQRS**<br/>
  
@@ -416,7 +410,7 @@ we are able to identify full business use cases. The following phase model will 
 Almost conform to REST and HATEOAS, we notice a clear navigation path which makes it considerable to map wireframes to the component tree. 
 It is obvious that this approach does not comply with a DDD task-based UI projection because the router configuration is tide coupled to HATEOAS.
 Moreover, while with task-based UI components we expect appropriate view models, the HATEOAS approach provides us with CRUD-based resource models. 
-Very often service providers create RESTful Web APIs, where clients have to stitch data together by themselves. In order to match custom UX requirements 
+Very often service providers create RESTful Web APIs, where clients have to stitch data together by themselves. In order to satisfy UX requirements 
 it is not feasible to prepare read models for every client's use case! In this context a HATEOAS approach is excellent for mobile devices and CRUD-based applications, 
 but can be crucial to smart desktop applications. For more information about REST data aggregation please visit: https://phauer.com/2015/restful-api-design-best-practices/ 
 
@@ -452,8 +446,8 @@ parallel at random places. The router module is therefore well suited for mobile
 
 # Summary
 
-With multi-layered applications it is clear that critical decisions have to be made regarding technical aspects at the micro-level. Most of them are determined by the 
-requirements at the macro-level, which includes decisions on the scope of:
+With multi-layered applications it is clear that critical decisions have to be made regarding technical aspects at the micro-level. 
+Most of them are determined by the requirements at the macro-level, which includes decisions on the scope of:
 
 - SPA vs. MPA
 - UX vs. API first
