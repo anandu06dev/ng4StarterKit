@@ -350,8 +350,14 @@ export class CustomerService {
 }
 ```
 
-A state management service unifies multiple DDD layers for the sake of simplicity. The state management logic may 
+A state management service unifies multiple DDD abstractions for the sake of simplicity. The state management logic may 
 comprise data access, use cases or mapper logic. The state management service is similar to the DDD repository pattern.
+
+**» Keep the state in sync**<br/>
+
+Angular's change detection provides notification of any changes to state values by `getter` accessor methods, if the values are bound in the template. 
+This way, we keep the state in sync. Observables, Subjects or BehaviourSubjects can help to simplify asynchronous data-handling. 
+When sharing data that should always be in sync, reactive extensions are good solutions to this situation.
        
 ## Notification Service
 
@@ -384,12 +390,6 @@ export class NotificationService {
 }
 ```
 
-**» Keep the state in sync**<br/>
-
-Angular's change detection provides notification of any changes to state values by `getter` accessor methods, if the values are bound in the template. 
-This way, we keep the state in sync. Observables, Subjects or BehaviourSubjects can help to simplify asynchronous data-handling. 
-When sharing data that should always be in sync, reactive extensions are good solutions to this situation.
-
 ## Observable Store
 
 We also can combine services with reactive extensions to emulate a reactive store. By holding an internal memory object 
@@ -416,10 +416,10 @@ export class StoreService<T> {
 
 **» Comparison**<br/>
 
-Pattern | Store | Immutability | Debug | History | Change Notification | Ease of use |
-------------|:----------:|:-------------:|:--------------:|:--------------:|:-------:|:----------:|
-Simple State Service | &cross; | &cross; | &cross; | &cross; | &cross; | &check; |
-Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &check; |
+Pattern | Store | Immutability | Debug | History | Change Notification | Ease of use | Root DI |
+------------|:----------:|:-------------:|:--------------:|:--------------:|:-------:|:----------:|:----------:|
+State Management Service | &cross; | &cross; | &cross; | &cross; | &cross; | &check; | &cross; |
+Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &check; | &check; |
 
 ## GoF State Pattern
 
