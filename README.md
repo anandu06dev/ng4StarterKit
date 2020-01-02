@@ -401,16 +401,20 @@ This concept is already provided by a couple of 3rd-party libraries like NgRx or
 ```
 @Injectable()
 export class StoreService<T> {
-    private _data : BehaviourSubject<T[]> = new BehaviourSubject<T[]>([]);
+    private _data : BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
     private _store : { data : T[] } = { data : [] };
        
-    get data(): Observable<any> {
+    getData(): Observable<T[]> {
         return this._data.asObservable();
     }
 
-    set data(data: T): void {
-        this._store.data = [data, ...this._store.data]
+    setData(data: T[]): void {
+        this._store.data = [...data, ...this._store.data]
         this._data.next(Object.assign({}, this._store).data);
+    }
+
+    complete(): void {
+        this._data.complete();
     }
 }
 ```
@@ -418,7 +422,7 @@ export class StoreService<T> {
 **» Comparing state management concepts**<br/>
 
 Pattern | Store | Immutability | Debug | History | Change Notification | Ease of use |
-------------|:------------------:|:-------------:|:-----------------:|:--------------:|:--------------:|:--------------:|
+------------|:----------:|:-------------:|:--------------:|:--------------:|:-------:|:----------:|
 Simple State Service | &cross; | &cross; | &cross; | &cross; | &cross; | &check; |
 Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &check; |
 
