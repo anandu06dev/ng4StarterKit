@@ -350,8 +350,8 @@ export class CustomerService {
 }
 ```
 
-A state management service unifies multiple DDD layers for the sake of simplicity. The state management logic may comprise data access, use cases or mapper logic.
-The simple state management service is similar to the DDD repository pattern.
+A state management service unifies multiple DDD layers for the sake of simplicity. The state management logic may 
+comprise data access, use cases or mapper logic. The state management service is similar to the DDD repository pattern.
        
 ## Notification Service
 
@@ -394,9 +394,9 @@ When sharing data that should always be in sync, reactive extensions are good so
 
 We also can combine services with reactive extensions to emulate the behaviour of a reactive store like the VUEX store. 
 By holding an internal memory object and providing data every time an action was called through the service API, we can
-easily promote functional programming concepts. The usage of BehaviourSubjects as Observables enables us to notify all 
-observers about the data changes. In addition we could wrap every action with HTTP API calls if it is necessary to hit against 
-the server. This concept is already provided by a couple of 3rd-party libraries like NgRx or ngrx-data. 
+easily promote functional concepts. The usage of BehaviourSubjects as Observables enables us to notify observers about 
+data changes. In addition we could wrap every action with HTTP API calls if it is necessary to hit against the server. 
+This concept is already provided by a couple of 3rd-party libraries like NgRx or ngrx-data. 
 
 ```
 @Injectable()
@@ -415,7 +415,7 @@ export class StoreService<T> {
 }
 ```
 
-**» Comparison**<br/>
+**» Comparing state management concepts**<br/>
 
 Pattern | Store | Immutability | Debug | History | Change Notification | Ease of use |
 ------------|:------------------:|:-------------:|:-----------------:|:--------------:|:--------------:|:--------------:|
