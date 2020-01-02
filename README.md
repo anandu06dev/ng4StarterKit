@@ -187,6 +187,7 @@ A rich domain model instead hides these implementation details:
 ```
 In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
+**Neither state nor business logic should be declared in a component**.
 
 **By implementing a rich domain model on the client-side, we ensure that business behaviour works, even without internet connection**. With higher functional ability in rich domain models, we must
 take the mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
@@ -220,10 +221,10 @@ read(): Observable<Customers[]> {
 };
 ```
 
-The data mapper logic can be placed in different locations such as a data access service, domain service or repository. However in DDD and CQRS we 
-handle the mapping of data queries from/to a DTO in dedicated Command/Query objects in the application layer in favor of an application service.
+The data mapper logic can be placed at different locations such as data access service, ~~domain service~~ or repository. However in CQRS we 
+handle the mapping of data queries from/to DTOs in dedicated Command/Query objects in the application layer in favor of an application service.
 
-**» REST, HATEOAS, HAL, JSON API & Data Mapper**<br/>
+**» REST, HATEOAS and the Data Mapper**<br/>
 
 When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
 all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
@@ -232,10 +233,10 @@ response schema to a complex object graph:
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
 
 For example, HAL is a hypermedia type that offers hypermedia links in the response schema, so that we can make transitions 
-through the application state by navigating hypermedia. However, we have to map the resource model schema to the domain model 
-schema. Therefore, it is important to choose a response schema that also includes domain values, rather than just hypermedia links. 
-We cannot map hypermedia links to a domain model object so easily. Many additional requests may be required; in the worst case 
-for every resource, which may result in the n+1 problem, over- and underfetching. It thus follows, the Web API layer not 
+through the application state by navigating hypermedia. However, when mapping the resource model schema to the domain model 
+schema, it is important to choose a response schema that also includes domain values rather than just hypermedia links. 
+We cannot map hypermedia links to a domain model object. Many additional requests may be required; in the worst case for 
+every resource, which can result in the n+1 problem or over- and underfetching. It thus follows, the Web API layer not 
 only should include hypermedia links but also data. There are many HATEOAS implementation patterns like the **JSON API** 
 specification, which seems to be a good solution for this problem. 
 
@@ -248,9 +249,13 @@ counteract successfully by defining additional layers of abstraction**. In conju
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the server response schema to the domain model, we can replicate rich domain models to arbitrary view models. A rich domain model should not be 
-presented in the view layer or sent via message bus. The domain model focuses on invariants and use cases rather than presentational layer requirements.
-The adapter or assembler pattern enables two incompatible models to work together.
+After mapping the query response schema to the domain model, we can construct arbitrary view models out of the rich domain model. A rich domain model should not be 
+presented in the view layer or sent via message bus (DTO). The domain model focuses on invariants and use cases rather than presentational layer requirements.
+The adapter or assembler pattern enables two incompatible models to work together and can be implemented in the UI controller or an application service.
+
+**» CQRS in Angular**<br/>
+ 
+@TODO [Image/Text]
  
 **» Offline First & Client-side Storage**<br/>
 
@@ -268,10 +273,6 @@ of at which point data will be cached and retrieved from the server. The Angular
 Of course we wish to take advantage of native platform features like push notifications etc. Native features are considered as add-ons to the aforementioned 
 IndexedDB approach, in which the focus is on client-side persistence as first-class citizen.
 
-**» CQRS in Angular**<br/>
- 
-@TODO [Image/Text]
-
 # State Management 
 
 With Single Page Applications (SPA), we get the flexibility and cross-platform functionality of a web application as well as the 
@@ -279,9 +280,9 @@ client state management of native applications. In a SPA most of the business lo
 is used as an API for authentication, validation or persistence. Typically, a SPA has more complex states than traditional server-side 
 applications. There are an array of different states to deal with:
 
-Domain State | Addressable State (URL) | Draft State | Persisted State | View State | Application State |
-------------|------------------|-------------|-----------------|--------------|--------------|
-Domain Model | Sort/Filter/Search | E-Mail, Comments | Database, Local Storage | Scroll-position| Online/Offline|
+Domain State | Addressable State (URL) | Draft State | Persisted State | View State | Session State | Application State |
+------------|------------------|-------------|-----------------|--------------|--------------|--------------|
+Domain Entity | Sort/Filter/Search | E-Mail, Comments | Database, Local Storage | Scroll-position| Cookies, Session Storage | Online/Offline|
 
 ## Domain State   
 
@@ -388,6 +389,37 @@ Angular's change detection provides notification of any changes to state values 
 This way, we keep the state in sync. Observables, Subjects or BehaviourSubjects can help to simplify asynchronous data-handling. 
 When sharing data that should always be in sync, reactive extensions are good solutions to this situation.
 
+## Observable Store
+
+We can combine services with reactive extensions to emulate a reactive store like the VUEX store by holding an internal memory 
+object and providing data every time an action was called. We use BehaviourSubjects as Observables to notify all observers
+about the data structure as immutable objects. In addition we also could wrap every action by HTTP API calls if it is necessary to hit against 
+the server. This concept is already provided by 3rd-party libraries like NgRx or ngrx-data. 
+
+```
+@Injectable()
+export class StoreService<T> {
+    private _data : BehaviourSubject<T[]> = new BehaviourSubject<T[]>([]);
+    private _store : { data : T[] } = { data : [] };
+       
+    get data(): Observable<any> {
+        return this._data.asObservable();
+    }
+
+    set data(data: T): void {
+        this._store.data = [data, ...this._store.data]
+        this._data.next(Object.assign({}, this._store).data);
+    }
+}
+```
+
+**» Comparison**<br/>
+
+Pattern | Store | Immutability | Debug | History | Change Notification | Ease of use |
+------------|:------------------:|:-------------:|:-----------------:|:--------------:|:--------------:|:--------------:|
+Simple State Service | &cross; | &cross; | &cross; | &cross; | &cross; | &check; |
+Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &check; |
+
 ## GoF State Pattern
 
 If we need a more robust UI state management approach, the State Pattern might be a good candidate. The GoF (Gang of Four) State Pattern is an object oriented pattern to handle the 
@@ -455,6 +487,7 @@ Most of them are determined by the requirements at the macro-level, which includ
 - Public vs. Private API
 - Mobile vs. Desktop first
 - Offline vs. Online first
+- Functional vs. Object-Oriented 
 
 # Project Structure [src]
 
