@@ -63,7 +63,7 @@ Angular intrinsically provides artifacts, which makes it easy to apply patterns 
 The module system modularize code into reusable blocks. The application can contain multiple modules of different types, but the entry point is 
 the root module! If working with the module system it is essential to architect a clear module structure. While **feature modules** encapsulate 
 blocks of code that is not intended to be used outside that module, makes feature modules a good candidate for the **bounded bontext** pattern. 
-**shared modules** contain the most commonly used code to be reused as pleased. The **root module** can contain an unlimited amount 
+**Shared modules** contain the most commonly used code to be reused as pleased. The **root module** can contain an unlimited amount 
 of feature modules. The **core module** shares its content application wide as singleton.
 
 **» Module Organisation**<br/>
@@ -189,7 +189,7 @@ In the second example it becomes clear that domain logic is loosely coupled from
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither state nor business logic should be declared in a component**.
 
-**By implementing a rich domain model on the client-side, we ensure that business behaviour works, even without internet connection**. With higher functional ability in rich domain models, we must
+By implementing a rich domain model on the client-side, we ensure that business behaviour works, even without internet connection. With higher functional ability in rich domain models, we must
 take the mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
@@ -221,7 +221,7 @@ read(): Observable<Customers[]> {
 };
 ```
 
-The data mapper logic can be placed at different locations such as data access service, ~~domain service~~ or repository. However in CQRS we 
+The data mapper logic can be placed at different locations such as Data Access Service or in the repository. However in CQRS we 
 handle the mapping of data queries from/to DTOs in dedicated Command/Query objects in the application layer in favor of an application service.
 
 **» REST, HATEOAS and the Data Mapper**<br/>
@@ -266,8 +266,8 @@ IndexedDB when creating object stores with different schemas provides a solid gr
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContextSync.PNG)
 
-While Service Workers are mandatory to enable caching of assets like images, videos and stylesheets, we prefer offline capabilities 
-build around the IndexedDB database to store and synchronize data custom-made. With Angular 6 and the @angular/pwa module we have great support 
+While Service Workers are mandatory to enable caching of assets like images or videos, we prefer offline capabilities 
+build around the IndexedDB to store and synchronize data custom-made. With Angular 6 and the @angular/pwa module we have great support 
 for building PWAs very easily. But we only use `asset groups` and omit `data groups` to retain control over the client cache, otherwise the PWA module will take over control 
 of at which point data will be cached and retrieved from the server. The Angular 6 PWA module is not capable of caching POST requests without manual instructions.
 Of course we wish to take advantage of native platform features like push notifications etc. Native features are considered as add-ons to the aforementioned 
@@ -351,6 +351,7 @@ export class CustomerService {
 ```
 
 A state management service unifies multiple DDD layers for the sake of simplicity. The state management logic may comprise data access, use cases or mapper logic.
+The simple state management service is similar to the DDD repository pattern.
        
 ## Notification Service
 
@@ -391,10 +392,11 @@ When sharing data that should always be in sync, reactive extensions are good so
 
 ## Observable Store
 
-We can combine services with reactive extensions to emulate a reactive store like the VUEX store by holding an internal memory 
-object and providing data every time an action was called. We use BehaviourSubjects as Observables to notify all observers
-about the data structure as immutable objects. In addition we also could wrap every action by HTTP API calls if it is necessary to hit against 
-the server. This concept is already provided by 3rd-party libraries like NgRx or ngrx-data. 
+We also can combine services with reactive extensions to emulate the behaviour of a reactive store like the VUEX store. 
+By holding an internal memory object and providing data every time an action was called through the service API, we can
+easily promote functional programming concepts. The usage of BehaviourSubjects as Observables enables us to notify all 
+observers about the data changes. In addition we could wrap every action with HTTP API calls if it is necessary to hit against 
+the server. This concept is already provided by a couple of 3rd-party libraries like NgRx or ngrx-data. 
 
 ```
 @Injectable()
