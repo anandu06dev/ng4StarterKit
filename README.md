@@ -392,11 +392,10 @@ When sharing data that should always be in sync, reactive extensions are good so
 
 ## Observable Store
 
-We also can combine services with reactive extensions to emulate the behaviour of a reactive store like the VUEX store. 
-By holding an internal memory object and providing data every time an action was called through the service API, we can
-easily promote functional concepts. The usage of BehaviourSubjects as Observables enables us to notify observers about 
-data changes. In addition we could wrap every action with HTTP API calls if it is necessary to hit against the server. 
-This concept is already provided by a couple of 3rd-party libraries like NgRx or ngrx-data. 
+We also can combine services with reactive extensions to emulate a reactive store. By holding an internal memory object 
+and providing data anytime an API action occurs, we can provide a FLUX-oriented unidirectional data flow. The usage of 
+BehaviourSubjects enables us to notify subscribers about data changes. Furthermore, we can wrap any action with HTTP API 
+calls. A FLUX-oriented pattern is already provided by 3rd-party libraries such as NgRx or ngrx-data. 
 
 ```
 @Injectable()
@@ -412,14 +411,10 @@ export class StoreService<T> {
         this._store.data = [...data, ...this._store.data]
         this._data.next(Object.assign({}, this._store).data);
     }
-
-    complete(): void {
-        this._data.complete();
-    }
 }
 ```
 
-**» Comparing state management concepts**<br/>
+**» Comparison**<br/>
 
 Pattern | Store | Immutability | Debug | History | Change Notification | Ease of use |
 ------------|:----------:|:-------------:|:--------------:|:--------------:|:-------:|:----------:|
