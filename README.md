@@ -416,10 +416,10 @@ export class StoreService<T> {
 
 **» Comparison**<br/>
 
-Pattern | Store | Immutability | Debug | History | Change Notification | Ease of use | Root DI |
-------------|:----------:|:-------------:|:--------------:|:--------------:|:-------:|:----------:|:----------:|
-State Management Service | &cross; | &cross; | &cross; | &cross; | &cross; | &check; | &cross; |
-Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &check; | &check; |
+Pattern | Store | Immutability | Debug | History | Change Notification | Binding |
+------------|:----------:|:-------------:|:--------------:|:--------------:|:-------:|:----------:|
+State Management Service | &cross; | &cross; | &cross; | &cross; | &cross; | &cross; |
+Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &check; |
 
 ## GoF State Pattern
 
