@@ -1,4 +1,4 @@
-# Angular Project Starter 
+# Introduction
 An introduction to building large-scale web applications with Angular.
 
 # Application Architecture 
