@@ -255,8 +255,14 @@ The adapter or assembler pattern enables two incompatible models to work togethe
 
 **» CQRS in Angular**<br/>
  
-@TODO [Image/Text]
- 
+Promoting CQRS in the Frontend means a distinction between read models and write models. Let's consider a well-accepted CQRS architecture as basis here: 
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
+  
+Explanation of the Illustration....
+
+The critical side in this kind of Frontend architecture is the read side.
+  
 **» Offline First & Client-side Storage**<br/>
 
 Complying with the **Offline First** paradigm, we must ensure that business logic works entirely offline. Modern applications should handle a 
