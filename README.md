@@ -263,8 +263,7 @@ Promoting CQRS in the Frontend means a distinction between read models and write
 
 The critical side in this kind of Frontend architecture is the read side....
   
-- Reactivity: 
-No reactive state on the read side by the IndexedDB.
+- Reactivity: No reactive state on the read side by the IndexedDB.
 
 - Consistency: Only one database transaction scope in the web browser.
 
