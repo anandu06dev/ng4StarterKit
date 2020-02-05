@@ -259,9 +259,18 @@ Promoting CQRS in the Frontend means a distinction between read models and write
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
   
-Explanation of the Illustration....
+[TODO: [Explanation...]]
 
-The critical side in this kind of Frontend architecture is the read side.
+The critical side in this kind of Frontend architecture is the read side....
+  
+- Reactivity: 
+No reactive state on the read side by the IndexedDB.
+
+- Consistency: Only one database transaction scope in the web browser.
+
+- Events: No database events supported by the IndexedDB.
+
+- Roundtrip: No HTTP request cycles on query operations.  
   
 **» Offline First & Client-side Storage**<br/>
 
