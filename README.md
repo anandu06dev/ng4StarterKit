@@ -249,13 +249,13 @@ counteract successfully by defining additional layers of abstraction**. In conju
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the query response schema to the domain model, we can construct arbitrary view models out of the rich domain model. A rich domain model should not be 
-presented in the view layer or sent via message bus (DTO). The domain model focuses on invariants and use cases rather than presentational layer requirements.
+After mapping the query response schema to the domain model, we can construct arbitrary view models from the rich domain model. A rich domain model should not be 
+presented in the view layer or sent via message bus (DTO). The domain model focuses on invariants and use cases rather than presentational layer concerns.
 The adapter or assembler pattern enables two incompatible models to work together and can be implemented in the UI controller or an application service.
 
 **» CQRS in Angular**<br/>
  
-Promoting CQRS in the Frontend means a distinction between read models and write models. Let's consider a widespread used CQRS architecture as basis here: 
+Promoting CQRS in the Frontend means a distinction between read models and write models. Let's consider a simplified version of a widespread used CQRS architecture as basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
   
