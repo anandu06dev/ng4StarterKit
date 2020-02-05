@@ -255,21 +255,21 @@ The adapter or assembler pattern enables two incompatible models to work togethe
 
 **» CQRS in Angular**<br/>
  
-Promoting CQRS in the Frontend means a distinction between read models and write models. Let's consider a well-accepted CQRS architecture as basis here: 
+Promoting CQRS in the Frontend means a distinction between read models and write models. Let's consider a widespread used CQRS architecture as basis here: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
   
 [TODO: [Explanation...]]
 
-The critical side in this kind of Frontend architecture is the read side....
+The complicated part and difficult undertaking in this type of Frontend architecture is the read side.
   
-- Reactivity: No reactive state on the read side by the IndexedDB.
+- Reactivity: No reactive state handling on the read side provided by the HTML5 IndexedDB.
 
 - Consistency: Only one database transaction scope in the web browser.
 
-- Events: No database events supported by the IndexedDB.
+- Events: No database events are supported by the HTML5 IndexedDB.
 
-- Roundtrip: No HTTP request cycles on query operations.  
+- Roundtrips: No HTTP request cycles on user-based query operations.  
   
 **» Offline First & Client-side Storage**<br/>
 
