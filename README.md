@@ -34,7 +34,7 @@ A typical DDD architecture consists of the following conceptual layers:
 **» Applying the SOLID principles**<br/>
 
 In object orientation the SOLID principles can help to make better design decisions in terms of high cohesion and low coupling.
-Applying the DIP (Dependency Inversion Principle), we ensure these layers depend on abstraction (interfaces) as opposed to depending on concretion (classes). 
+Applying the DIP (Dependency Inversion Principle), we ensure these layers depend on abstraction (Interfaces) as opposed to depending on concretion (Classes). 
 For example, we **provide the domain layer as abstraction by using (generic) interfaces**.
 
 **» Applying cross-cutting concerns**<br/>
@@ -49,15 +49,15 @@ Domain-Driven Design does not dictate an application architecture. It demands th
 At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across several layers in particular communication across these layers, 
 creates an unnecessary load on the frontend. Moreover, Angular services are usually reactive stateful, whereas services in Domain-Driven Design are stateless!
 
-When application services carry out full business use cases, very often multiple actions are performed in a transactional way. It thus follows, they succeed or fail together! 
-In case of not all interactions with the database succeeds, application services must execute a rollback (on the client). This may become excessively complex and leads to 
-the question of whether full business use cases should be performed in the frontend at all? The usage of application services is arguable, it may be a good idea 
-to put full business use cases with simple coordination logic directly into the UI controller, so that the UI controller takes the responsibility for orchestrating full 
-business use cases. For reusability improvements we should target application services. Simply put, **only apply Domain-Driven Design when applicable** 
+When application/domain services carry out full business use cases, very often multiple actions are performed in a transactional way. It thus follows, they succeed or fail together! 
+In case of not all interactions with the database succeeded, application/domain services must execute a rollback on the client-side. This may become very complex and leads to 
+the question of whether full business use cases should be performed in the frontend at all? The usage of application/domain services is arguable. It may be a good idea 
+to put business use cases with simple orchestration logic straight into the UI controller, so that the UI controller takes the responsibility for orchestrating full 
+business use cases. For reusability improvements, however, we should target application/domain services. Simply put, **only apply Domain-Driven Design when applicable** 
 and focus on layers to separate technical from business concerns.
 
 # Application Artifacts
-Angular intrinsically provides artifacts, which makes it easy to apply patterns of DDD such as modules, controllers, factories, services or entities.
+Angular intrinsically provides artifacts, which makes it easy to use patterns of DDD such as modules, controllers, factories, services or entities.
 
 ## Modules
 The module system modularize code into reusable blocks. The application can contain multiple modules of different types, but the entry point is 
@@ -82,7 +82,7 @@ The bounded context pattern in Domain-Driven Design defines areas in a domain mo
 In a service-based environment a bounded context marks the boundaries of services. Similar to feature modules in Angular we 
 structure code into domain contexts. Feature modules are reusable units and comply with the **micro frontend** pattern. In Domain-Driven 
 Design these blocks are considered areas of a domain model. Mapping bounded contexts to feature modules allows us to structure modules 
-in a domain driven context. The following image shows the interaction between bounded contexts and feature modules:
+in a domain driven context. The following meta model shows the interaction between bounded contexts and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
@@ -127,8 +127,8 @@ successfully we must adhere to a few basic guidelines:
 
 Services encapsulate business functionality and handle the shared context. The service API design depends much on the shared context! 
 We relate to stateful services if we need to share data across components. Normally, simple services in Angular processes HTTP API calls that include CRUD operations. 
-**A great service API exposes Observables, Subjects or BehaviourSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
-data in private or even public variables may cause various issue. If we share services with other components, we must keep track of changes by applying reactive techniques 
+**A great service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
+data in private or even public variables may cause various issues. If we share services with other components, we must keep track of changes by applying reactive techniques 
 to prevent stale data. If there is no shared context, it is a good idea to simply use a Data Access Service (DAS) and store temporary data as properties in the component classes.
 Factors that affect the service API design at most is the amount of data fetched from the server.
 
@@ -189,7 +189,7 @@ In the second example it becomes clear that domain logic is loosely coupled from
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither state nor business logic should be declared in a component**.
 
-By implementing a rich domain model on the client-side, we ensure that business behaviour works, even without internet connection. With higher functional ability in rich domain models, we must
+By implementing a rich domain model on the client-side, we ensure that business behavior works, even without internet connection. With higher functional ability in rich domain models, we must
 take the mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
@@ -221,8 +221,9 @@ read(): Observable<Customers[]> {
 };
 ```
 
-The data mapper logic can be placed at different locations such as Data Access Service or in the repository. However in CQRS we 
-handle the mapping of data queries from/to DTOs in dedicated Command/Query objects in the application layer in favor of an application service.
+The data mapper logic can be implemented at different places such as data service, repository, factory or required by an 
+abstract instance loader class. However in CQRS we handle the mapping of data queries from/to DTOs in dedicated command/query 
+objects in the application layer in favor of an application service.
 
 **» REST, HATEOAS and the Data Mapper**<br/>
 
@@ -232,45 +233,45 @@ response schema to a complex object graph:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
 
-For example, HAL is a hypermedia type that offers hypermedia links in the response schema, so that we can make transitions 
-through the application state by navigating hypermedia. However, when mapping the resource model schema to the domain model 
-schema, it is important to choose a response schema that also includes domain values rather than just hypermedia links. 
-We cannot map hypermedia links to a domain model object. Many additional requests may be required; in the worst case for 
-every resource, which can result in the n+1 problem or over- and underfetching. It thus follows, the Web API layer not 
-only should include hypermedia links but also data. There are many HATEOAS implementation patterns like the **JSON API** 
-specification, which seems to be a good solution for this problem. 
+For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
+through the application state by navigating hypermedia. However, when mapping the response schema to the domain model, it is 
+important to choose a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
+links to a domain model. Many additional requests may be required; in the worst case for every resource, which can result in 
+dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
+HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
 
 **» CQS vs. CQRS**<br/>
  
 With traditional CRUD-based web applications, conform to the REST architectural style, we comply with the CQS (Command-Query-Separation) pattern. 
-Traditional REST APIs fulfill the need of command and query separation as methods within an entity, whereas, the CQRS (Command-Query-Responsibility-Segregation) pattern
-defines commands and queries on different entities (read/write model). **If the Web API layer does not provide an CQRS-based interface, we must be prepared on the client-side to
+Traditional REST APIs comply with the conditions of command and query separation as methods within an entity, whereas, the CQRS (Command-Query-Responsibility-Segregation) pattern
+defines commands and queries on different entities (read/write model). **If the Web API layer does not provide a CQRS-based interface, we must be prepared on the client-side to
 counteract successfully by defining additional layers of abstraction**. In conjunction with CQS and REST, additional patterns should be applied:
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the query response schema to the domain model, we can construct arbitrary view models from the rich domain model. A rich domain model should not be 
-presented in the view layer or sent via message bus (DTO). The domain model focuses on invariants and use cases rather than presentational layer concerns.
-The adapter or assembler pattern enables two incompatible models to work together and can be implemented in the UI controller or an application service.
+After mapping the response schema to the domain model, we are able to create arbitrary view models out of the domain model. 
+A domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
+on invariants and use cases rather than view layer concerns. The adapter or assembler pattern enables two incompatible models to 
+work together and can be implemented in the UI controller or an application service.
 
 **» CQRS in Angular**<br/>
  
-Promoting CQRS in the Frontend means a distinction between read models and write models. Let's consider a simplified version of a widespread used CQRS architecture as basis: 
+Promoting CQRS in the frontend means developing a distinction between the read side and the write side into separate models within a bounded context, 
+interrogating with an adapted database transaction system. A simplified meta model of a widespread CQRS architecture serves as the basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
   
-[TODO: [Explanation...]]
+In any case, the first question asked in recognition of this should be: Do we need CQRS in the frontend design system?
+The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on this facts,
+we are facing following limitations with regards to Angular:
 
-The complicated part and difficult undertaking in this type of Frontend architecture is the read side.
-  
+- Events: No database events are supported by the HTML5 IndexedDB yet.  
 - Reactivity: No reactive state handling on the read side provided by the HTML5 IndexedDB.
-
-- Consistency: Only one database transaction scope in the web browser.
-
-- Events: No database events are supported by the HTML5 IndexedDB.
-
-- Roundtrips: No HTTP request cycles on user-based query operations.  
+- Consistency: Only one database transaction scope within the web browser.
+- Round trips: No HTTP request cycles upon user events (query commands). <br/>
   
+@TODO [image]
+   
 **» Offline First & Client-side Storage**<br/>
 
 Complying with the **Offline First** paradigm, we must ensure that business logic works entirely offline. Modern applications should handle a 
@@ -286,6 +287,10 @@ for building PWAs very easily. But we only use `asset groups` and omit `data gro
 of at which point data will be cached and retrieved from the server. The Angular 6 PWA module is not capable of caching POST requests without manual instructions.
 Of course we wish to take advantage of native platform features like push notifications etc. Native features are considered as add-ons to the aforementioned 
 IndexedDB approach, in which the focus is on client-side persistence as first-class citizen.
+
+**» Multi-client systems in offline mode**<br/>
+
+@TODO [image]
 
 # State Management 
 
@@ -370,13 +375,13 @@ comprise data access, use cases or mapper logic. The state management service is
 **» Keep the state in sync**<br/>
 
 Angular's change detection provides notification of any changes to state values by `getter` accessor methods, if the values are bound in the template. 
-This way, we keep the state in sync. Observables, Subjects or BehaviourSubjects can help to simplify asynchronous data-handling. 
+This way, we keep the state in sync. Observables, Subjects or BehaviorSubjects can help to simplify asynchronous data-handling. 
 When sharing data that should always be in sync, reactive extensions are good solutions to this situation.
        
 ## Notification Service
 
 One downside of sharing and binding state through services is that they are coupled to the view. Delayed changes to the state must be handled 
-by asynchronous binding techniques to **keep the shared state in sync**. However, with EventEmitters, Subjects or BehaviourSubjects we share data through notifications. 
+by asynchronous binding techniques to **keep the shared state in sync**. However, with EventEmitters, Subjects or BehaviorSubjects we share data through notifications. 
 We subscribe and react to changes using notification services. Those notifications are more than just changes to bound values. 
 
 Let's have a look at an example of how to build a notification service based on a Subject:
@@ -406,10 +411,10 @@ export class NotificationService {
 
 ## Observable Store
 
-We also can combine services with reactive extensions to emulate a reactive store. By holding an internal memory object 
-and providing data anytime an API action occurs, we can provide a FLUX-oriented unidirectional data flow. The usage of 
-BehaviourSubjects enables us to notify subscribers about data changes. Furthermore, we can wrap any action with HTTP API 
-calls. A FLUX-oriented pattern is already provided by 3rd-party libraries such as NgRx or ngrx-data. 
+We also can combine services and reactive extensions to emulate a reactive store. By referencing an in-memory object 
+and emitting data anytime an action occurs, we promote a FLUX-oriented unidirectional data flow. Adding BehaviorSubjects 
+allows us to notify subscribers about data changes. A FLUX-oriented pattern can be approached by 3rd-party libraries such 
+as NgRx or ngrx-data, which are great in combination with RESTful APIs and anemic data models.
 
 ```
 @Injectable()
@@ -485,7 +490,7 @@ Resolvers or Route Guards. If specific invariants evaluate to true, we will disp
 
 `<router-outlet *ngIf="id==='22'" name='employee'></router-outlet>` 
 
-The pathless strategy is not well documented, especially when it comes to deep-linking it leads to unexpected behaviour.
+The pathless strategy is not well documented, especially when it comes to deep-linking it leads to unexpected behavior.
 Secondary (Auxiliary) routes should be addressed in any use case that requires a few components to be initiated in 
 parallel at random places. The router module is therefore well suited for mobile related navigation patterns. 
 
@@ -499,9 +504,10 @@ Most of them are determined by the requirements at the macro-level, which includ
 - SPA vs. MPA
 - UX vs. API first
 - Smart vs. Dump client
-- Public vs. Private API
+- Public vs. Private Web API
 - Mobile vs. Desktop first
 - Offline vs. Online first
+- Anemic vs. Rich model
 - Functional vs. Object-Oriented 
 
 # Project Structure [src]
