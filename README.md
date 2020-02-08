@@ -16,7 +16,7 @@ The building blocks of Angular enables us to apply enterprise software patterns 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Front_End_MVC_MIN.png)
 
 Angular embraces the Model View Controller (MVC) pattern and Object-Oriented Design (OOD) by adopting TypeScript. When considering the 
-conceptual layers of Domain-Driven Design, the question arises how to apply these layers to Angular applications? This question relates to 
+conceptual layers of Domain-Driven Design, the question arises: how to apply these layers to Angular applications? This question relates to 
 code organizational structure, communication across layers and demanding services through dependency injection. 
 
 ## Layered Architecture
@@ -35,12 +35,12 @@ A typical DDD architecture consists of the following conceptual layers:
 
 In object orientation the SOLID principles can help to make better design decisions in terms of high cohesion and low coupling.
 Applying the DIP (Dependency Inversion Principle), we ensure these layers depend on abstraction (Interfaces) as opposed to depending on concretion (Classes). 
-For example, we **provide the domain layer as abstraction by using (generic) interfaces**.
+For example, we **provide the domain layer as an abstraction by using (generic) interfaces**.
 
 **» Applying cross-cutting concerns**<br/>
 
 The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, 
-which violates DRY (Don't Repeat Yourself) and SRP (Single Responsibility Principle). The AOP (Aspect Oriented Programming) promotes to abstract and encapsulate cross-cutting concerns by 
+which violates DRY (Don't Repeat Yourself) and SRP (Single Responsibility Principle). The AOP (Aspect Oriented Programming) promotes an abstraction and to encapsulate cross-cutting concerns by 
 interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
 
 **» Applying DDD layers to Angular**<br/>
@@ -49,22 +49,22 @@ Domain-Driven Design does not dictate an application architecture. It demands th
 At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across several layers in particular communication across these layers, 
 creates an unnecessary load on the frontend. Moreover, Angular services are usually reactive stateful, whereas services in Domain-Driven Design are stateless!
 
-When application/domain services carry out full business use cases, very often multiple actions are performed in a transactional way. It thus follows, they succeed or fail together! 
-In case of not all interactions with the database succeeded, application/domain services must execute a rollback on the client-side. This may become very complex and leads to 
-the question of whether full business use cases should be performed in the frontend at all? The usage of application/domain services is arguable. It may be a good idea 
-to put business use cases with simple orchestration logic straight into the UI controller, so that the UI controller takes the responsibility for orchestrating full 
-business use cases. For reusability improvements, however, we should target application/domain services. Simply put, **only apply Domain-Driven Design when applicable** 
+When application or domain services carry out full business use cases, very often multiple actions are performed in a transactional way. It thus follows, they succeed or fail together! 
+In case of not all interactions with the database succeeded, these services must execute a rollback on the client-side. This may become very expensive and leads to 
+the question of whether full business use cases should be performed in the frontend at all? The usage of application or domain services is arguable! It may be a good idea 
+to put business use cases with simple logic directly into the UI controller, so that UI controllers assume the orchestration path for full 
+business use cases. However, for reusability purposes, we should target application or domain services. Simply put, **only apply Domain-Driven Design when applicable** 
 and focus on layers to separate technical from business concerns.
 
 # Application Artifacts
-Angular intrinsically provides artifacts, which makes it easy to use patterns of DDD such as modules, controllers, factories, services or entities.
+Angular intrinsically provides artifacts that simplifies applying patterns of DDD such as modules, controllers, factories, services or entities.
 
 ## Modules
-The module system modularize code into reusable blocks. The application can contain multiple modules of different types, but the entry point is 
-the root module! If working with the module system it is essential to architect a clear module structure. While **feature modules** encapsulate 
-blocks of code that is not intended to be used outside that module, makes feature modules a good candidate for the **bounded bontext** pattern. 
-**Shared modules** contain the most commonly used code to be reused as pleased. The **root module** can contain an unlimited amount 
-of feature modules. The **core module** shares its content application wide as singleton.
+It is important to architect a clear module structure and modularize code into reusable blocks, when working with the module system. 
+The application can contain multiple modules of different types, but the entry point is the root module! While feature modules encapsulate 
+blocks of code that is not intended to be used outside that module, makes feature modules a good candidate for the **bounded context** pattern. 
+Shared modules contain the most commonly used code to be reused as much as pleased. The root module can contain an endless amount 
+of feature modules. The core module shares its content application wide as singleton.
 
 **» Module Organisation**<br/>
 
@@ -74,15 +74,15 @@ of feature modules. The **core module** shares its content application wide as s
 
 `Core module`: Application wide components and services as singleton e.g. *HeaderComponent*<br/>
 `Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
-`Feature modules`: Custom modules such as *OrderModule* (bounded context) or *SalesModule* (bounded context) 
+`Feature modules`: Custom modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
 **» Bounded Context**<br/>
 
 The bounded context pattern in Domain-Driven Design defines areas in a domain model and decomposes a domain within a domain. 
-In a service-based environment a bounded context marks the boundaries of services. Similar to feature modules in Angular we 
-structure code into domain contexts. Feature modules are reusable units and comply with the **micro frontend** pattern. In Domain-Driven 
-Design these blocks are considered areas of a domain model. Mapping bounded contexts to feature modules allows us to structure modules 
-in a domain driven context. The following meta model shows the interaction between bounded contexts and feature modules:
+In a service-based environment a bounded context marks the boundaries of a service. Similar to feature modules in Angular we 
+structure code into a domain context. Feature modules are reusable units and comply with the **micro frontend** pattern. In Domain-Driven 
+Design these blocks are considered areas of a domain model. Applying the bounded context to feature modules enables us to structure modules 
+in a domain driven context. The following meta model shows the interaction between the bounded context and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
@@ -90,7 +90,7 @@ in a domain driven context. The following meta model shows the interaction betwe
 
 -	Every component, directive and pipe must belong to **one** and **only one** module.
 -	**Never** re-declare these elements in another module.
--	Except services, module contents are private by default. Use `exports` to manage visibility for private elements.
+-	Except services, module contents are private by default. Use `exports` to manage visibility of private elements.
 -   **Do not** share contents of a feature module, instead add reusable elements to a shared module.
 -   **Do not** import shared modules into the root module or core module.
 -   **Do not** import the core module more than once. Apply service hooks in the constructor `constructor(@Optional() @SkipSelf() ...)` to prevent multiple instances.
@@ -98,8 +98,8 @@ in a domain driven context. The following meta model shows the interaction betwe
 This is common for libraries that require a single service instance. The RouterModule is an example for this use case.
 
 ## Services
-Services are elementary constructs in Angular. Almost any functionality that does not belong in a component will be placed in a service. 
-Technically services are just plain TypeScript classes with a defined functionality. We focus on the service layer of Domain-Driven Design 
+Services are elementary constructs in Angular. Most of the functionality that does not belong in a component will be added to a service. 
+Technically services are just plain TypeScript classes with business functionality. We focus on the service layers of Domain-Driven Design 
 which comprises application-, domain- and infrastructure services. Angular provides a dependency injection mechanism for instantiating and bootstrapping 
 the required dependencies. The constructor injection pattern is the one enforced by Angular. If we want to organize scope and lifetime 
 successfully we must adhere to a few basic guidelines:
@@ -110,9 +110,9 @@ successfully we must adhere to a few basic guidelines:
 **» Service notes on modules**<br/>
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
--	**Do not** add services to the `providers` array of a shared module. Instead create a core module composed of services (service collection) and import them once into the root module (AppModule).
--   To control the resolution of service associations (Service A uses Service B), services must be registered at the root of the application, making them available to other services.
--	For lazy loaded services another rule applies. (Please see official documentation)
+-	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
+-   Services must be registered at the root of the application, making them available to other services and associations (ServiceX uses ServiceY).
+-	For lazy loaded services a different approach must be adopted. (Please see official documentation)
 
 **» Services shared through the component providers array**<br/><br/>
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Component.PNG)
@@ -121,16 +121,16 @@ successfully we must adhere to a few basic guidelines:
 
 -	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
--   To control the resolution of the dependency tree use `@Host, @Optional or @SkipSelf` decorators (Service hooks).
+-   Use service hook decorators such as `@Host, @Optional or @SkipSelf` to manage the dependency tree path.  
 
 **» Service API design**<br/>
 
-Services encapsulate business functionality and handle the shared context. The service API design depends much on the shared context! 
+Services encapsulate business functionality and manage the shared context. The service API design depends much on the shared context! 
 We relate to stateful services if we need to share data across components. Normally, simple services in Angular processes HTTP API calls that include CRUD operations. 
 **A great service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
 data in private or even public variables may cause various issues. If we share services with other components, we must keep track of changes by applying reactive techniques 
-to prevent stale data. If there is no shared context, it is a good idea to simply use a Data Access Service (DAS) and store temporary data as properties in the component classes.
-Factors that affect the service API design at most is the amount of data fetched from the server.
+to prevent stale data. If there is no shared context, it is a good idea to simply use a DAS (Data Access Service) and store temporary data as members of the component class.
+What affects the service API design at most is the amount of data fetched from the server and reactive state management.
 
 ## Model Pattern  
 
@@ -151,7 +151,7 @@ The view model and domain model may possess different schemas to keep the domain
 - Rich Domain Model
 
 The anemic domain model is quite often used in CRUD-based web applications as data container, conform to RESTful practices. The anemic domain model, however, is considered an 
-anti-pattern because it does not contain business logic except `get` and `set` (or CRUD) methods and introduces a tight coupling with the UI controller. It thus follows 
+anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods and introduces a tight coupling with the UI controller. It thus follows 
 that the rich domain model is a more suitable candidate for most model cases. When including a rich domain model representation in the UI controller, the **domain logic will not 
 be spread across different layers multiple times**. 
 
@@ -187,7 +187,7 @@ A rich domain model instead hides these implementation details:
 ```
 In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
-**Neither state nor business logic should be declared in a component**.
+**Neither state nor business logic should be declared in the UI controller**.
 
 By implementing a rich domain model on the client-side, we ensure that business behavior works, even without internet connection. With higher functional ability in rich domain models, we must
 take the mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
@@ -221,9 +221,9 @@ read(): Observable<Customers[]> {
 };
 ```
 
-The data mapper logic can be implemented at different places such as data service, repository, factory or required by an 
-abstract instance loader class. However in CQRS we handle the mapping of data queries from/to DTOs in dedicated command/query 
-objects in the application layer in favor of an application service.
+The data mapper logic can be implemented in different components such as data access services, repositories, factories or 
+even required by an abstract instance loader class. However in CQRS we manage the mapping of data queries from/to DTOs in 
+dedicated command/query objects in the application layer in favor of an application service.
 
 **» REST, HATEOAS and the Data Mapper**<br/>
 
@@ -242,8 +242,8 @@ HATEOAS implementation patterns like the **JSON API** specification, which seems
 
 **» CQS vs. CQRS**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we comply with the CQS (Command-Query-Separation) pattern. 
-Traditional REST APIs comply with the conditions of command and query separation as methods within an entity, whereas, the CQRS (Command-Query-Responsibility-Segregation) pattern
+With traditional CRUD-based web applications, conform to the REST architectural style, we comply with the CQS (Command-Query-Separation) pattern 
+and the conditions of command and query separation as methods within an entity, whereas, the CQRS (Command-Query-Responsibility-Segregation) pattern
 defines commands and queries on different entities (read/write model). **If the Web API layer does not provide a CQRS-based interface, we must be prepared on the client-side to
 counteract successfully by defining additional layers of abstraction**. In conjunction with CQS and REST, additional patterns should be applied:
  
@@ -261,20 +261,20 @@ interrogating with an adapted database transaction system. A simplified meta mod
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
   
-In any case, the first question asked in recognition of this should be: Do we need CQRS in the frontend design system?
-The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on this facts,
-we are facing following limitations with regards to Angular:
+In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
+The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on this ground,
+we are facing the following limitations with regards to Angular:
 
-- Events: No database events are supported by the HTML5 IndexedDB yet.  
-- Reactivity: No reactive state handling on the read side provided by the HTML5 IndexedDB.
+- Events: No database events are supported by the HTML5 IndexedDB.  
+- Reactivity: No reactive state management on the read side possible with the HTML5 IndexedDB.
 - Consistency: Only one database transaction scope within the web browser.
-- Round trips: No HTTP request cycles upon user events (query commands). <br/>
-  
+- Round trips: No HTTP request cycles upon user events (Query Command). <br/>
+    
 @TODO [image]
    
 **» Offline First & Client-side Storage**<br/>
 
-Complying with the **Offline First** paradigm, we must ensure that business logic works entirely offline. Modern applications should handle a 
+Complying with the **Offline First** paradigm, we must ensure that business logic works entirely offline. Modern applications should manage a 
 dropped connection gracefully. Like **Progressive Web Apps** (PWA) we want offline capabilities, so that users can interact with the application 
 until the network is reachable again. The HTML5 IndexedDB is a large-scale storage system with great browser support. The flexibility of 
 IndexedDB when creating object stores with different schemas provides a solid ground for saving and persisting data (Aggregates) on the client-side:
@@ -380,7 +380,7 @@ When sharing data that should always be in sync, reactive extensions are good so
        
 ## Notification Service
 
-One downside of sharing and binding state through services is that they are coupled to the view. Delayed changes to the state must be handled 
+One downside of sharing and binding state through services is that they are coupled to the view. Delayed changes to the state must be managed 
 by asynchronous binding techniques to **keep the shared state in sync**. However, with EventEmitters, Subjects or BehaviorSubjects we share data through notifications. 
 We subscribe and react to changes using notification services. Those notifications are more than just changes to bound values. 
 
@@ -397,10 +397,6 @@ export class NotificationService {
  
     listen(): Observable<any> {
         return this._subject.asObservable();
-    }
-
-    flush(): void {
-        this._subject.next();
     }
 
     complete(): void {
@@ -442,7 +438,7 @@ Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &ch
 
 ## GoF State Pattern
 
-If we need a more robust UI state management approach, the State Pattern might be a good candidate. The GoF (Gang of Four) State Pattern is an object oriented pattern to handle the 
+If we need a more robust UI state management approach, the State Pattern might be a good candidate. The GoF (Gang of Four) State Pattern is an object oriented pattern to manage the 
 complexity of view state transition. The State pattern uses a set of concrete classes that are derived from a base class to describe a particular state. Let's consider the following
 UML-Diagram: 
 
@@ -477,7 +473,7 @@ The most commonly used navigation patterns are:
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Master2Details.PNG)
 
 With the master-master and master-details patterns we comply with RESTful resource association and resource aggregation 
-with reference to one and only one component. Indeed secondary (auxiliary) and pathless (master-children) routes allows us 
+with reference to one and only one component. Indeed secondary (Auxiliary) and pathless (Master-Children) routes allows us 
 to initiate multiple components in parallel, but bringing limitations and sacrifices to a special syntax that does not comply 
 with RESTful practices. 
 
