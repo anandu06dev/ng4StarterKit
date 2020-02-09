@@ -273,13 +273,30 @@ we are facing the following limitations with regards to Angular:
 
 @TODO [text]
     
-*»  Creating Read Models from Write Models*<br/>
+**»  Creating Read Models from Write Models**<br/>
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
-*»  Creating Read Models from Datasource*<br/>
+Aggregates can provide the basis for read model objects in multiple ways. The aggregate may have own factory methods
+that returns read models based on the aggregates state, or a separate read model repository provides an read model
+collection, where the aggregate is used as the source.
 
+```
+class Order {
+    private orderId: number;
+    private quantity: number; 
 
+    orderForSales(): OrderForSales {
+        return new OrderForSleas(this.quantity);
+    }
+
+    orderForCatalog(): OrderForCatalog {
+        return new OrderForCatalog(this.orderId);
+    }
+}
+``` 
+
+**»  Creating Read Models from Datasource**<br/>
    
 **» Offline First & Client-side Storage**<br/>
 
