@@ -269,8 +269,12 @@ we are facing the following limitations with regards to Angular:
 - Reactivity: No reactive state management on the read side possible with the HTML5 IndexedDB.
 - Consistency: Only one database transaction scope within the web browser.
 - Round trips: No HTTP request cycles upon user events (Query Command). <br/>
+
+@TODO [text]
     
-@TODO [image]
+*»  Creating Read Models of Write Models*<br/>
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMRPO.PNG)   
    
 **» Offline First & Client-side Storage**<br/>
 
