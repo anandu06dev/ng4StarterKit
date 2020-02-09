@@ -274,7 +274,7 @@ we are facing the following limitations with regards to Angular:
     
 *»  Creating Read Models of Write Models*<br/>
 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMRPO.PNG)   
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
    
 **» Offline First & Client-side Storage**<br/>
 
