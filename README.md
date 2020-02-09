@@ -11,7 +11,7 @@ We separate business logic into layers with different responsibilities.
 
 ## Frontend coupled to the MVC
 
-The building blocks of Angular enables us to apply enterprise software patterns to the frontend design system:
+The building blocks of Angular allows us to apply enterprise software patterns to the frontend design system:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Front_End_MVC_MIN.png)
 
@@ -81,7 +81,7 @@ of feature modules. The core module shares its content application wide as singl
 The bounded context pattern in Domain-Driven Design defines areas in a domain model and decomposes a domain within a domain. 
 In a service-based environment a bounded context marks the boundaries of a service. Similar to feature modules in Angular we 
 structure code into a domain context. Feature modules are reusable units and comply with the **micro frontend** pattern. In Domain-Driven 
-Design these blocks are considered areas of a domain model. Applying the bounded context to feature modules enables us to structure modules 
+Design these blocks are considered areas of a domain model. Applying the bounded context to feature modules allows us to structure modules 
 in a domain driven context. The following meta model shows the interaction between the bounded context and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
@@ -249,20 +249,21 @@ counteract successfully by defining additional layers of abstraction**. In conju
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the response schema to the domain model, we are able to create arbitrary view models out of the domain model. 
+After mapping the query output to the domain model, we are able to create arbitrary view models out of the domain model. 
 A domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
-on invariants and use cases rather than view layer concerns. The adapter or assembler pattern enables two incompatible models to 
+on invariants and use cases rather than view layer concerns. The adapter or assembler pattern allows two incompatible models to 
 work together and can be implemented in the UI controller or an application service.
 
 **» CQRS in Angular**<br/>
  
-Promoting CQRS in the frontend means developing a distinction between the read side and the write side into separate models within a bounded context, 
-interrogating with an adapted database transaction system. A simplified meta model of a widespread CQRS architecture serves as the basis: 
+Promoting CQRS and the persistence layer in the frontend by using the HTML5 IndexedDB object store, means a distinction 
+between the read side and the write side into separate models within a bounded context, interrogating with an adapted database 
+transaction system. A simplified meta model of a widespread CQRS architecture serves as the basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
   
 In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
-The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on this ground,
+The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on this,
 we are facing the following limitations with regards to Angular:
 
 - Events: No database events are supported by the HTML5 IndexedDB.  
@@ -272,9 +273,13 @@ we are facing the following limitations with regards to Angular:
 
 @TODO [text]
     
-*»  Creating Read Models of Write Models*<br/>
+*»  Creating Read Models from Write Models*<br/>
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
+
+*»  Creating Read Models from Datasource*<br/>
+
+
    
 **» Offline First & Client-side Storage**<br/>
 
