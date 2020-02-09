@@ -249,37 +249,41 @@ counteract successfully by defining additional layers of abstraction**. In conju
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the query output to the domain model, we are able to create arbitrary view models out of the domain model. 
-A domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
-on invariants and use cases rather than view layer concerns. The adapter or assembler pattern allows two incompatible models to 
+After mapping the query output to the domain model, we are able to build arbitrary view models out of the domain model. 
+An domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
+on invariants and use cases rather than view layer concerns. The adapter or assembler pattern enables two incompatible models to 
 work together and can be implemented in the UI controller or an application service.
 
 **» CQRS in Angular**<br/>
  
-Promoting CQRS and the persistence layer in the frontend by using the HTML5 IndexedDB object store, means a distinction 
-between the read side and the write side into separate models within a bounded context, interrogating with an adapted database 
-transaction system. A simplified meta model of a widespread CQRS architecture serves as the basis: 
+Promoting CQRS and data persistence in the frontend by using the HTML5 IndexedDB object store means a distinction 
+between the read side and the write side into separate models within a bounded context and interrogating with an adapted 
+database transaction system. A simplified meta model of a widespread CQRS architecture serves as the basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
   
 In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
-The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on this,
-we are facing the following limitations with regards to Angular:
+The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on these
+criteria, we are facing the following limitations with regards to Angular:
 
 - Events: No database events are supported by the HTML5 IndexedDB.  
 - Reactivity: No reactive state management on the read side possible with the HTML5 IndexedDB.
 - Consistency: Only one database transaction scope within the web browser.
-- Round trips: No HTTP request cycles upon user events (Query Command). <br/>
+- Round trips: No HTTP request cycles upon user events (Queries). <br/>
 
-@TODO [text]
+The default change detection mechanism in Angular allows us to be reactive on state changes. Not every time we need to 
+deal with reactive state management and can hit the data source from the view layer directly. However, if we need to 
+keep shared state in sync in the view layer, we could add a custom event system. Unfortunately, the HTML5 IndexedDB is 
+not able to provide us a notification system on state changes to counteract this specific view layer problem.
     
-**»  Creating Read Models from Write Models**<br/>
+**»  Creating Read Models out of Write Models**<br/>
+
+Aggregate entities can provide the data for read model objects. Adding factory methods to return read models, or even a 
+separate read model repository ... @TODO [text]
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
-Aggregates can provide the basis for read model objects in multiple ways. The aggregate may have own factory methods
-that returns read models based on the aggregates state, or a separate read model repository provides an read model
-collection, where the aggregate is used as the source.
+Let's have a look at an example of how to provide read models from a write model:
 
 ```
 class Order {
@@ -296,7 +300,11 @@ class Order {
 }
 ``` 
 
+In this example... @TODO [text]
+
 **»  Creating Read Models from Datasource**<br/>
+ 
+@TODO [image] 
    
 **» Offline First & Client-side Storage**<br/>
 
