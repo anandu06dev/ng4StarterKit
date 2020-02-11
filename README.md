@@ -256,37 +256,32 @@ work together and can be implemented in the UI controller or an application serv
 
 **» CQRS in Angular**<br/>
  
-Promoting CQRS and data persistence in the frontend by using the HTML5 IndexedDB object store means a distinction 
-between the read side and the write side into separate models within a bounded context and interrogating with a scoped 
-database transaction system. A simplified meta model of a widespread CQRS architecture serves as the basis: 
+Applying CQRS and data persistence in the frontend by using the HTML5 IndexedDB means segregating the read side and the 
+write side into separate models within a bounded context and operating inside one database transaction scope. A simple
+meta model of a widespread CQRS architecture serves as the basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
 
-Version 1: Two data stores were set up, one for the write side and the other for the read side. Typically state changes 
-on the write side are synchronized with its equivalent on the read side. This process are called projection. Projection 
-could be leveraged in different ways. The most commonly used approach is an event system.
-
-Version 2: Only one data store manages the write side and the read side at a time within one transaction scope. This 
-option is the only option available, if using the HTML5 IndexedDB as data persistence layer. Even though there is only 
-one physical database available in the frontend, we could have more than one database schema or store with IndexedDB. 
-The projection mechanism is similar to the two-store-solution, but in some cases it is not necessary.
+In the first version, two data stores are used, one for the write side and one for the read side. In the second version, 
+only one data store processes the write side and the read side inside one database transaction scope. Typically state 
+changes on the write side are synchronized with the read side. This process are called projection. A projection can be 
+leveraged in different ways and layers. The most commonly used approach is a event-based projection.
   
 In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
 The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on these
-criteria, we are facing the following limitations with regards to Angular:
+criteria, we are facing the following limitations with regards to Angular and the HTML5 IndexedDB:
 
-- Events: No native database events are supported by the HTML5 IndexedDB.  
-- Reactivity: No reactive state management on the read side possible with the HTML5 IndexedDB.
-- Consistency: Only one database transaction scope within the web browser.
-- Round trips: No HTTP request cycles upon user events (Queries). 
-- No native support for complex queries like SQL <br/>
+- Events: No native database events are supported.  
+- Reactivity: No reactive state management possible.
+- Consistency: Only one database transaction scope.
+- Round trips: No HTTP request cycles upon user events. 
+- Query: No native support for complex queries<br/>
 
 The default change detection mechanism in Angular allows us to be reactive on state changes. Not every time we need to 
-deal with reactive state management and could request the read model directly from the view layer by user events. 
-However, if we need to keep shared state in sync, we could add a custom event system. Unfortunately, the HTML5 IndexedDB 
-is not able to provide us a notifications when state changes.
+deal with reactive state mutations and could request the read model directly from the view layer through user events. 
+Unfortunately, the HTML5 IndexedDB is not able to provide us a notifications when state changes.
 
-**» Creating Read Models out of Write Models**<br/>
+**» Projection through Entities**<br/>
 
 Aggregate entities can provide the data for read model objects. Adding factory methods to return read models, or even a 
 separate read model repository ... @TODO [text]
@@ -301,7 +296,7 @@ class Order {
     private quantity: number; 
 
     orderForSales(): OrderForSales {
-        return new OrderForSleas(this.quantity);
+        return new OrderForSales(this.quantity);
     }
 
     orderForCatalog(): OrderForCatalog {
@@ -310,11 +305,11 @@ class Order {
 }
 ``` 
 
-In this example... @TODO [text]
+@TODO [text]
 
-As we must deal with one trans No Eventual Consitency in the Frontend; No Domain Events necessary (One DBT Scope)
+~~As we must deal with one trans No Eventual Consitency in the Frontend; No Domain Events necessary (One DBT Scope)~~
 
-**»  Creating Read Models from Datasource**<br/>
+**» Projection through Datasource**<br/>
  
 @TODO [image] 
    
