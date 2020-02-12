@@ -163,7 +163,7 @@ be spread across different layers multiple times**.
 }) class EmployeeComponent {
     @Input() emp: Employee; 
 
-    salaryIncreaseBy(percent:number){
+    public salaryIncreaseBy(percent:number){
          emp.salary = (emp.salary * percent / 100) + emp.salary;
     }
 }
@@ -180,7 +180,7 @@ A rich domain model instead hides these implementation details:
 }) class EmployeeComponent {
     @Input() emp: Employee; 
 
-    salaryIncreaseBy(percent:number){
+    public salaryIncreaseBy(percent:number){
          emp.salaryIncreaseBy(percent);
     }
 }
@@ -256,50 +256,56 @@ work together and can be implemented in the UI controller or an application serv
 
 **» CQRS in Angular**<br/>
  
-Applying CQRS and data persistence in the frontend by using the HTML5 IndexedDB means segregating the read side and the 
-write side into separate models within a bounded context and operating inside one database transaction scope. A simple
-meta model of a widespread CQRS architecture serves as the basis: 
+Applying CQRS and data persistence in the frontend by using the HTML5 IndexedDB means separating the read side and the 
+write side into different models (Schemas) within a bounded context and operating inside one database transaction scope. 
+A simple meta model of a widespread CQRS architecture serves as the basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
 
 In the first version, two data stores are used, one for the write side and one for the read side. In the second version, 
 only one data store processes the write side and the read side inside one database transaction scope. Typically state 
-changes on the write side are synchronized with the read side. This process are called projection. A projection can be 
-leveraged in different ways and layers. The most commonly used approach is a event-based projection.
+changes on the write side are replicated back to the read side. This process are called projection. A projection can be 
+leveraged in different ways and layers. The most commonly used approach is a event-centric projection.
   
 In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
-The complicated part and difficult undertaking in this type of frontend architecture is the read side. Based on these
-criteria, we are facing the following limitations with regards to Angular and the HTML5 IndexedDB:
+The complicated part and difficult undertaking in this type of frontend architecture relies on the read side. Based on 
+that information, we are facing the following limitations with regards to Angular and the HTML5 IndexedDB:
 
-- Events: No native database events are supported.  
-- Reactivity: No reactive state management possible.
+- Events: No native database events.  
+- Reactivity: No reactive state handling.
 - Consistency: Only one database transaction scope.
 - Round trips: No HTTP request cycles upon user events. 
-- Query: No native support for complex queries<br/>
+- Query: No native complex SQL-like queries. 
+~~- Schema: Attributes need to be known at design time.~~ <br/>
 
-The default change detection mechanism in Angular allows us to be reactive on state changes. Not every time we need to 
+**» CQRS in reactive frontend frameworks**<br/>
+
+Angular's built-in change detection mechanism allows us to built reactive applications. State changes made on all levels
+are reflected...   
+
+Not every time we need to ...
 deal with reactive state mutations and could request the read model directly from the view layer through user events. 
 Unfortunately, the HTML5 IndexedDB is not able to provide us a notifications when state changes.
 
-**» Projection through Entities**<br/>
+**» Projection by entity**<br/>
 
 Aggregate entities can provide the data for read model objects. Adding factory methods to return read models, or even a 
 separate read model repository ... @TODO [text]
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
-Let's have a look at an example of how to provide read models from a write model:
+Let's have a look at an example of how to keep separate models in sync:
 
 ```
 class Order {
     private orderId: number;
     private quantity: number; 
 
-    orderForSales(): OrderForSales {
+    public orderForSales(): OrderForSales {
         return new OrderForSales(this.quantity);
     }
 
-    orderForCatalog(): OrderForCatalog {
+    public orderForCatalog(): OrderForCatalog {
         return new OrderForCatalog(this.orderId);
     }
 }
@@ -309,9 +315,12 @@ class Order {
 
 ~~As we must deal with one trans No Eventual Consitency in the Frontend; No Domain Events necessary (One DBT Scope)~~
 
-**» Projection through Datasource**<br/>
+**» Projection by datasource (Materialized Views)**<br/>
  
 @TODO [image] 
+
+Some handlers may update data sources or the materialized views used for querying while others may send messages to 
+external interfaces. 
    
 **» Offline First & Client-side Storage**<br/>
 
@@ -358,7 +367,7 @@ class Customer {
     get lastName(){}
     set lastName(){}
     
-    isLoggedIn(){}
+    public isLoggedIn(){}
 }
 ``` 
 
@@ -384,8 +393,8 @@ with itself or others. It offers a simple set of properties to share state. This
 ```
 @Injectable 
 export class PropertyService{
-    showPicture: boolean;
-    filterBy: string; 
+    public showPicture: boolean;
+    public filterBy: string; 
 }
 ```
 
@@ -400,13 +409,13 @@ that requires state or storage management. Let's have a look at an example of ho
 export class CustomerService {
     private customers: ICustomer[] = [];
    
-    getCustomers(){}
-    getCustomer(id: number){}
+    public getCustomers(){}
+    public getCustomer(id: number){}
     
-    createCustomer(customer: ICustomer){}
-    deleteCustomer(id: number){}
-    updateCustomer(customer: ICustomer){} 
-    sortCustomer(type='ASC'){}
+    public createCustomer(customer: ICustomer){}
+    public deleteCustomer(id: number){}
+    public updateCustomer(customer: ICustomer){} 
+    public sortCustomer(type='ASC'){}
 }
 ```
 
@@ -432,15 +441,15 @@ Let's have a look at an example of how to build a notification service based on 
 export class NotificationService {
     private _subject = new Subject<any>();
  
-    notify(news: string): void {
+    public notify(news: string): void {
         this._subject.next({ news: news });
     }
  
-    listen(): Observable<any> {
+    public listen(): Observable<any> {
         return this._subject.asObservable();
     }
 
-    complete(): void {
+    public complete(): void {
         return this._subject.complete();
     }
 }
@@ -459,11 +468,11 @@ export class StoreService<T> {
     private _data : BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
     private _store : { data : T[] } = { data : [] };
        
-    getData(): Observable<T[]> {
+    public getData(): Observable<T[]> {
         return this._data.asObservable();
     }
 
-    setData(data: T[]): void {
+    public setData(data: T[]): void {
         this._store.data = [...data, ...this._store.data]
         this._data.next(Object.assign({}, this._store).data);
     }
