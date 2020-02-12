@@ -265,7 +265,7 @@ A simple meta model of a widespread CQRS architecture serves as the basis:
 In the first version, two data stores are used, one for the write side and one for the read side. In the second version, 
 only one data store processes the write side and the read side inside one database transaction scope. Typically state 
 changes on the write side are replicated back to the read side. This process are called projection. A projection can be 
-leveraged in different ways and layers. The most commonly used approach is a event-centric projection.
+leveraged in different ways and layers. The most commonly used approach is an event-centric projection.
   
 In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
 The complicated part and difficult undertaking in this type of frontend architecture relies on the read side. Based on 
@@ -276,9 +276,9 @@ that information, we are facing the following limitations with regards to Angula
 - Consistency: Only one database transaction scope.
 - Round trips: No HTTP request cycles upon user events. 
 - Query: No native complex SQL-like queries. 
-~~- Schema: Attributes need to be known at design time.~~ <br/>
+- Schema: Attributes need to be known at design time. <br/>
 
-**» CQRS in reactive frontend frameworks**<br/>
+**» CQRS in reactive systems**<br/>
 
 Angular's built-in change detection mechanism allows us to built reactive applications. State changes made on all levels
 are reflected...   
