@@ -46,8 +46,8 @@ interlacing additional code, resulting in loose coupling between the actual logi
 **» Applying DDD layers to Angular**<br/>
 
 Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application. 
-At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across several layers in particular communication across these layers, 
-creates an unnecessary load on the frontend. Moreover, Angular services are usually reactive stateful, whereas services in Domain-Driven Design are stateless!
+At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across several layers in particular communication across multiple layers, 
+introduce an unnecessary complexity. Moreover, Angular services are usually reactive stateful, whereas services in Domain-Driven Design are stateless!
 
 When application or domain services carry out full business use cases, very often multiple actions are performed in a transactional way. It thus follows, they succeed or fail together! 
 In case of not all interactions with the database succeeded, these services must execute a rollback on the client-side. This may become very expensive and leads to 
@@ -256,16 +256,17 @@ work together and can be implemented in the UI controller or an application serv
 
 **» CQRS in Angular**<br/>
  
-Applying CQRS and data persistence in the frontend by using the HTML5 IndexedDB means separating the read side and the 
-write side into different models (Schemas) within a bounded context and operating inside one database transaction scope. 
+Applying CQRS and data persistence in the frontend by using the HTML5 IndexedDB means separating the read side from the 
+write side into different models (Schemas) within a bounded context and operating within one database transaction scope. 
 A simple meta model of a widespread CQRS architecture serves as the basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
 
 In the first version, two data stores are used, one for the write side and one for the read side. In the second version, 
-only one data store processes the write side and the read side inside one database transaction scope. Typically state 
-changes on the write side are replicated back to the read side. This process are called projection. A projection can be 
-leveraged in different ways and layers. The most commonly used approach is an event-centric projection.
+only one data store processes the write side and the read side within one database transaction scope. Typically state 
+changes on the write side are replicated back to the read side. This process is called projection. A projection can be 
+leveraged in different ways and layers. The most commonly used approach is an event-centric projection causing an 
+eventually consistent system.
   
 In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
 The complicated part and difficult undertaking in this type of frontend architecture relies on the read side. Based on 
@@ -548,13 +549,13 @@ With multi-layered applications it is clear that critical decisions have to be m
 Most of them are determined by the requirements at the macro-level, which includes decisions on the scope of:
 
 - SPA vs. MPA
+- REST vs. DDD
 - UX vs. API first
 - Smart vs. Dump client
 - Public vs. Private Web API
 - Mobile vs. Desktop first
 - Offline vs. Online first
-- Anemic vs. Rich model
-- Functional vs. Object-Oriented 
+- Functional vs. Object-oriented 
 
 # Project Structure [src]
 
