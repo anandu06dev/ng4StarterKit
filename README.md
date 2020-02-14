@@ -256,9 +256,9 @@ work together and can be implemented in the UI controller or an application serv
 
 **» CQRS in Angular**<br/>
  
-Applying CQRS and data persistence in the frontend by using the HTML5 IndexedDB means separating the read side from the 
-write side into different models (Schemas) within a bounded context and operating within one database transaction scope. 
-A simple meta model of a widespread CQRS architecture serves as the basis: 
+Applying CQRS and data persistence on the client-side using the HTML5 IndexedDB means separating the read side from the 
+write side into different models within a bounded context and operating within one database transaction scope. A simple 
+meta model of a widespread CQRS architecture serves as the basis: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
 
@@ -281,16 +281,18 @@ that information, we are facing the following limitations with regards to Angula
 
 **» CQRS in reactive systems**<br/>
 
-Angular's built-in change detection mechanism allows us to built reactive applications. State changes made on all levels
-are reflected...   
+As described before, in the traditional server-side CQRS architecture state changes in the write model are propagated to 
+the read model by sending events. However, the client-side won't receive any notification to reflect it's current state. 
+To achieve a greater consistency between the client- and server-side, we can implement the following patterns: Pub-Sub,
+Polling, Optimistic Update or POST/Redirect/GET.
 
-Not every time we need to ...
-deal with reactive state mutations and could request the read model directly from the view layer through user events. 
-Unfortunately, the HTML5 IndexedDB is not able to provide us a notifications when state changes.
+Angular's change detection allows us to reflect state changes in the component's template. This is important
+to prevent inconsistent results in the view layer. 
+State changes on the 
 
 **» Projection by entity**<br/>
 
-Aggregate entities can provide the data for read model objects. Adding factory methods to return read models, or even a 
+Aggregate entities can provide the data for read models. Adding factory methods that return read models, or even a 
 separate read model repository ... @TODO [text]
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
@@ -401,7 +403,7 @@ export class PropertyService{
 
 ## State Management Service
 
-Build a basic state management service to share state and communicate state changes using Angular's built-in change detection, along with the operations, 
+Build a basic state management service to share state and communicate state changes using Angular's change detection, along with the operations, 
 transformations, and rules for creating, manipulating and storing that data. Use a state management service for any type of application data 
 that requires state or storage management. Let's have a look at an example of how to define a state management service for a customer entity: 
            
