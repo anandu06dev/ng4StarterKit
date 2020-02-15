@@ -275,7 +275,7 @@ that information, we are facing the following limitations with regards to Angula
 - Events: No native database events.  
 - Reactivity: No reactive state handling.
 - Consistency: Only one database transaction scope.
-- Round trips: No HTTP request cycles upon user events. 
+- Round trips: No HTTP request cycles upon query commands. 
 - Query: No native complex SQL-like queries. 
 - Schema: Attributes need to be known at design time. <br/>
 
@@ -284,16 +284,16 @@ that information, we are facing the following limitations with regards to Angula
 As described before, in the traditional server-side CQRS architecture state changes in the write model are propagated to 
 the read model by sending events. However, the client-side won't receive any notification to reflect it's current state. 
 To achieve a greater consistency between the client- and server-side, we can implement the following patterns: Pub-Sub,
-Polling, Optimistic Update or POST/Redirect/GET.
+Polling, Optimistic Update or POST/Redirect/GET. For Angular applications that introduce CQRS in the frontend requires 
+us to reexamine the projection process because Angular's change detection strategy allows us to reflect state changes in
+the component's template (Read model) automatically. By investigating the complex interplay between Angular's change 
+detection strategy and the HTML5 IndexedDB, we need to execute and process different projection patterns.
 
-Angular's change detection allows us to reflect state changes in the component's template. This is important
-to prevent inconsistent results in the view layer. 
-State changes on the 
+**» Projection by Entity**<br/>
 
-**» Projection by entity**<br/>
-
-Aggregate entities can provide the data for read models. Adding factory methods that return read models, or even a 
-separate read model repository ... @TODO [text]
+Decorating aggregates with factory methods that return different read models interplays with Angular's built-in change
+detection strategy, because it doesn't require us to implement an extra event system. The projection by entity pattern 
+makes domain events and eventual consistency unnecessary as changes will be reflected almost simultaneously. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
@@ -314,16 +314,12 @@ class Order {
 }
 ``` 
 
-@TODO [text]
+**» Projection by Datasource (Materialized Views)**<br/>
 
-~~As we must deal with one trans No Eventual Consitency in the Frontend; No Domain Events necessary (One DBT Scope)~~
+~~Some handlers may update data sources or the materialized views used for querying.~~ 
 
-**» Projection by datasource (Materialized Views)**<br/>
- 
+@TODO [text] 
 @TODO [image] 
-
-Some handlers may update data sources or the materialized views used for querying while others may send messages to 
-external interfaces. 
    
 **» Offline First & Client-side Storage**<br/>
 
@@ -343,6 +339,7 @@ IndexedDB approach, in which the focus is on client-side persistence as first-cl
 
 **» Multi-client systems in offline mode**<br/>
 
+@TODO [text]
 @TODO [image]
 
 # State Management 
