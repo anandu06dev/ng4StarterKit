@@ -25,11 +25,15 @@ A typical DDD architecture consists of the following conceptual layers:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DDD_Layer.PNG)
 
-**» Differentiating the service layers**<br/>
+**» Differentiating the abstraction layers**<br/>
 
 - Application services carry out full business use cases and are procedural as well as stateless. 
 - Domain services carry out use cases at a higher level of granularity than entities and value objects and are stateless.
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns.
+
+- Infrastructure layer: Controllers, Write and read model repository implementations
+- Application layer: Application services, Read models, Read model repository interfaces, Event listeners
+- Domain layer: Entities, Value objects, Write model repository interfaces
 
 **» Applying the SOLID principles**<br/>
 
@@ -249,7 +253,7 @@ counteract successfully by defining additional layers of abstraction**. In conju
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the query output to the domain model, we are able to build arbitrary view models out of the domain model. 
+After mapping the response schema to the domain model, we are able to build arbitrary view models from the domain model.
 An domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
 on invariants and use cases rather than view layer concerns. The adapter or assembler pattern enables two incompatible models to 
 work together and can be implemented in the UI controller or an application service.
@@ -292,24 +296,46 @@ detection strategy and the HTML5 IndexedDB, we need to execute and process diffe
 **» Projection by Entity**<br/>
 
 Decorating aggregates with factory methods that return different read models interplays with Angular's built-in change
-detection strategy, because it doesn't require us to implement an extra event system. The projection by entity pattern 
+detection strategy, because it does not require us to implement an extra event system. The projection by entity pattern 
 makes domain events and eventual consistency unnecessary as changes will be reflected almost simultaneously. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
-Let's have a look at an example of how to keep separate models in sync:
+Let's have a look at an example of how to keep models in sync:
 
 ```
 class Order {
     private orderId: number;
     private quantity: number; 
 
-    public orderForSales(): OrderForSales {
+    public getOrderForSales(): OrderForSales {
         return new OrderForSales(this.quantity);
     }
 
-    public orderForCatalog(): OrderForCatalog {
+    public getOrderForCatalog(): OrderForCatalog {
         return new OrderForCatalog(this.orderId);
+    }
+}
+``` 
+
+Providing different read model implementations based on the write model violates the principle separation of concerns 
+(SoC). This principle demands a clear separation of the read model and the write model where models mutate data and 
+views present data. To achieve a greater separation of the write model, we could create read model repositories. As for 
+the read model repositories themselves, they provide different read model objects to specific use cases and use write 
+models as the basis for projection. Both approaches interplays very well with Angular's built-in change detection.
+
+```
+@Injectable()
+class OrderForSalesRepository {
+    this._orderRepository: OrderRepository;
+
+    constructor(orderRepository: OrderRepository){
+        this._orderRepository = orderRepository
+    }
+
+    public getOrderForSales(id): OrderForSales {
+        const order = this._orderRepository.getById(id);
+        return new OrderForSales(order.quantity);
     }
 }
 ``` 
@@ -320,7 +346,12 @@ class Order {
 
 @TODO [text] 
 @TODO [image] 
-   
+
+**» Client-side Event-Sourcing**<br/>
+
+@TODO [text] 
+@TODO [image] 
+
 **» Offline First & Client-side Storage**<br/>
 
 Complying with the **Offline First** paradigm, we must ensure that business logic works entirely offline. Modern applications should manage a 
