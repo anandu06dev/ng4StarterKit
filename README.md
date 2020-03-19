@@ -32,9 +32,10 @@ A typical DDD architecture consists of the following conceptual layers:
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns.<br/>
 
 *»  Tactical patterns* <br/>
-- Infrastructure layer: Controllers, Write and read model repository implementations<br/>
+
 - Application layer: Application services, Read models, Read model repository interfaces, Event listeners <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces <br/>
+- Infrastructure layer: Controllers, Write and read model repository implementations <br/>
 
 **» Applying the SOLID principles**<br/>
 
