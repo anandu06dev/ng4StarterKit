@@ -127,15 +127,15 @@ successfully we must adhere to a few basic guidelines:
 
 -	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
--   Use service hook decorators such as `@Host, @Optional or @SkipSelf` to manage the dependency tree path.  
+-   Use service hook decorators such as `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
 
 **» Service API design**<br/>
 
-Services encapsulate business functionality and manage the shared context. The service API design depends much on the shared context! 
+Services encapsulate business functionality and manage the shared state. The service API design depends much on the shared state! 
 We relate to stateful services if we need to share data across components. Normally, simple services in Angular processes HTTP API calls that include CRUD operations. 
 **A great service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
 data in private or even public variables may cause various issues. If we share services with other components, we must keep track of changes by applying reactive techniques 
-to prevent stale data. If there is no shared context, it is a good idea to simply use a DAS (Data Access Service) and store temporary data as members of the component class.
+to prevent stale data. If there is no shared state, it is a good idea to simply use a DAS (Data Access Service) and store temporary data as members of the component class.
 What affects the service API design at most is the amount of data fetched from the server and reactive state management.
 
 ## Model Pattern  
