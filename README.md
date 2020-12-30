@@ -322,9 +322,29 @@ class Order {
 
 Providing different read model implementations based on the write model violates the principle separation of concerns 
 (SoC). This principle demands a clear separation of the read model and the write model where models mutate data and 
-views present data. To achieve a greater separation of the write model, we could create read model repositories. As for 
-the read model repositories themselves, they provide different read model objects to specific use cases and use write 
-models as the basis for projection. Both approaches interplays very well with Angular's built-in change detection.
+views present data. Using an abstract class we could put together reusable factory methods that return view models:
+
+```
+abstract class OrderViewModel {
+
+    public getOrderForSales(): OrderForSales {
+        return new OrderForSales(this.quantity);
+    }
+
+    public getOrderForCatalog(): OrderForCatalog {
+        return new OrderForCatalog(this.orderId);
+    }
+}
+
+class Order extends OrderViewModel {
+    private orderId: number;
+    private quantity: number; 
+}
+``` 
+
+To achieve a greater separation of the write model, we could create read model repositories. As for the read model 
+repositories themselves, they provide different read model objects to specific use cases and use write models as the 
+basis for projection. Both approaches interplays very well with Angular's built-in change detection.
 
 ```
 @Injectable()
@@ -343,8 +363,6 @@ class OrderForSalesRepository {
 ``` 
 
 **» Projection by Datasource (Materialized Views)**<br/>
-
-~~Some handlers may update data sources or the materialized views used for querying.~~ 
 
 @TODO [text] 
 @TODO [image] 
