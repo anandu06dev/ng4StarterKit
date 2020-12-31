@@ -287,17 +287,17 @@ that information, we are facing the following limitations with regards to Angula
 
 **» CQRS in reactive systems**<br/>
 
-As described earlier, in the traditional server-side CQRS pattern, state changes in the write model are propagated to 
-the read model by sending events. However, the client-side won't receive any notification to update it's current state. 
-To achieve a greater consistency between the client- and server, we implement the following patterns: Pub-Sub, Polling, 
+As described earlier, in the traditional server-side CQRS pattern, state changes in the write model are propagated to the 
+read model by sending events. However, the client-side won't receive any notification to update it's current state. To 
+achieve a greater consistency between the client- and server, we implement the following patterns: Pub-Sub, Polling, 
 Optimistic Update or POST/Redirect/GET. For Angular applications that introduce CQRS in the frontend requires us to 
-reexamine the projection process because Angular's change detection strategy allows us to reflect state changes in the 
-component's template (read model) automatically. By investigating the complex interplay between Angular's change 
-detection strategy and the HTML5 IndexedDB, we need to execute and process different projection patterns.
+reexamine the projection process because Angular's change detection strategy allows us to reflect state changes in the
+component's template (read model) automatically. By investigating the complex interplay between Angular's change detection 
+strategy and the HTML5 IndexedDB, we need to execute and process different projection patterns.
 
 **» Projection by Entity**<br/>
 
-Decorating aggregates with factory methods that return different read models interplays with Angular's built-in change
+Decorating aggregates with factory methods that return different read models interplays with Angular's built-in change 
 detection strategy, because it does not require us to implement an extra event system. The projection by entity pattern 
 makes domain events and eventual consistency unnecessary as changes will be reflected almost simultaneously. 
 
