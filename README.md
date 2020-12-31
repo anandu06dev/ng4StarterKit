@@ -287,12 +287,12 @@ that information, we are facing the following limitations with regards to Angula
 
 **» CQRS in reactive systems**<br/>
 
-As described before, in the traditional server-side CQRS architecture state changes in the write model are propagated to 
-the read model by sending events. However, the client-side won't receive any notification to reflect it's current state. 
-To achieve a greater consistency between the client- and server-side, we can implement the following patterns: Pub-Sub,
-Polling, Optimistic Update or POST/Redirect/GET. For Angular applications that introduce CQRS in the frontend requires 
-us to reexamine the projection process because Angular's change detection strategy allows us to reflect state changes in
-the component's template (Read model) automatically. By investigating the complex interplay between Angular's change 
+As described earlier, in the traditional server-side CQRS pattern, state changes in the write model are propagated to 
+the read model by sending events. However, the client-side won't receive any notification to update it's current state. 
+To achieve a greater consistency between the client- and server, we implement the following patterns: Pub-Sub, Polling, 
+Optimistic Update or POST/Redirect/GET. For Angular applications that introduce CQRS in the frontend requires us to 
+reexamine the projection process because Angular's change detection strategy allows us to reflect state changes in the 
+component's template (read model) automatically. By investigating the complex interplay between Angular's change 
 detection strategy and the HTML5 IndexedDB, we need to execute and process different projection patterns.
 
 **» Projection by Entity**<br/>
@@ -320,12 +320,16 @@ class Order {
 }
 ``` 
 
-Providing different read model implementations based on the write model violates the principle separation of concerns 
-(SoC). This principle demands a clear separation of the read model and the write model where models mutate data and 
-views present data. Using an abstract class we could put together reusable factory methods that return view models:
+An obvious caveat with this approach is that it only applies to a single entity. What if a read model requires multiple 
+aggregates to please the UI concerns? Providing different read model implementations based on a write model violates 
+the principle "separation of concerns" (SoC). This principle demands a clear separation between the reads and writes 
+where models mutate data and views present data. By using an abstract class we could put together reusable factory 
+methods that return view models:
 
 ```
 abstract class OrderViewModel {
+    abstract quantity;
+    abstract orderId;
 
     public getOrderForSales(): OrderForSales {
         return new OrderForSales(this.quantity);
@@ -342,23 +346,27 @@ class Order extends OrderViewModel {
 }
 ``` 
 
-To achieve a greater separation of the write model, we could create read model repositories. As for the read model 
-repositories themselves, they provide different read model objects to specific use cases and use write models as the 
-basis for projection. Both approaches interplays very well with Angular's built-in change detection.
+To achieve a greater separation, we create read model repositories. As for the read model repositories, they provide 
+different read model objects for specific use cases and use write models as a basis for the projection process. Both 
+approaches interplays very well with Angular's built-in change detection strategy. The read model repositories are 
+addressed in the application layer.
 
 ```
 @Injectable()
 class OrderForSalesRepository {
-    this._orderRepository: OrderRepository;
+    orderRepository: OrderRepository;
+    productRepository: ProductRepository;
 
-    constructor(orderRepository: OrderRepository){
-        this._orderRepository = orderRepository
+    constructor(orderRepository: OrderRepository, productRepository: ProductRepository){
+        orderRepository = orderRepository;
+        productRepository = ProductRepository;
     }
 
     public getOrderForSales(id): OrderForSales {
         const order = this._orderRepository.getById(id);
         return new OrderForSales(order.quantity);
     }
+    ...
 }
 ``` 
 
@@ -367,7 +375,7 @@ class OrderForSalesRepository {
 @TODO [text] 
 @TODO [image] 
 
-**» Client-side Event-Sourcing**<br/>
+**» Client-side Event-Sourcing and Domain-Events**<br/>
 
 @TODO [text] 
 @TODO [image] 
