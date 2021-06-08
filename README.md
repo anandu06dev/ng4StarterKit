@@ -13,7 +13,7 @@ We separate business logic into layers with different responsibilities.
 
 The building blocks of Angular allows us to apply enterprise software patterns to the frontend design system:
 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/blob/master/src/assets/images/TestImage.PNG)
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/TestImage.PNG)
 
 Angular embraces the Model View Controller (MVC) pattern and Object-Oriented Design (OOD) by adopting TypeScript. When considering the 
 conceptual layers of Domain-Driven Design, the question arises: how to apply these layers to Angular applications? This question relates to 
