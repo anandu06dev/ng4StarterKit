@@ -71,7 +71,7 @@ of feature modules. The core module shares its content application wide as singl
 
 **» Module Organisation**<br/>
 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Module_Structure.PNG)
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/module_arch.PNG)
 
 **» Examples**<br/>
 
