@@ -33,17 +33,15 @@ Our layered architecture consists at least of the following conceptual layers:
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns.<br/>
 
-**» Vertical Cut**<br/>
+**» Vertical Cut**<br/> Cutting the domain into features...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_vc.PNG)
 
-Cutting the domain into features...
 
-**» Cross Cut**<br/>
+**» Cross Cut**<br/> Cutting the domain into modules...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
 
-Cutting the domain into modules...
 
 **» Applying the SOLID principles**<br/>
 
