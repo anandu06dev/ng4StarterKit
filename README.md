@@ -17,7 +17,8 @@ Considering layered architecture, the question may arise: how to organize layers
 
 A typical layered architecture consists at least of the following conceptual layers:
 
-Horizontal Cut
+
+**» Horizontal Cut **<br/>
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_hc.PNG)
 
@@ -33,17 +34,17 @@ Horizontal Cut
 - Domain services carry out use cases at a higher level of granularity than entities and value objects and are stateless.
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns.<br/>
 
-Vertical Cut
+**» Vertical Cut**<br/>
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_vc.PNG)
 
-- Cutting the domain into features...
+Cutting the domain into features...
 
-Cross Cut
+**» Cross Cut**<br/>
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
 
-- Cutting the domain into modules...
+Cutting the domain into modules...
 
 **» Applying the SOLID principles**<br/>
 
