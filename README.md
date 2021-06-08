@@ -23,15 +23,15 @@ Our layered architecture consists at least of the following conceptual layers:
 
 *» Abstraction layers*<br/>
 
-- Application layer: Application services, Read models, Read model repository interfaces, Event listeners. <br/>
-- Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces. <br/>
-- Infrastructure layer: Write and read model repository implementations. <br/>
+- Application layer: Application services, Read models, Read model repository interfaces, Event listeners <br/>
+- Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces <br/>
+- Infrastructure layer: Write and read model repository implementations <br/>
 
 *» Service layers* <br/>
 
 - Stateless application services carry out full business use cases and are procedural 
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
-- Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns.<br/>
+- Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
 
 **» Vertical Cut**<br/> Cutting the domain into features...
 
