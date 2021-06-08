@@ -18,7 +18,7 @@ Considering layered architecture, the question may arise: how to organize layers
 A typical layered architecture consists at least of the following conceptual layers:
 
 
-**» Horizontal Cut **<br/>
+**» Horizontal Cut**<br/>
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_hc.PNG)
 
