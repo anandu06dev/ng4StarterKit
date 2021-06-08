@@ -622,40 +622,7 @@ It is designed for Single Page Applications (SPA) as well as Multi Page Applicat
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Scaffolding.png)
 
-# Build (Bundle)
 
-First of all build the [dist] folder for the development host:
-```
-npm run build:dev
-```
-
-...or use the webpack-dev-server directly:
-```
-npm run server:dev
-```
-
-# AOT 
-First of all build the [aot] compilation:
-```
-npm run build:aot:ngc
-```
-This creates a [aot] folder for the production host.
-
-Now build the [dist] folder for the production host:
-
-```
-npm run build:prod:aot
-```
-...or use the webpack-dev-server directly:
-```
-npm run server:prod:aot
-```
-
-# Start
-
-Open the web browser and type localhost:8080
-
----
 Bibliography:
 
 - Yakov Fain; Angular with TypeScript - 2nd; Manning Publications; Mart 21, 2019. 
