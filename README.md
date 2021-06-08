@@ -27,7 +27,7 @@ Horizontal Cut
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces. <br/>
 - Infrastructure layer: Write and read model repository implementations. <br/>
 
-*» Tactical patterns* <br/>
+*» Service layers* <br/>
 
 - Application services carry out full business use cases and are procedural as well as stateless. 
 - Domain services carry out use cases at a higher level of granularity than entities and value objects and are stateless.
