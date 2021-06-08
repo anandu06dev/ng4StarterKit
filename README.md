@@ -3,44 +3,52 @@ An introduction to building large-scale web applications with Angular.
 
 # Application Architecture 
 
-Angular is in perfect harmony with patterns, principles and practices of enterprise software development for complex needs. 
-Applying methodologies and principles of Object-Oriented Design (OOD), Domain-Driven Design (DDD) and the Model View Controller 
-(MVC) architecture, we break down complex business requirements into logical boundaries. Angular promotes the SOLID principles that any 
-project should welcome in order to be maintainable and extensible. Applying patterns means high cohesion and low coupling. 
-We separate business logic into layers with different responsibilities.
+Angular embraces patterns, principles and practices of enterprise software development. By applying Object-Oriented Design, Domain-Driven Design or Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries. We separate business logic into layers with different concerns and vest with single responsibility.
 
-## Frontend coupled to the MVC
+## Frontend coupled to OOD, DDD and CQRS
 
-The building blocks of Angular allows us to apply enterprise software patterns to the frontend design system:
+The building blocks (modules, controllers, services) of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a better level of abstraction we will leave Angulars Data-Driven mindset behind us and consider higher-level strategies like Domain-Driven Design:
 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/TestImage.PNG)
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
-Angular embraces the Model View Controller (MVC) pattern and Object-Oriented Design (OOD) by adopting TypeScript. When considering the 
-conceptual layers of Domain-Driven Design, the question arises: how to apply these layers to Angular applications? This question relates to 
-code organizational structure, communication across layers and demanding services through dependency injection. 
+Considering layered architecture, the question may arise: how to organize layers within a SPA applications? This question mainly relates to code organization, communication across layers and demanding business logic throughout services etc.
 
 ## Layered Architecture
 
-A typical DDD architecture consists of the following conceptual layers:
+A typical layered architecture consists at least of the following conceptual layers:
 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DDD_Layer.PNG)
+Horizontal Cut
 
-**» Differentiating the abstraction layers**<br/>
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_hc.PNG)
 
-- Application services carry out full business use cases and are procedural as well as stateless. 
-- Domain services carry out use cases at a higher level of granularity than entities and value objects and are stateless.
-- Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns.<br/>
-
-*»  Tactical patterns* <br/>
+*» Abstraction layers*<br/>
 
 - Application layer: Application services, Read models, Read model repository interfaces, Event listeners. <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces. <br/>
 - Infrastructure layer: Controllers, Write and read model repository implementations. <br/>
 
+*» Tactical patterns* <br/>
+
+- Application services carry out full business use cases and are procedural as well as stateless. 
+- Domain services carry out use cases at a higher level of granularity than entities and value objects and are stateless.
+- Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns.<br/>
+
+Vertical Cut
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_vc.PNG)
+
+- Cutting the domain into features...
+
+Cross Cut
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
+
+- Cutting the domain into modules...
+
 **» Applying the SOLID principles**<br/>
 
-In object orientation the SOLID principles can help to make better design decisions in terms of high cohesion and low coupling.
-Applying the DIP (Dependency Inversion Principle), we ensure these layers depend on abstraction (Interfaces) as opposed to depending on concretion (Classes). 
+In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the DIP (Dependency Inversion Principle), we ensure that layers depend on abstraction (Interfaces) as opposed to depending on concretion (Classes). 
+
 For example, we **provide the domain layer as an abstraction by using (generic) interfaces**.
 
 **» Applying cross-cutting concerns**<br/>
@@ -49,18 +57,12 @@ The infrastructure layer includes cross-cutting concerns such as logging, cachin
 which violates DRY (Don't Repeat Yourself) and SRP (Single Responsibility Principle). The AOP (Aspect Oriented Programming) promotes an abstraction and to encapsulate cross-cutting concerns by 
 interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
 
-**» Applying DDD layers to Angular**<br/>
+**» Applying layers to Angular**<br/>
 
-Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application. 
-At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across several layers in particular communication across multiple layers, 
-introduce an unnecessary complexity. Moreover, Angular services are usually reactive stateful, whereas services in Domain-Driven Design are stateless!
+Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application. At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across several layers introduce an unnecessary complexity in the frontend design system. 
 
-When application or domain services carry out full business use cases, very often multiple actions are performed in a transactional way. It thus follows, they succeed or fail together! 
-In case of not all interactions with the database succeeded, these services must execute a rollback on the client-side. This may become very expensive and leads to 
-the question of whether full business use cases should be performed in the frontend at all? The usage of application or domain services is arguable! It may be a good idea 
-to put business use cases with simple logic directly into the UI controller, so that UI controllers assume the orchestration path for full 
-business use cases. However, for reusability purposes, we should target application or domain services. Simply put, **only apply Domain-Driven Design when applicable** 
-and focus on layers to separate technical from business concerns.
+When application or domain services carry out full business use cases, it may become very expensive and rises the question whether full business use cases should be performed in the frontend at all? It may be a good idea to put business use cases with simple logic into the UI controller. However, we don't want to hide our application service / use case from the rest of the application. 
+
 
 # Application Artifacts
 Angular intrinsically provides artifacts that simplifies applying patterns of DDD such as modules, controllers, factories, services or entities.
