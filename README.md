@@ -25,7 +25,7 @@ Horizontal Cut
 
 - Application layer: Application services, Read models, Read model repository interfaces, Event listeners. <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces. <br/>
-- Infrastructure layer: Controllers, Write and read model repository implementations. <br/>
+- Infrastructure layer: Write and read model repository implementations. <br/>
 
 *» Tactical patterns* <br/>
 
