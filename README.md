@@ -42,6 +42,11 @@ Our layered architecture consists at least of the following conceptual layers:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
 
+**» Applying layers to Angular**<br/>
+
+Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application logic. At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. When application services carry out full business use cases, it is a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services / use cases from the rest of the application. 
+
+## Object-Oriented Design
 
 **» Applying the SOLID principles**<br/>
 
@@ -53,21 +58,16 @@ For example, we **provide the domain layer as an abstraction by using (generic) 
 
 The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates DRY (Don't Repeat Yourself) and SRP (Single Responsibility Principle). The AOP (Aspect Oriented Programming) promotes an abstraction and to encapsulate cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
 
-**» Applying layers to Angular**<br/>
+# Angular strategies
 
-Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application logic. At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. When application services carry out full business use cases, it is a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services / use cases from the rest of the application. 
-
-# Application Artifacts
-
-Angular embraces design strategies such as modules, services, entities, controllers which helps by complying to principles of Domain-Driven Design.
+Angular serves up design strategies such as modules, services, entities, controllers which helps to support principles of Domain-Driven Design.
 
 ## Modules
 
-It is important to architect a clear module structure and modularize code into reusable blocks, when working with the module system. 
-The application can contain multiple modules of different types, but the entry point is the root module! While feature modules encapsulate 
-blocks of code that is not intended to be used outside that module, makes feature modules a good candidate for the **bounded context** pattern. 
-Shared modules contain the most commonly used code to be reused as much as pleased. The root module can contain an endless amount 
-of feature modules. The core module shares its content application wide as singleton.
+It is important to maintain a clear module composition and modularize code into reusable blocks. The application may contain multiple modules of different types, that is, 
+the entry point is the root module. While feature modules encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The root module may have an unlimited amount of feature modules. The **core module** shares its content application wide as singletons. 
+
+Angular's module system allows us to pack a feature driven domain mesh into distribution context.  
 
 **» Module Organisation**<br/>
 
