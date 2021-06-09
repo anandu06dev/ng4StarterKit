@@ -7,11 +7,11 @@ Angular embraces patterns, principles and practices of enterprise software devel
 
 ## Frontend coupled to OOD, DDD and CQRS
 
-The building blocks of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a better level of abstraction we will pass Angulars Data-Driven mindset and consider higher-level strategies like Domain-Driven Design and CQRS:
+The building blocks of Angular already provides us with code organisation strategies for frontend architecture. Nevertheless, to obtain a better level of abstraction we will pass Angular's Data-Driven mindset and consider higher-level strategies like Domain-Driven Design and CQRS:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
-Considering layered architecture, the question arises: how to organize layers within SPA applications? This question relates to code organization, communication across layers and demanding business logic throughout services etc.
+Considering layered architecture the question arises how to organize layers in SPA applications? This question relates to code organization, communication across layers and demanding business logic throughout services etc.
 
 ## Layered Architecture
 
