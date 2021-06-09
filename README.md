@@ -17,7 +17,7 @@ Considering layered architecture the question arises how to organize layers in S
 
 Our layered architecture consists at least of the following conceptual layers:
 
-**» Horizontal cut**<br/> Cutting the domain into modules...
+**» Horizontal cut**<br/> Cutting the application into layers...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_hc.PNG)
 
@@ -33,12 +33,12 @@ Our layered architecture consists at least of the following conceptual layers:
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
 
-**» Vertical Cut**<br/> Cutting the domain into features...
+**» Vertical Cut**<br/> Cutting the application into features...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_vc.PNG)
 
 
-**» Cross Cut**<br/> Cutting the domain into modules...
+**» Cross Cut**<br/> Cutting the application into modules...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
 
