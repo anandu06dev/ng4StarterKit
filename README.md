@@ -17,7 +17,7 @@ Considering layered architecture the question arises how to organize layers in S
 
 Our layered architecture consists at least of the following conceptual layers:
 
-**» Horizontal cut**<br/>
+**» Horizontal cut**<br/> Cutting the domain into modules...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_hc.PNG)
 
