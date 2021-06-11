@@ -43,7 +43,7 @@ Our layered architecture consists of the following conceptual layers:
 
 **» Applying DDD to Angular**<br/>
 
-Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application logic. At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. When application services carry out full business use cases, it is a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services / use cases from the rest of the application. 
+Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application logic. At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need application or domain services? When application services carry out full business use cases, it is a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services (use cases) from the rest of the application. 
 
 ## Object-Oriented Design
 
@@ -51,7 +51,7 @@ Domain-Driven Design does not dictate an application architecture. It demands th
 
 In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the DIP (Dependency Inversion Principle), we ensure that layers depend on abstraction (Interfaces) as opposed to depending on concretion (Classes). 
 
-For example, we **provide the domain layer as an abstraction by using (generic) interfaces**.
+For example, we **provide the domain layer as an abstraction by using (generic) interfaces / type aliases**.
 
 **» Applying cross-cutting concerns**<br/>
 
