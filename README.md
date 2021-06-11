@@ -63,8 +63,8 @@ Angular's design strategies such as modules, services, entities, controllers etc
 
 ## Modules
 
-It's important to maintain a clear module composition and modularize code into reusable blocks. A common practices in organising Angular applications is to sperate modules in three different types (1) core-,  (2) feature- and (3) shared  modules. The **core module** shares it's generic content application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The root module may have an unlimited amount of feature modules. 
-That is, the entry point is the **root module**. 
+It's important to maintain a clear module composition and modularize code into reusable blocks. A common practice in organising Angular applications, is to sperate modules into three different types (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's generic content application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The **root module** may have an unlimited amount of feature modules. 
+That is, the entry point is the root module. 
 
 Angular's module system allows us to pack our domain mesh into a feature-driven distribution context.  
 
