@@ -1,5 +1,5 @@
 # Introduction
-An introduction to build large-scale web applications with Angular.
+An introduction to build enterprise web applications with Angular.
 
 # Application Architecture 
 
@@ -15,7 +15,7 @@ Considering layered architecture the question arises how to organize layers in S
 
 ## Layered Architecture
 
-Our layered architecture consists at least of the following conceptual layers:
+Our layered architecture consists of the following conceptual layers:
 
 **» Horizontal cut**<br/> Cutting the application into layers...
 
@@ -33,16 +33,15 @@ Our layered architecture consists at least of the following conceptual layers:
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
 
-**» Vertical cut**<br/> Cutting the application into features...
+**» Vertical cut**<br/> Cutting the application into features / use cases...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_vc.PNG)
-
 
 **» Cross cut**<br/> Cutting the application into modules...
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
 
-**» Applying layers to Angular**<br/>
+**» Applying DDD to Angular**<br/>
 
 Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application logic. At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. When application services carry out full business use cases, it is a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services / use cases from the rest of the application. 
 
@@ -60,14 +59,14 @@ The infrastructure layer includes cross-cutting concerns such as logging, cachin
 
 # Angular strategies
 
-Angular serves up design strategies such as modules, services, entities, controllers which helps to support principles of Domain-Driven Design.
+Angular's design strategies such as modules, services, entities, controllers etc. helps us to support principles of Domain-Driven Design.
 
 ## Modules
 
-It is important to maintain a clear module composition and modularize code into reusable blocks. The application may contain multiple modules of different types, that is, 
-the entry point is the root module. While feature modules encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The root module may have an unlimited amount of feature modules. The **core module** shares its content application wide as singletons. 
+It's important to maintain a clear module composition and modularize code into reusable blocks. A common practices in organising Angular applications is to sperate modules in three different types (1) core-,  (2) feature- and (3) shared  modules. The **core module** shares it's generic content application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The root module may have an unlimited amount of feature modules. 
+That is, the entry point is the **root module**. 
 
-Angular's module system allows us to pack a feature driven domain mesh into distribution context.  
+Angular's module system allows us to pack our domain mesh into a feature-driven distribution context.  
 
 **» Module Organisation**<br/>
 
