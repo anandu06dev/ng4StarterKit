@@ -11,11 +11,11 @@ The building blocks of Angular already provides us with code organisation strate
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
-Considering layered architecture the question arises how to organize layers in SPA applications? This question relates to code organization, communication across layers and demanding business logic throughout services etc.
+Considering multilayered architecture the question arises of how to organize layers in SPA applications? This question relates to code splitting, communication across layers and demanding business logic throughout services etc.
 
 ## Layered Architecture
 
-Our layered architecture consists of the following conceptual layers:
+Our multilayered architecture consists of the following conceptual layers:
 
 **» Horizontal cut**<br/> Cutting the application into layers...
 
@@ -43,7 +43,10 @@ Our layered architecture consists of the following conceptual layers:
 
 **» Applying DDD to Angular**<br/>
 
-Domain-Driven Design does not dictate an application architecture. It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application logic. At best the domain layer is self-contained to evolve independently. It is arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need application or domain services? When application services carry out full business use cases, it is a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services (use cases) from the rest of the application. 
+Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application. At best the domain layer is self-contained to evolve independently. It's arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns such as factories, aggregates, domain events, application or domain services etc.
+in the frontend design system? As a consequence, many developers tend to lean toward weaker architecture designs. For most web applications MVC or Flux may be more appropriate. 
+
+When application services carry out full business use cases it's a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services from the rest of the application. 
 
 ## Object-Oriented Design
 
