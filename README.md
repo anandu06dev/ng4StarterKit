@@ -101,6 +101,9 @@ illustrates the interaction between the bounded context pattern and feature modu
 -   To use existing services across feature modules **and** the root module, define `.forRoot()` and `.forChild()` as static methods in the module class definition. 
 This is common for libraries that require a single service instance. The RouterModule is an example for this use case.
 
+**» Scaffolding**<br/>
+
+
 ## Services
 Services are elementary constructs in Angular. Most of the functionality that does not belong in a component will be added to a service. 
 Technically services are just plain TypeScript classes with business functionality. We focus on the service layers of Domain-Driven Design 
@@ -112,6 +115,9 @@ successfully we must adhere to a few basic guidelines:
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Module.PNG)
 
 **» Service notes on modules**<br/>
+
+@TODO [text]
+@TODO [image]
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
 -	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
