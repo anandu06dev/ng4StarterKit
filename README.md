@@ -83,11 +83,10 @@ Angular's module system allows us to pack our domain mesh into a feature-driven 
 
 **» Bounded Context**<br/>
 
-The bounded context pattern in Domain-Driven Design defines areas in a domain model and decomposes a domain within a domain. 
-In a service-based environment a bounded context marks the boundaries of a service. Similar to feature modules in Angular we 
-structure code into a domain context. Feature modules are reusable units and comply with the **micro frontend** pattern. In Domain-Driven 
-Design these blocks are considered areas of a domain model. Applying the bounded context to feature modules allows us to structure modules 
-in a domain driven context. The following meta model shows the interaction between the bounded context and feature modules:
+The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
+In a service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
+Applying the bounded context pattern to feature modules allows us to structure modules by a domain-driven approach. The following meta model 
+illustrates the interaction between the bounded context pattern and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
