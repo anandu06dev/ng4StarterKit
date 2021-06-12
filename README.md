@@ -44,7 +44,7 @@ Our multilayered architecture consists of the following conceptual layers:
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns of the application. At best the domain layer is self-contained to evolve independently. It's arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns such as factories, aggregates, domain events, application or domain services etc.
-in the frontend design system? As a consequence, many developers tend to lean toward weaker architecture patterns. For most web applications MVC or Flux may be more appropriate. 
+in the frontend design system? Often a Data-Driven approach is sufficient enough. As a consequence, many developers tend to lean toward weaker architecture patterns. For most web applications MVC or Flux may be more appropriate. 
 
 When application services carry out full business use cases it's a good idea to put business use cases with simple logic into UI controllers. However, we don't want to hide our application services from the rest of the application. 
 
@@ -66,10 +66,10 @@ Angular's design strategies such as modules, services, entities, controllers etc
 
 ## Modules
 
-It's important to maintain a clear module composition and modularize code into reusable blocks. A common practice in organising Angular modules is to classify them into three different types (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's generic content application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The **root module** may have an unlimited amount of feature modules. 
+It's important to maintain a clear module composition and split code into reusable blocks. A common practice in organising Angular modules is to classify them into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The **root module** may have an unlimited amount of feature modules. 
 That is, the entry point is the root module. 
 
-Angular's module system allows us to pack our domain mesh into a feature-driven distribution context.  
+Angular's module system allows us to pack our domain mesh into a feature-driven design context.  
 
 **» Module Organisation**<br/>
 
