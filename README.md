@@ -90,7 +90,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
-**» Module Guidelines**<br/>
+**» Module practices**<br/>
 
 -	Every component, directive and pipe must belong to **one** and **only one** module.
 -	**Never** re-declare these elements in another module.
@@ -116,7 +116,7 @@ successfully we must adhere to a few basic guidelines:
 **» Services shared through the module providers array**<br/><br/>
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Module.PNG)
 
-**» Service notes on modules**<br/>
+**» Service practices on modules**<br/>
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
 -	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
@@ -126,7 +126,7 @@ successfully we must adhere to a few basic guidelines:
 **» Services shared through the component providers array**<br/><br/>
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Component.PNG)
 
-**» Service notes on components**<br/>
+**» Service practices on components**<br/>
 
 -	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
@@ -141,7 +141,7 @@ data in private or even public variables may cause various issues. If we share s
 to prevent stale data. If there is no shared state, it is a good idea to simply use a DAS (Data Access Service) and store temporary data as members of the component class.
 What affects the service API design at most is the amount of data fetched from the server and reactive state management.
 
-## Model Pattern  
+## Data Model Pattern  
 
 The model of the MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
 It stores the domain knowledge or business logic. The model of the MVC pattern is equal to a Repository plus Entity. There is no uniform variant of a model. 
