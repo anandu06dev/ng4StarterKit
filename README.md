@@ -103,6 +103,8 @@ This is common for libraries that require a single service instance. The RouterM
 
 **» Scaffolding**<br/>
 
+@TODO [text]
+@TODO [image]
 
 ## Services
 Services are elementary constructs in Angular. Most of the functionality that does not belong in a component will be added to a service. 
@@ -115,9 +117,6 @@ successfully we must adhere to a few basic guidelines:
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Module.PNG)
 
 **» Service notes on modules**<br/>
-
-@TODO [text]
-@TODO [image]
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
 -	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
