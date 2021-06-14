@@ -47,7 +47,7 @@ Domain-Driven Design doesn't dictate an application architecture! It demands tha
 
 It's arguable whether additional granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these patterns such as factories, aggregates, domain events, domain services etc. in the frontend design system? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler Data-Driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. 
 
-When application services carry out full business use cases it's a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our application services from the rest of the application. Considering using business services only for structural and behavioral modeling while creating domain models that remain pure value containers and can't protect their invariants is a common bad practice in most Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
+When application services carry out full business use cases it's a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while creating domain models that remain pure value containers and can't protect their invariants is a common bad practice in most Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
 
 ## Object-Oriented Design
@@ -145,7 +145,7 @@ What affects the service API design at most is the amount of data fetched from t
 
 ## Data Model Pattern  
 
-The model of the MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
+The model in the traditional MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
 It stores the domain knowledge or business logic. The model of the MVC pattern is equal to a Repository plus Entity. There is no uniform variant of a model. 
 Various patterns are available for different use cases. It is therefore advisable **not to use one pattern for everything**.
   
@@ -220,8 +220,8 @@ Let's have a look at an example of how to map the server response schema:
 read(): Observable<Customers[]> {
     return this.http.get<Customers[]>("/api/customers")
         pipe(
-            map((customers: Array<unknown>) => {
-                let result: Array<Customers> = [];
+            map((customers: Customer[]) => {
+                let result: Customer[] = [];
                 customers.forEach((customer) => {
                     result = [new Customer(customer.firstName, customer.lastName), ...result];
                 });
