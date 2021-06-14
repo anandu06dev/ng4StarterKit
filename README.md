@@ -73,7 +73,7 @@ That is, the entry point is the root module.
 
 Angular's module system allows us to pack our domain mesh into a feature-driven design context.  
 
-**» Module Organisation**<br/>
+**» Module architecture**<br/>
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/module_arch.PNG)
 
@@ -83,7 +83,7 @@ Angular's module system allows us to pack our domain mesh into a feature-driven 
 `Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
 `Feature modules`: Custom modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
-**» Bounded Context**<br/>
+**» Bounded context**<br/>
 
 The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
 In a service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
