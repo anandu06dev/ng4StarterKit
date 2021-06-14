@@ -109,7 +109,7 @@ This is common for libraries that require a single service instance. The RouterM
 @TODO [image]
 
 ## Services
-Services are elementary constructs in Angular. Most of the functionality that does not belong in a component will be added to a service. 
+Services are elementary artifacts in Angular. Most of the functionality that does not belong in a component will be added to a service. 
 Technically services are just plain TypeScript classes with business functionality. We focus on the service layers of Domain-Driven Design 
 which comprises application-, domain- and infrastructure services. Angular provides a dependency injection mechanism for instantiating and bootstrapping 
 the required dependencies. The constructor injection pattern is the one enforced by Angular. If we want to organize scope and lifetime 
