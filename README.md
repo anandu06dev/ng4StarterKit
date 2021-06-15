@@ -44,7 +44,7 @@ Our multilayered architecture consists of the following conceptual layers:
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
-of the application. At best the domain layer is self-contained to evolve independently and we focus on abstracting the high-level business use cases of the application.
+of the application. At best the domain layer is self-contained to evolve independently. In addition, we focus on abstracting the high-level business use cases of the application.
 
 It's debatable whether more granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these patterns such as factories, aggregates, domain events, repositories, domain services etc. in the frontend design system? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler Data-Driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. 
 
