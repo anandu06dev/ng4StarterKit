@@ -69,10 +69,10 @@ Angular's design strategies such as modules, services, entities, controllers etc
 
 ## Modules
 
-It's important to maintain a clear module composition and split code into reusable blocks. A common practice in organising Angular modules is to classify them into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused. The **root module** may have an unlimited amount of feature modules. 
+It's important to maintain a clear module composition and split code into reusable blocks. A common practice in organising Angular modules is to classify them into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content (services) application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may have an unlimited amount of feature modules. 
 That is, the entry point is the root module. 
 
-Angular's module system allows us to pack our domain mesh into a feature-driven design context.  
+Angular's module system allows us to pack our domain mesh into a domain-driven design context.  
 
 **» Module architecture**<br/>
 
@@ -97,12 +97,10 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 -	Every component, directive and pipe must belong to **one** and **only one** module.
 -	**Never** re-declare these elements in another module.
--	Except services, module contents are private by default. Use `exports` to manage visibility of private elements.
--   **Do not** share contents of a feature module, instead add reusable elements to a shared module.
--   **Do not** import shared modules into the root module or core module.
--   **Do not** import the core module more than once. Apply service hooks in the constructor `constructor(@Optional() @SkipSelf() ...)` to prevent multiple instances.
--   To use existing services across feature modules **and** the root module, define `.forRoot()` and `.forChild()` as static methods in the module class definition. 
-This is common for libraries that require a single service instance. The RouterModule is an example for this use case.
+-	Except services, module contents are private by default and transitive dependencies aren't visible. Use `exports` to manage visibility of private elements.
+-   **Do not** share contents of a feature module, instead add reusable elements to a shared module
+-   **Do not** import shared modules into the root module or core module
+-   **Do not** import the core module more than once. Use dependency lookup hooks to prevent multiple instances of the core module
 
 **» Scaffolding**<br/>
 
