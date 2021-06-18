@@ -44,12 +44,11 @@ Our multilayered architecture consists of the following conceptual layers:
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
-of the application. At best the domain layer is self-contained to evolve independently. In addition, we focus on abstracting the high-level business use cases of the application.
+of the application. At best the domain layer is self-contained to evolve independently. In addition, we focus on abstracting business use cases of the application.
 
-It's debatable whether more granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these patterns such as factories, aggregates, domain events, repositories, domain services etc. in the frontend design system? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler Data-Driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. 
+It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns such as factories, aggregates, domain events, repositories, domain services etc. in the frontend design system? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler Data-Driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. 
 
-When application services carry out full business use cases it's a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while creating domain models that remain pure value containers and can't protect their invariants is a common bad practice in most Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
-
+When application services carry out full business use cases it's a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in most Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
 ## Object-Oriented Design
 
