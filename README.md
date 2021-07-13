@@ -109,9 +109,9 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 ## Services
 Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services. 
-We focus on the service strategy of Domain-Driven Design which knows application-, domain- and infrastructure services. 
+Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design patterns, which knows application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of Data-Access Services.
 
-If we want to coordinate scope and lifetime successfully we must adhere to a few basic guidelines:
+If we want to coordinate scope and lifetime successfully we must adhere to best practices:
 
 **» Services shared through the module providers array**<br/><br/>
 
