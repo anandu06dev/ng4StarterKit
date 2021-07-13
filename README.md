@@ -108,15 +108,12 @@ illustrates the interaction between the bounded context pattern and feature modu
 @TODO [image]
 
 ## Services
-Singleton services are elementary strategies in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to a service. 
+Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services. 
 We focus on the service strategy of Domain-Driven Design which knows application-, domain- and infrastructure services. 
 
 If we want to coordinate scope and lifetime successfully we must adhere to a few basic guidelines:
 
 **» Services shared through the module providers array**<br/><br/>
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Module.PNG)
-
-**» Service practices on modules**<br/>
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
 -	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
@@ -124,13 +121,10 @@ If we want to coordinate scope and lifetime successfully we must adhere to a few
 -	For lazy loaded services a different approach must be adopted. (Please see official documentation)
 
 **» Services shared through the component providers array**<br/><br/>
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Component.PNG)
-
-**» Service practices on components**<br/>
 
 -	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
--   Use service hook decorators such as `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
+- Use service hook decorators such as `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
 
 **» Service API design**<br/>
 
