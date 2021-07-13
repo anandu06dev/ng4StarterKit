@@ -7,7 +7,7 @@ Angular embraces patterns, principles and practices of enterprise software devel
 
 ## Frontend coupled to OOD, DDD and CQRS
 
-The building blocks of Angular already provides us with code organisation strategies for frontend architecture. Nevertheless, to obtain a better level of abstraction we will pass Angular's Data-Driven mindset and consider higher-level strategies like Domain-Driven Design and CQRS:
+The building blocks of Angular already provides us with code organisation strategies for frontend architecture. Nevertheless, to obtain a better level of abstraction we will bypass Angular's Data-Driven mindset and consider higher-level strategies like Domain-Driven Design and CQRS:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
@@ -29,6 +29,7 @@ Our multilayered architecture consists of the following conceptual layers:
 
 *» Service layers* <br/>
 
+- Stateful UI services coordinate UI/UX logic and state that does not change the domain state
 - Stateless application services carry out full business use cases and are procedural 
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
@@ -48,7 +49,7 @@ of the application. At best the domain layer is self-contained to evolve indepen
 
 When application services carry out full business use cases it's a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in most Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
-It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns such as factories, aggregates, domain events, repositories, domain services etc. in the frontend design system? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler Data-Driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. 
+It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler Data-Driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using these concepts we must evaluate requirements and the code base!
 
 ## Object-Oriented Design
 
@@ -107,11 +108,10 @@ illustrates the interaction between the bounded context pattern and feature modu
 @TODO [image]
 
 ## Services
-Services are elementary artifacts in Angular. Most of the functionality that does not belong in a component will be added to a service. 
-Technically services are just plain TypeScript classes with business functionality. We focus on the service layers of Domain-Driven Design 
-which comprises application-, domain- and infrastructure services. Angular provides a dependency injection mechanism for instantiating and bootstrapping 
-the required dependencies. The constructor injection pattern is the one enforced by Angular. If we want to organize scope and lifetime 
-successfully we must adhere to a few basic guidelines:
+Singleton services are elementary strategies in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to a service. 
+We focus on the service strategy of Domain-Driven Design which knows application-, domain- and infrastructure services. 
+
+If we want to coordinate scope and lifetime successfully we must adhere to a few basic guidelines:
 
 **» Services shared through the module providers array**<br/><br/>
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/DI_Module.PNG)
