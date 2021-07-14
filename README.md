@@ -109,18 +109,18 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 ## Services
 Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services. 
-Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design patterns, which knows application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of Data-Access Services.
+Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of Data Access or State Management Services.
 
-If we want to coordinate scope and lifetime successfully we must adhere to best practices:
+If we want to coordinate scope and lifetime successfully we must adhere to a few best practices:
 
-**» Services shared through the module providers array**<br/><br/>
+**» Services shared through the module providers array**<br/>
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
 -	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
 -   Services must be registered at the root of the application, making them available to other services and associations (ServiceX uses ServiceY).
 -	For lazy loaded services a different approach must be adopted. (Please see official documentation)
 
-**» Services shared through the component providers array**<br/><br/>
+**» Services shared through the component providers array**<br/>
 
 -	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
