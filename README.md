@@ -7,7 +7,7 @@ Angular embraces patterns, principles and practices of enterprise software devel
 
 ## Frontend coupled to OOD, DDD and CQRS
 
-The building blocks of Angular already provides us with code organisation strategies for frontend architecture. Nevertheless, to obtain a better level of abstraction we will bypass Angular's Data-Driven mindset and consider higher-level strategies like Domain-Driven Design and CQRS:
+The building blocks of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a higher level of abstraction we will bypass Angular's Data-Driven mindset and consider strategies like Domain-Driven Design and CQRS:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
@@ -72,7 +72,7 @@ Angular's design strategies such as modules, services, entities, controllers etc
 It's important to maintain a clear module composition and split code into reusable blocks. A common practice in organising Angular modules is to classify them into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content (services) application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may have an unlimited amount of feature modules. 
 That is, the entry point is the root module. 
 
-Angular's module system allows us to pack our domain mesh into a domain-driven design context.  
+Angular's module system allows us to pack our domain mesh into a DDD context.  
 
 **» Module architecture**<br/>
 
@@ -109,7 +109,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 ## Services
 Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services! 
-Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every developer Angular abides by.
+Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every Angular developer abides by.
 
 If we want to coordinate scope and lifetime of a service successfully we must adhere to a few practices:
 
@@ -126,11 +126,11 @@ If we want to coordinate scope and lifetime of a service successfully we must ad
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
 - Use service hook decorators such as `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
 
-**» Service layers**<br/>
+**» Services, Services & Services...**<br/>
 
-In Angular services encapsulate business functionality and manage the shared state. The service API design correlates much on the shared context! 
+As previously mentioned services encapsulate business functionality and manage shared state. The service API design correlates much with the shared context! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from this status quo and use reactive repositories instead**. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write synchronization. 
+**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference. It's just a matter of taxonomy. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
