@@ -144,9 +144,9 @@ It stores the domain knowledge or business logic and is very similar to the Repo
 Angular promotes two types of models:
 
 - `View Model`: This object represents data required by a view. It does not represent a real world object.
-- `Domain Model`: This object represents data and logic related to the business domain. It represents a real world object.  
+- `Domain Model`: This object represents data and logic related to the business domain.  
 
-The view model and domain model may have different schemas to keep the domain model agnostic of view layer concerns.
+The view model and domain model may have different schemas to hold the domain model agnostic of view.
 
 **» Implementation patterns**<br/>
 
@@ -189,7 +189,7 @@ In the second example it becomes clear that domain logic is loosely coupled from
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither domain state nor business logic should be implemented in the UI controller**.
 
-By implementing a rich domain model on the client-side, we ensure that business behavior works, even without internet connection. With higher functional ability in rich domain models, we must take the translater or mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
+By implementing a rich domain model on the client-side, we ensure that business behavior works, even without internet connection. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
 
