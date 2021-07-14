@@ -1,13 +1,13 @@
 # Introduction
 An introduction to build enterprise web applications with Angular.
 
-# Application Architecture 
+# Application architecture 
 
 Angular embraces patterns, principles and practices of enterprise software development. Applying Object-Oriented Design, Domain-Driven Design or Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries. We separate business logic into layers with different concerns and vest with single responsibility.
 
 ## Frontend coupled to OOD, DDD and CQRS
 
-The building blocks of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a higher level of abstraction we will bypass Angular's Data-Driven mindset and consider strategies like Domain-Driven Design and CQRS:
+The building blocks of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a higher level of abstraction we will bypass Angular's data-driven mindset and consider strategies like Domain-Driven Design and CQRS:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
@@ -49,7 +49,7 @@ of the application. At best the domain layer is self-contained to evolve indepen
 
 When application services carry out full business use cases it's a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in most Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
-It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler Data-Driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using these concepts we must evaluate requirements and the code base!
+It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using these concepts we must evaluate incoming requirements and the code base!
 
 ## Object-Oriented Design
 
@@ -72,7 +72,7 @@ Angular's design strategies such as modules, services, entities, controllers etc
 It's important to maintain a clear module composition and split code into reusable blocks. A common practice in organising Angular modules is to classify them into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content (services) application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may have an unlimited amount of feature modules. 
 That is, the entry point is the root module. 
 
-Angular's module system allows us to pack our domain mesh into a DDD context.  
+Angular's module system allows us to pack our domain mesh into a DDD context:  
 
 **» Module architecture**<br/>
 
@@ -102,14 +102,14 @@ illustrates the interaction between the bounded context pattern and feature modu
 -   **Do not** import shared modules into the root module or core module
 -   **Do not** import the core module more than once. Use dependency lookup hooks to prevent multiple instances of the core module
 
-**» Project Scaffolding**<br/>
+**» Project scaffolding**<br/>
 
 @TODO [text]
 @TODO [image]
 
 ## Services
 Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services! 
-Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every Angular developer abides by.
+Nevertheless, we will taxonomize our code base in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every Angular developer abides by.
 
 If we want to coordinate scope and lifetime of a service successfully we must adhere to a few practices:
 
@@ -130,7 +130,7 @@ If we want to coordinate scope and lifetime of a service successfully we must ad
 
 As previously mentioned services encapsulate business functionality and manage shared state. The service API design correlates much with the shared context! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference. It's just a matter of taxonomy. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex User Interfaces by introducing a repository abstraction for form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write side. 
+**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of abstraction and semantics. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
