@@ -102,16 +102,16 @@ illustrates the interaction between the bounded context pattern and feature modu
 -   **Do not** import shared modules into the root module or core module
 -   **Do not** import the core module more than once. Use dependency lookup hooks to prevent multiple instances of the core module
 
-**» Scaffolding**<br/>
+**» Project Scaffolding**<br/>
 
 @TODO [text]
 @TODO [image]
 
 ## Services
-Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services. 
-Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of Data Access or State Management Services.
+Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services! 
+Nevertheless, we will taxonomize our code basis in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every developer Angular abides by.
 
-If we want to coordinate scope and lifetime successfully we must adhere to a few best practices:
+If we want to coordinate scope and lifetime of a service successfully we must adhere to a few practices:
 
 **» Services shared through the module providers array**<br/>
 
@@ -126,14 +126,17 @@ If we want to coordinate scope and lifetime successfully we must adhere to a few
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
 - Use service hook decorators such as `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
 
-**» Service API design**<br/>
+**» Service layers**<br/>
 
-Services encapsulate business functionality and manage the shared state. The service API design depends much on the shared state! 
-We relate to stateful services if we need to share data across components. Normally, simple services in Angular processes HTTP API calls that include CRUD operations. 
+In Angular services encapsulate business functionality and manage the shared state. The service API design correlates much on the shared context! 
+We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
+**We will depart from this status quo and use reactive repositories instead**. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write synchronization. 
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
+
 **A great service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
 data in private or even public variables may cause various issues. If we share services with other components, we must keep track of changes by applying reactive techniques 
 to prevent stale data. If there is no shared state, it is a good idea to simply use a DAS (Data Access Service) and store temporary data as members of the component class.
-What affects the service API design at most is the amount of data fetched from the server and reactive state management.
 
 ## Data Model Pattern  
 
