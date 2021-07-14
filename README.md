@@ -130,13 +130,11 @@ If we want to coordinate scope and lifetime of a service successfully we must ad
 
 As previously mentioned services encapsulate business functionality and manage shared state. The service API design correlates much with the shared context! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference. It's just a matter of taxonomy. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write side. 
+**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference. It's just a matter of taxonomy. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex User Interfaces by introducing a repository abstraction for form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-**A great service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. Stateful services that store temporary 
-data in private or even public variables may cause various issues. If we share services with other components, we must keep track of changes by applying reactive techniques 
-to prevent stale data. If there is no shared state, it is a good idea to simply use a DAS (Data Access Service) and store temporary data as members of the component class.
+**A good service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With this reactive approach we can ensure that there will be no "eventual consistency". If there is no shared state, it is worth considering to simply use a Data Access Service and store temporary data as members in the component class.
 
 ## Data Model Pattern  
 
