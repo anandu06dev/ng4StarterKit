@@ -128,36 +128,33 @@ If we want to coordinate scope and lifetime of a service successfully we must ad
 
 **» Services, Services & Services...**<br/>
 
-As previously mentioned services encapsulate business functionality and manage shared state. The service API design correlates much with the shared context! 
+As previously stated, services encapsulate business functionality and manage shared state. The service API design correlates much with the "shared context"! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
 **We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-**A good service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With this reactive approach we can ensure that there will be no "eventual consistency". If there is no shared state, it is worth considering to simply use a Data Access Service and store temporary data as members in the component class.
+**A good service API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data-handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With this reactive approach we can ensure that there will be no "eventual consistency". If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
 
-## Data Model Pattern  
+## Data model pattern  
 
-The model in the traditional MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
-It stores the domain knowledge or business logic. The model of the MVC pattern is equal to a Repository plus Entity. There is no uniform variant of a model. 
-Various patterns are available for different use cases. It is therefore advisable **not to use one pattern for everything**.
+The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
+It stores the domain knowledge or business logic and is very similar to the Repository pattern! The differences between the various patterns come down to the context and abstraction of the value container: Data Model (MVC), Resource Model (REST), Domain Model (DDD), Class (UML), Entity (ERM), View Model (UX) and so forth. 
   
 Angular promotes two types of models:
 
 - `View Model`: This object represents data required by a view. It does not represent a real world object.
 - `Domain Model`: This object represents data and logic related to the business domain. It represents a real world object.  
 
-The view model and domain model may possess different schemas to keep the domain model agnostic of the view layer.
+The view model and domain model may have different schemas to keep the domain model agnostic of view layer concerns.
 
 **» Implementation patterns**<br/>
 
 - Anemic Domain Model
 - Rich Domain Model
 
-The anemic domain model is quite often used in CRUD-based web applications as data container, conform to RESTful practices. The anemic domain model, however, is considered an 
-anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods and introduces a tight coupling with the UI controller. It thus follows 
-that the rich domain model is a more suitable candidate for most model cases. When including a rich domain model representation in the UI controller, the **domain logic will not 
-be spread across different layers multiple times**. 
+The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
+anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By including the rich domain model representation in the UI controller, we prevent the **domain logic to be spread across different layers multiple times**. The following example shows the negative side effects when using anemic domain models. Business logic is implemented in the UI controller: 
 
 *»  Effects of anemic models* <br/> 
 ```
@@ -173,8 +170,7 @@ be spread across different layers multiple times**.
 }
 ```
 
-This example illustrates the negative effect of using anemic domain models. Domain logic has to be implemented in the UI controller to calculate a rise in salary. 
-A rich domain model instead hides these implementation details:
+A rich domain model instead hides and encapsulates the implementation details:
 
 *»  Effects of rich models*<br/>
 ```
@@ -191,10 +187,9 @@ A rich domain model instead hides these implementation details:
 ```
 In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
-**Neither state nor business logic should be declared in the UI controller**.
+**Neither domain state nor business logic should be implemented in the UI controller**.
 
-By implementing a rich domain model on the client-side, we ensure that business behavior works, even without internet connection. With higher functional ability in rich domain models, we must
-take the mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
+By implementing a rich domain model on the client-side, we ensure that business behavior works, even without internet connection. With higher functional ability in rich domain models, we must take the translater or mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
 
@@ -213,7 +208,7 @@ Let's have a look at an example of how to map the server response schema:
 read(): Observable<Customers[]> {
     return this.http.get<Customers[]>("/api/customers")
         pipe(
-            map((customers: Customer[]) => {
+            map((customers: Customer[]) : Customer[] => {
                 let result: Customer[] = [];
                 customers.forEach((customer) => {
                     result = [new Customer(customer.firstName, customer.lastName), ...result];
@@ -225,9 +220,7 @@ read(): Observable<Customers[]> {
 };
 ```
 
-The data mapper logic can be implemented in different components such as data access services, repositories, factories or 
-even required by an abstract instance loader class. However in CQRS we manage the mapping of data queries from/to DTOs in 
-dedicated command/query objects in the application layer in favor of an application service.
+The Translater/Mapper Pattern is used by the Repository to ensure well-formed Domain Models.
 
 **» REST, HATEOAS and the Data Mapper**<br/>
 
