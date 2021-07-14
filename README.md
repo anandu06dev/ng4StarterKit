@@ -117,20 +117,20 @@ If we want to coordinate scope and lifetime of a service successfully we must ad
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
 -	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
--   Services must be registered at the root of the application, making them available to other services and associations (ServiceX uses ServiceY).
--	For lazy loaded services a different approach must be adopted. (Please see official documentation)
+- Services must be registered at the root of the application, making them available to other services.
+-	For lazy loaded services a different approach must be adopted. (*Please see official documentation*)
 
 **» Services shared through the component providers array**<br/>
 
 -	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
-- Use service hook decorators such as `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
+- Use dependency lookup hook decorators `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
 
 **» Services, Services & Services...**<br/>
 
 As previously mentioned services encapsulate business functionality and manage shared state. The service API design correlates much with the shared context! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of abstraction and semantics. We will also combine the CQRS design pattern with the repository pattern to handle the heave-lift when building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many tools and operators to handle the "projection process" between the read/write side. 
+**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
