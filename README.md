@@ -13,7 +13,7 @@ The building blocks of Angular already provides us with code organisation strate
 
 Considering multilayered architecture the question arises of how to organize layers in SPA applications? This question relates to code splitting, communication across layers and demanding business logic throughout services etc.
 
-## Layered Architecture
+## Layered architecture
 
 Our multilayered architecture consists of the following conceptual layers:
 
@@ -65,14 +65,14 @@ The infrastructure layer includes cross-cutting concerns such as logging, cachin
 
 # Angular strategies
 
-Angular's design strategies such as modules, services, entities, controllers etc. helps us to support principles of Domain-Driven Design.
+Angular's design strategies such as modules, services, controllers etc. assists us to comply with DDD principles.
 
 ## Modules
 
-It's important to maintain a clear module composition and split code into reusable blocks. A common practice in organising Angular modules is to classify them into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content (services) application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may have an unlimited amount of feature modules. 
+It is mandatory to maintain a clear module structure and split code into reusable blocks. It is a common practice Angular is to classify modules into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content (services) application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. 
 That is, the entry point is the root module. 
 
-Angular's module system allows us to pack our domain mesh into a DDD context:  
+Angular's module system gives a clean design response:  
 
 **» Module architecture**<br/>
 
@@ -93,7 +93,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
-**» Module practices**<br/>
+**» Roadmap for modules**<br/>
 
 -	Every component, directive and pipe must belong to **one** and **only one** module.
 -	**Never** re-declare these elements in another module.
@@ -111,7 +111,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services! 
 Nevertheless, we will taxonomize our code base in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every Angular developer abides by.
 
-If we want to coordinate scope and lifetime of a service successfully we must adhere to a few practices:
+If we want to coordinate scope and lifetime of services successfully we must adhere to a few guidelines:
 
 **» Services shared through the module providers array**<br/>
 
@@ -126,15 +126,31 @@ If we want to coordinate scope and lifetime of a service successfully we must ad
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
 - Use dependency lookup hook decorators `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
 
-**» Services, Services & Services...**<br/>
+**» Services vs. Repositories**<br/>
 
 As previously stated, services encapsulate business functionality and manage shared state. The service API design correlates much with the "shared context"! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from this status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
+**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
 **A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With a reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
+
+**» Why CQRS in the frontend?**<br/>
+ 
+With traditional CRUD-based web applications, conform to the REST architectural style, we comply with the CQS (Command-Query-Separation) pattern 
+and the conditions of command and query separation as methods within an entity, whereas, the CQRS (Command-Query-Responsibility-Segregation) pattern
+defines commands and queries on different entities (read/write model). 
+
+**If the Web API layer does not provide a CQRS-based interface, we must be prepared on the client-side to
+counteract successfully by defining additional layers of abstraction**. In conjunction with CQS and REST, additional patterns should be applied:
+ 
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
+ 
+After mapping the response schema to the domain model, we are able to build arbitrary view models from the domain model.
+An domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
+on invariants and use cases rather than view layer concerns. The adapter or assembler pattern enables two incompatible models to 
+work together and can be implemented in the UI controller or an application service.
 
 ## Data model pattern  
 
@@ -189,7 +205,7 @@ In the second example it becomes clear that domain logic is loosely coupled from
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither domain state nor business logic should be implemented in the UI controller**.
 
-By implementing a rich domain model on the client-side, we ensure that business behavior works, even without internet connection. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa may be unnecessary if the model and server storage schema match.
+By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
 
@@ -220,7 +236,7 @@ read(): Observable<Customers[]> {
 };
 ```
 
-The Translater/Mapper Pattern is used by the Repository to ensure well-formed Domain Models.
+The Translater/Mapper Pattern is used by the Repository to ensure the right model schema.
 
 **» REST, HATEOAS and the Data Mapper**<br/>
 
@@ -237,19 +253,6 @@ links to a domain model. Many additional requests may be required; in the worst 
 dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
 HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
 
-**» CQS vs. CQRS**<br/>
- 
-With traditional CRUD-based web applications, conform to the REST architectural style, we comply with the CQS (Command-Query-Separation) pattern 
-and the conditions of command and query separation as methods within an entity, whereas, the CQRS (Command-Query-Responsibility-Segregation) pattern
-defines commands and queries on different entities (read/write model). **If the Web API layer does not provide a CQRS-based interface, we must be prepared on the client-side to
-counteract successfully by defining additional layers of abstraction**. In conjunction with CQS and REST, additional patterns should be applied:
- 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
- 
-After mapping the response schema to the domain model, we are able to build arbitrary view models from the domain model.
-An domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
-on invariants and use cases rather than view layer concerns. The adapter or assembler pattern enables two incompatible models to 
-work together and can be implemented in the UI controller or an application service.
 
 **» CQRS in Angular**<br/>
  
