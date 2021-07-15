@@ -138,19 +138,61 @@ We normally relate to stateful services if we need to share data across componen
 
 **» Why CQRS in the frontend?**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we comply with the CQS (Command-Query-Separation) pattern 
-and the conditions of command and query separation as methods within an entity, whereas, the CQRS (Command-Query-Responsibility-Segregation) pattern
-defines commands and queries on different entities (read/write model). 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resource to build a complex view model. Often RESTful APIs are very strict resource controlled. In addition, the database table schema matches the response schema. Even in the case of advanced Web APIs (UC or UX Driven) it is very likely to happen that we must create and stitch together view models in the frontend. 
 
-**If the Web API layer does not provide a CQRS-based interface, we must be prepared on the client-side to
-counteract successfully by defining additional layers of abstraction**. In conjunction with CQS and REST, additional patterns should be applied:
+**If the Web API layer does not provide an interface (storage schema) that matches with the view models, we must prepare the client by defining additional abstraction layers.**. 
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the response schema to the domain model, we are able to build arbitrary view models from the domain model.
-An domain model object should not be presented in the view layer or sent via message-passing queues (DTO). The domain model focuses 
-on invariants and use cases rather than view layer concerns. The adapter or assembler pattern enables two incompatible models to 
-work together and can be implemented in the UI controller or an application service.
+After mapping the response schema to the client domain model, we are able to create any view model off the domain model. A domain model object should not be presented in the view layer or sent via message-passing queues (use DTO). The domain model focuses on invariants and use cases rather than view layer concerns. The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models.
+
+By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
+
+Mapping JSON-encoded server data to the model is mandatory if:
+
+- The domain model object defines any methods. 
+- The schema in the database is different from its representation in the application.
+
+**» Data Mapper**<br/>
+
+The data mapper pattern transfers data between two different schemas:
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/data_mapper.PNG)
+
+Let's have a look at an example of how to map the server response schema:
+
+```
+read(): Observable<Customers[]> {
+    return this.http.get<Customers[]>("/api/customers")
+        pipe(
+            map((customers: Customer[]) : Customer[] => {
+                let result: Customer[] = [];
+                customers.forEach((customer) => {
+                    result = [new Customer(customer.firstName, customer.lastName), ...result];
+                });
+                return result;
+            }),
+            catchError(()=>{})
+        );
+};
+```
+
+The Translater/Mapper Pattern is used by the Repository to ensure the right model schema.
+
+**» REST, HATEOAS and the Data Mapper**<br/>
+
+When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
+all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
+response schema to a complex object graph: 
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
+
+For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
+through the application state by navigating hypermedia. However, when mapping the response schema to the domain model, it is 
+important to choose a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
+links to a domain model. Many additional requests may be required; in the worst case for every resource, which can result in 
+dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
+HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
 
 ## Data model pattern  
 
@@ -204,55 +246,6 @@ A rich domain model instead hides and encapsulates the implementation details:
 In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither domain state nor business logic should be implemented in the UI controller**.
-
-By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
-
-Mapping JSON-encoded server data to the model is mandatory if:
-
-- The domain model object defines any methods. 
-- The schema in the database is different from its representation in the application.
-
-**» Data Mapper**<br/>
-
-The data mapper pattern transfers data between two different schemas:
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/data_mapper.PNG)
-
-Let's have a look at an example of how to map the server response schema:
-
-```
-read(): Observable<Customers[]> {
-    return this.http.get<Customers[]>("/api/customers")
-        pipe(
-            map((customers: Customer[]) : Customer[] => {
-                let result: Customer[] = [];
-                customers.forEach((customer) => {
-                    result = [new Customer(customer.firstName, customer.lastName), ...result];
-                });
-                return result;
-            }),
-            catchError(()=>{})
-        );
-};
-```
-
-The Translater/Mapper Pattern is used by the Repository to ensure the right model schema.
-
-**» REST, HATEOAS and the Data Mapper**<br/>
-
-When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
-all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
-response schema to a complex object graph: 
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
-
-For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
-through the application state by navigating hypermedia. However, when mapping the response schema to the domain model, it is 
-important to choose a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
-links to a domain model. Many additional requests may be required; in the worst case for every resource, which can result in 
-dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
-HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
-
 
 **» CQRS in Angular**<br/>
  
