@@ -23,9 +23,9 @@ Our multilayered architecture consists of the following conceptual layers:
 
 *» Abstraction layers*<br/>
 
-- Application layer: Application services, Read models, Read model repository interfaces, Event listeners <br/>
+- Application layer: Application & UI services, Read models, Read model repository interfaces, Event listeners <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces <br/>
-- Infrastructure layer: Write and read model repository implementations <br/>
+- Infrastructure layer: Reactive write and read model repository implementations <br/>
 
 *» Service layers* <br/>
 
@@ -47,9 +47,9 @@ Our multilayered architecture consists of the following conceptual layers:
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
 of the application. At best the domain layer is self-contained to evolve independently. In addition, we focus on abstracting business use cases of the application.
 
-When application services carry out full business use cases it's a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in most Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
+When application services carry out full business use cases it may be a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in many Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
-It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using these concepts we must evaluate incoming requirements and the code base!
+It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using advanced concepts we have to evaluate incoming requirements and the code base!
 
 ## Object-Oriented Design
 
@@ -69,10 +69,8 @@ Angular's design strategies such as modules, services, controllers etc. assists 
 
 ## Modules
 
-It is mandatory to maintain a clear module structure and split code into reusable blocks. It is a common practice Angular is to classify modules into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content (services) application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. 
-That is, the entry point is the root module. 
-
-Angular's module system gives a clean design response:  
+It is mandatory to maintain a clear module structure and split code into reusable blocks. It is a common practice in Angular to classify modules into three different categories (1) core-,  (2) feature- and (3) shared modules. The **core module** shares it's content (services) application wide as singletons. While **feature modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. 
+That is, the entry point is the root module. Angular's module system gives a clean design response:  
 
 **» Module architecture**<br/>
 
@@ -87,8 +85,8 @@ Angular's module system gives a clean design response:
 **» Bounded context**<br/>
 
 The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
-In a service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
-Applying the bounded context pattern to feature modules allows us to structure modules by a domain-driven approach. The following meta model 
+In an service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
+Applying the bounded context pattern to feature modules allows us to structure modules by an domain driven approach. The following meta model 
 illustrates the interaction between the bounded context pattern and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
@@ -130,7 +128,7 @@ If we want to coordinate scope and lifetime of services successfully we must adh
 
 As previously stated, services encapsulate business functionality and manage shared state. The service API design correlates much with the "shared context"! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
+**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift when building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
