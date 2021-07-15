@@ -134,7 +134,7 @@ We normally relate to stateful services if we need to share data across componen
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With a reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS is implemented and spans the client and server side. If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
+**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With a reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
 
 ## Data model pattern  
 
