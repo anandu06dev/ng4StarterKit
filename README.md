@@ -108,14 +108,15 @@ illustrates the interaction between the bounded context pattern and feature modu
 ## Model pattern 
 
 The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
-It stores the domain knowledge or business logic and is very similar to the Repository pattern! The differences between the various patterns come down to the context and abstraction of the value container: Data Model (MVC), Resource Model (REST), Domain Model (DDD), Class (UML), Entity (ERM), View Model (UX) and so forth. 
+It stores the domain knowledge or business logic and is very similar to the Repository pattern! The differences between the various patterns come down to the historcial 
+context and abstraction of the data object: Model (MVC), Resource (REST), Domain (DDD), Class (UML), Entity (ERM), View Model (UX) and so forth. 
   
 Angular promotes two types of models:
 
 - `View Model`: This object represents data required by a view. It does not represent a real world object.
 - `Domain Model`: This object represents data and logic related to the business domain.  
 
-The view model and domain model may have different schemas to hold the domain model agnostic of view.
+The view model and domain model should have different schemas to hold the domain model agnostic of view.
 
 **» Implementation patterns**<br/>
 
@@ -123,7 +124,7 @@ The view model and domain model may have different schemas to hold the domain mo
 - Rich Domain Model
 
 The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
-anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By including the rich domain model representation in the UI controller, we prevent the **domain logic to be spread across different layers multiple times**. The following example shows the negative side effects when using anemic domain models. Business logic is implemented in the UI controller: 
+anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By having rich domain model representations in the UI controller, we prevent the **domain logic to be spread across different layers, multiple times**. The following example shows the negative side effect when using anemic domain models. Business logic is implemented in the UI controller: 
 
 *»  Effects of anemic models* <br/> 
 ```
@@ -139,7 +140,7 @@ anti-pattern because it does not contain business logic except `get` and `set` (
 }
 ```
 
-A rich domain model instead hides and encapsulates the implementation details:
+A rich domain model instead hides and encapsulates implementation details:
 
 *»  Effects of rich models*<br/>
 ```
