@@ -110,8 +110,8 @@ illustrates the interaction between the bounded context pattern and feature modu
 ## Model pattern 
 
 The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
-It stores the domain knowledge or business logic and is very similar to the Repository pattern! The differences between the various patterns come down to the historcial 
-context and abstraction of the data object: Model (MVC), Resource (REST), Domain (DDD), Class (UML), Entity (ERM), View Model (UX) and so forth. 
+It stores the domain knowledge and is very similar to the Repository pattern! The differences between the various patterns come down to the historcial 
+context and abstraction of the data object: Model (MVC), Resource Model (REST), Domain Model (DDD), View Model (UX), Class (UML), Entity (ERM) and so forth. 
   
 Angular promotes two types of models:
 
