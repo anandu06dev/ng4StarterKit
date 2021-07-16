@@ -61,13 +61,13 @@ For example, we **provide the domain layer as an abstraction by using (generic) 
 
 **» Applying cross-cutting concerns**<br/>
 
-The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and to encapsulate cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
+The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and encapsulation of cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information about AOP in TypeScript please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
 
 Other features which are located in the infrastructure layer: Repository, Logging, Caching, Error, Tracing, Security, Configuration, Tokens, Persistence, Monitoring, Messaging, Crypto, Generators, Translation.
 
 # Angular strategies
 
-Angular's design strategies such as modules, services, controllers etc. assists us to comply with DDD principles.
+Angular's design strategies such as modules, services, components etc. encourages us to comply with DDD principles.
 
 ## Modules
 
