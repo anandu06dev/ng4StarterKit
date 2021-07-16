@@ -107,7 +107,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 @TODO [text]
 @TODO [image]
 
-## Model pattern 
+## Models 
 
 The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
 It stores the domain knowledge and is very similar to the Repository pattern! The differences between the various patterns come down to the historcial 
