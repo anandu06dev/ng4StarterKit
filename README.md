@@ -136,19 +136,19 @@ We normally relate to stateful services if we need to share data across componen
 
 **» Why CQRS in the frontend?**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource controlled. In addition, the database table schema matches the response schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models in the client. 
-
-**If the Web API layer does not provide an interface (storage schema) that matches with the view models, we must prepare the client by defining additional abstraction layers.**. 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, the database table schema matches the resource schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models on the client side. Developers often apply this kind of logic directly into the UI controllers to elaborate view models, which, in the end, leads to fat controllers and other drawbacks. By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary such as i18n translation or date formatter services.
+ 
+**If the Web API layer does not provide an interface that matches the view models, we must prepare the client through additional abstraction layers.**. 
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
-After mapping the response schema to the client domain model, we are able to create any view model off the domain model. A domain model object should not be presented in the view layer or sent via message-passing queues (use DTO). The domain model focuses on invariants and use cases rather than view layer concerns. The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models.
+After mapping the data-transfer object to the client domain model, we are able to create any view model. A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view layer. 
+
+The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models. 
 
 **» CQRS in Angular**<br/>
  
-In the first version, two data stores are used, one for the write side and one for the read side. In the second version, 
-only one data store processes the write side and the read side within one database transaction scope. Typically state 
-changes on the write side are replicated back to the read side. This process is called projection. A projection can be 
+Typically state changes on the write side are replicated back to the read side. This process is called projection. A projection can be 
 leveraged in different ways and layers. The most commonly used approach is an event-centric projection causing an 
 eventually consistent system.
   
@@ -168,8 +168,7 @@ read model by sending events. However, the client-side won't receive any notific
 achieve a greater consistency between the client- and server, we implement the following patterns: Pub-Sub, Polling, 
 Optimistic Update or POST/Redirect/GET. For Angular applications that introduce CQRS in the frontend requires us to 
 reexamine the projection process because Angular's change detection strategy allows us to reflect state changes in the
-component's template (read model) automatically. By investigating the complex interplay between Angular's change detection 
-strategy and the HTML5 IndexedDB, we need to execute and process different projection patterns.
+component's template (read model) automatically. 
 
 **» Projection by Entity**<br/>
 
