@@ -160,11 +160,6 @@ In the second example it becomes clear that domain logic is loosely coupled from
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither domain state nor business logic should be implemented in the UI controller**.
 
-**» Aggregate pattern**<br/>
-
-@TODO [text]
-@TODO [image]
-
 **» Mapper pattern**<br/>
 
 By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
@@ -212,6 +207,11 @@ important to choose a response schema that also includes data rather than just h
 links to a domain model. Many additional requests may be required; in the worst case for every resource, which can result in 
 dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
 HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
+
+**» Aggregate pattern**<br/>
+
+@TODO [text]
+@TODO [image]
 
 ## Services
 
