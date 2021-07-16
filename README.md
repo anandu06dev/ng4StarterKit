@@ -387,7 +387,7 @@ class Customer {
 
 Normally, services in Angular are used to share state, beyond the lifetime of a component:
 
-## Router Service
+## Router State
 
 Angular's router service allows us to manage addressable state and view state. Simply put, the router state determines which components are visible on the screen and 
 it manages navigation between application states (HATEOAS). Any state transition results in a URL change! It is very important to notice, due to the router is a resource-oriented engine, we **cannot place more than one component into the same location at the same time** (~Auxiliary Routes!). This means, if building a router SPA, we should desire a UX-Driven Design method to determine the appropriate data model and types for the Web API. The UI project should introduce User-Centered Design (UCD), where user actions define the component and URL workflow.
@@ -397,7 +397,7 @@ it manages navigation between application states (HATEOAS). Any state transition
 It also must be ensured that routes are covered by the Web API layer, for example, do not use routes like /products/:id/edit?filter='mam', if the Web API layer
 does not support query params. Always check if routes are present in the Web API layer. 
 
-## UI Services
+## UI State
 
 Build a UI service anytime a component needs to stash away some property values or for communication with itself or others. It offers a simple set of properties to share state. This pattern is good for retaining view state or draft state.
 
@@ -433,6 +433,30 @@ export class CustomerRepository {
 A state management service unifies multiple DDD abstractions for the sake of simplicity. The state management logic may 
 comprise data access, use cases or mapper logic. The state management service is similar to the DDD repository pattern.
 
+## Reactive Repository
+
+We also can combine services and reactive extensions to emulate a reactive store. By referencing an in-memory object 
+and emitting data anytime an action occurs, we promote a FLUX-oriented unidirectional data flow. Adding BehaviorSubjects 
+allows us to notify subscribers about data changes. A FLUX-oriented pattern can be approached by 3rd-party libraries such 
+as NgRx or ngrx-data, which are great in combination with RESTful APIs and anemic data models.
+
+```
+@Injectable()
+export class StoreService<T> {
+    private _data : BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
+    private _store : { data : T[] } = { data : [] };
+       
+    public getData(): Observable<T[]> {
+        return this._data.asObservable();
+    }
+
+    public setData(data: T[]): void {
+        this._store.data = [...data, ...this._store.data]
+        this._data.next(Object.assign({}, this._store).data);
+    }
+}
+```
+
 **» Keep the state in sync**<br/>
 
 Angular's change detection provides notification of any changes to state values by `getter` accessor methods, if the values are bound in the template. 
@@ -462,30 +486,6 @@ export class NotificationService {
 
     public complete(): void {
         return this._subject.complete();
-    }
-}
-```
-
-## Reactive Repository
-
-We also can combine services and reactive extensions to emulate a reactive store. By referencing an in-memory object 
-and emitting data anytime an action occurs, we promote a FLUX-oriented unidirectional data flow. Adding BehaviorSubjects 
-allows us to notify subscribers about data changes. A FLUX-oriented pattern can be approached by 3rd-party libraries such 
-as NgRx or ngrx-data, which are great in combination with RESTful APIs and anemic data models.
-
-```
-@Injectable()
-export class StoreService<T> {
-    private _data : BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
-    private _store : { data : T[] } = { data : [] };
-       
-    public getData(): Observable<T[]> {
-        return this._data.asObservable();
-    }
-
-    public setData(data: T[]): void {
-        this._store.data = [...data, ...this._store.data]
-        this._data.next(Object.assign({}, this._store).data);
     }
 }
 ```
