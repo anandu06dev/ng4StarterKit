@@ -93,9 +93,9 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 **» Roadmap for modules**<br/>
 
--	Every component, directive and pipe must belong to **one** and **only one** module.
--	**Never** re-declare these elements in another module.
--	Except services, module contents are private by default and transitive dependencies aren't visible. Use `exports` to manage visibility of private elements.
+-	Every component, directive and pipe must belong to **one** and **only one** module
+-	**Never** re-declare these elements in another module
+-	Except services, module contents are private by default and transitive dependencies aren't visible. Use `exports` to manage visibility of private elements
 -   **Do not** share contents of a feature module, instead add reusable elements to a shared module
 -   **Do not** import shared modules into the root module or core module
 -   **Do not** import the core module more than once. Use dependency lookup hooks to prevent multiple instances of the core module
@@ -113,10 +113,10 @@ If we want to coordinate scope and lifetime of services successfully we must adh
 
 **» Services shared through the module providers array**<br/>
 
--	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton.
--	**Do not** add services to the `providers` array of a shared module. Instead create a core module with a few services and import them once into the root module.
-- Services must be registered at the root of the application, making them available to other services.
--	For lazy loaded services a different approach must be adopted. (*Please see official documentation*)
+-	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton
+-	**Do not** add services to the `providers` array of a shared module, instead create a core module with a few services and import them once into the root module
+- Services must be registered at the root of the application, making them available to other services
+-	For lazy loaded services a different approach must be adopted (*Please see official documentation*)
 
 **» Services shared through the component providers array**<br/>
 
