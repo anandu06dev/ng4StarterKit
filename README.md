@@ -235,7 +235,7 @@ If we want to coordinate scope and lifetime of services successfully we must adh
 
 **» Services vs. Repositories**<br/>
 
-As previously stated, services encapsulate business functionality and manage shared state. The service API design correlates much with the "shared context"! 
+As previously stated, services encapsulate business functionality and manage shared state. The service API design incorporates much with the "shared context"! 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
 **We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift when building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
 
