@@ -3,7 +3,7 @@ An introduction to build enterprise web applications with Angular.
 
 # Application architecture 
 
-Angular embraces Patterns, Principles and Practices of Domain-Driven Design. Applying Object-Oriented Design, Domain-Driven Design and Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries. We divide business logic into layers with different responsibilities to keep our code in good condition.
+Angular embraces patterns, principles and practices of Domain-Driven Design. Applying Object-Oriented Design, Domain-Driven Design and Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries. We divide business logic into layers with different responsibilities to keep our code in good condition.
 
 ## Frontend coupled to OOD, DDD and CQRS
 
@@ -111,7 +111,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
 It stores the domain knowledge and is very similar to the Repository pattern! The differences between the various patterns come down to the historcial 
-context and abstraction of the data object: Model (MVC), Resource Model (REST), Domain Model (DDD), View Model (UX), Class (UML), Entity (ERM) and so forth. 
+context and abstraction of the model data: Model (MVC), Resource Model (REST), Domain Model (DDD), View Model (UX), Class (UML), Entity (ERM) and so forth. 
   
 Angular promotes two types of models:
 
@@ -158,32 +158,32 @@ A rich domain model instead hides and encapsulates domain logic:
 }
 ```
 
-In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
+In the second example the domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither domain state nor domain logic should be coded in the UI controller**.
 
 **» Mapper pattern**<br/>
 
-By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
+By implementing a rich domain model on the client side, we ensure that business behavior works. With higher functional ability in rich domain models, we may take the Mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
 
 - The domain model object defines any methods. 
 - The schema in the database is different from its representation in the application.
 
-The data mapper pattern transfers data between two different schemas:
+The Mapper pattern transfers data between two different schemas:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/data_mapper.PNG)
 
 Let's have a look at an example of how to map the server response schema:
 
 ```
-read(): Observable<Customers[]> {
-    return this.http.get<Customers[]>("/api/customers")
+read(): Observable<Customer[]> {
+    return this.http.get<Customer[]>("/api/customers")
         pipe(
-            map((customers: Customer[]) : Customer[] => {
+            map((customer: Customer[]) : Customer[] => {
                 let result: Customer[] = [];
-                customers.forEach((customer) => {
+                customer.forEach((customer) => {
                     result = [new Customer(customer.firstName, customer.lastName), ...result];
                 });
                 return result;
@@ -193,7 +193,7 @@ read(): Observable<Customers[]> {
 };
 ```
 
-The Translater/Mapper Pattern is used by the Repository to ensure the right model schema.
+The Mapper pattern is associated with the Repository pattern to elaborate the domain model schema.
 
 **» REST, HATEOAS and the Data Mapper**<br/>
 
@@ -497,9 +497,9 @@ Pattern | Store | Immutability | Debug | History | Change Notification | Binding
 State Management Service | &cross; | &cross; | &cross; | &cross; | &cross; | &check; | &cross; |
 Reactive Repository | &check; | &check; | &cross; | &check; | &check; | &check; | &check; |
 
-## GoF State & Strategy Pattern
+## GoF State & Strategy pattern
 
-If we need a more robust UI state management approach, the State Pattern might be a good candidate. The GoF (Gang of Four) State Pattern is an object oriented pattern to manage the complexity of view state transition. The State pattern uses a set of concrete classes that are derived from a base class to describe a particular state. Let's consider the following UML-Diagram: 
+If we need a more robust UI state management approach, the State pattern might be a good candidate. The GoF (Gang of Four) State pattern is an object oriented pattern to manage the complexity of view state transition. The State pattern uses a set of concrete classes that are derived from a base class to describe a particular state. Let's consider the following UML-Diagram: 
 
 @TODO [image]
 
@@ -521,7 +521,7 @@ Very often service providers create RESTful Web APIs, where clients have to stit
 it is not feasible to prepare read models for every client's use case! In this context a HATEOAS approach is excellent for mobile devices and CRUD-based applications, 
 but can be crucial to smart desktop applications. For more information about REST data aggregation please visit: https://phauer.com/2015/restful-api-design-best-practices/ 
 
-## Navigation Patterns
+## Navigation patterns
 
 As layout complexity increases with screen resolution, it requires careful considerations when starting from a mobile-first approach 
 and scaling up to desktop layouts. Traditional desktop layouts require more complex interaction and navigation patterns because UX engineers 
