@@ -3,15 +3,15 @@ An introduction to build enterprise web applications with Angular.
 
 # Application architecture 
 
-Angular embraces patterns, principles and practices of enterprise software development. Applying Object-Oriented Design, Domain-Driven Design or Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries. We separate business logic into layers with different concerns and vest with single responsibility.
+Angular embraces Patterns, Principles and Practices of Domain-Driven Design. Applying Object-Oriented Design, Domain-Driven Design and Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries. We divide business logic into layers with different responsibilities to keep our code in good condition.
 
 ## Frontend coupled to OOD, DDD and CQRS
 
-The building blocks of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a higher level of abstraction we will bypass Angular's data-driven mindset and consider strategies like Domain-Driven Design and CQRS:
+The building blocks of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a better abstraction we will bypass Angular's data-driven mindset and consider strategies like Domain-Driven Design and CQRS:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
-Considering multilayered architecture the question arises of how to organize layers in SPA applications? This question relates to code splitting, communication across layers and demanding business logic throughout services etc.
+Considering a multilayered architecture the question arises how to organize layers in an SPA application? This question refers to code splitting, communication across layers and demanding business logic throughout services.
 
 ## Layered architecture
 
@@ -49,19 +49,21 @@ of the application. At best the domain layer is self-contained to evolve indepen
 
 When application services carry out full business use cases it may be a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in many Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
-It's debatable whether higher granularity distributed across multiple layers introduce extra complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using advanced concepts we have to evaluate incoming requirements and the code base!
+It's debatable whether a higher granularity level distributed across multiple layers introduce unnecessary complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using advanced concepts we have to evaluate incoming requirements and the code base!
 
 ## Object-Oriented Design
 
 **» Applying the SOLID principles**<br/>
 
-In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the DIP (Dependency Inversion Principle), we ensure that layers depend on abstraction (Interfaces) as opposed to depending on concretion (Classes). 
+In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the Dependency Inversion Principle, we ensure that layers depend on abstraction as opposed to depending on concrete classes. 
 
 For example, we **provide the domain layer as an abstraction by using (generic) interfaces / type aliases**.
 
 **» Applying cross-cutting concerns**<br/>
 
-The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates DRY (Don't Repeat Yourself) and SRP (Single Responsibility Principle). The AOP (Aspect Oriented Programming) promotes an abstraction and to encapsulate cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
+The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and to encapsulate cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
+
+Other features which are located in the infrastructure layer: Repository, Logging, Caching, Error, Tracing, Security, Configuration, Tokens, Persistence, Monitoring, Messaging, Crypto, Generators, Translation.
 
 # Angular strategies
 
