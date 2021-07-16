@@ -247,28 +247,20 @@ Keeping the model as independent as possible has many advantages. It improves re
 
 **» CQRS in Angular**<br/>
  
-Applying CQRS and data persistence on the client-side using the HTML5 IndexedDB means separating the read side from the 
-write side into different models within a bounded context and operating within one database transaction scope. A simple 
-meta model of a widespread CQRS architecture serves as the basis: 
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/CQRS.PNG)
-
 In the first version, two data stores are used, one for the write side and one for the read side. In the second version, 
 only one data store processes the write side and the read side within one database transaction scope. Typically state 
 changes on the write side are replicated back to the read side. This process is called projection. A projection can be 
 leveraged in different ways and layers. The most commonly used approach is an event-centric projection causing an 
 eventually consistent system.
   
-In any case, the first question asked in recognition of this should be: do we need CQRS in the frontend design system?
 The complicated part and difficult undertaking in this type of frontend architecture relies on the read side. Based on 
 that information, we are facing the following limitations with regards to Angular and the HTML5 IndexedDB:
 
-- Events: No native database events.  
-- Reactivity: No reactive state handling.
-- Consistency: Only one database transaction scope.
-- Round trips: No HTTP request cycles upon query commands. 
-- Query: No native complex SQL-like queries. 
-- Schema: Attributes need to be known at design time. <br/>
+- Events: No extra eventing system  
+- Reactivity: Reactive state handling.
+- Consistency: No eventual consitency.
+- Round trips: Save view state by HTTP API in view model repositories. 
+- Query: Support for .onPush strategy throughout immutable query objects. 
 
 **» CQRS in reactive systems**<br/>
 
@@ -354,37 +346,6 @@ class OrderForSalesRepository {
     ...
 }
 ``` 
-
-**» Projection by Datasource (Materialized Views)**<br/>
-
-@TODO [text] 
-@TODO [image] 
-
-**» Client-side Event-Sourcing and Domain-Events**<br/>
-
-@TODO [text] 
-@TODO [image] 
-
-**» Offline First & Client-side Storage**<br/>
-
-Complying with the **Offline First** paradigm, we must ensure that business logic works entirely offline. Modern applications should manage a 
-dropped connection gracefully. Like **Progressive Web Apps** (PWA) we want offline capabilities, so that users can interact with the application 
-until the network is reachable again. The HTML5 IndexedDB is a large-scale storage system with great browser support. The flexibility of 
-IndexedDB when creating object stores with different schemas provides a solid ground for saving and persisting data (Aggregates) on the client-side:
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContextSync.PNG)
-
-While Service Workers are mandatory to enable caching of assets like images or videos, we prefer offline capabilities 
-build around the IndexedDB to store and synchronize data custom-made. With Angular 6 and the @angular/pwa module we have great support 
-for building PWAs very easily. But we only use `asset groups` and omit `data groups` to retain control over the client cache, otherwise the PWA module will take over control 
-of at which point data will be cached and retrieved from the server. The Angular 6 PWA module is not capable of caching POST requests without manual instructions.
-Of course we wish to take advantage of native platform features like push notifications etc. Native features are considered as add-ons to the aforementioned 
-IndexedDB approach, in which the focus is on client-side persistence as first-class citizen.
-
-**» Multi-client systems in offline mode**<br/>
-
-@TODO [text]
-@TODO [image]
 
 # State Management 
 
