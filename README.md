@@ -136,7 +136,7 @@ We normally relate to stateful services if we need to share data across componen
 
 **» Why CQRS in the frontend?**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resource to build a complex view model. Often RESTful APIs are very strict resource controlled. In addition, the database table schema matches the response schema. Even in the case of advanced Web APIs (UC or UX Driven) it is very likely to happen that we must create and stitch together view models in the frontend. 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource controlled. In addition, the database table schema matches the response schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models in the client. 
 
 **If the Web API layer does not provide an interface (storage schema) that matches with the view models, we must prepare the client by defining additional abstraction layers.**. 
  
