@@ -126,7 +126,7 @@ The view model and domain model should have different schemas to hold the domain
 - Rich Domain Model
 
 The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
-anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By having rich domain model representations in the UI controller, we prevent the **domain logic to be spread across different layers, multiple times**. The following example shows the negative side effect when using anemic domain models. Business logic is implemented in the UI controller: 
+anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By having rich domain model representations in the UI controller, we prevent **domain logic spreading across different layers multiple times**. The following example shows the negative side effect when using anemic domain models. Domain logic is coded in the UI controller: 
 
 *»  Effects of anemic models* <br/> 
 ```
@@ -142,7 +142,7 @@ anti-pattern because it does not contain business logic except `get` and `set` (
 }
 ```
 
-A rich domain model instead hides and encapsulates implementation details:
+A rich domain model instead hides and encapsulates domain logic:
 
 *»  Effects of rich models*<br/>
 ```
@@ -160,7 +160,7 @@ A rich domain model instead hides and encapsulates implementation details:
 
 In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
-**Neither domain state nor business logic should be implemented in the UI controller**.
+**Neither domain state nor domain logic should be coded in the UI controller**.
 
 **» Mapper pattern**<br/>
 
