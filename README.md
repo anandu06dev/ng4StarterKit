@@ -82,7 +82,7 @@ That is, the entry point is the root module. Angular's module system gives a cle
 `Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
 `Feature modules`: Custom modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
-**» Bounded context**<br/>
+**» Bounded context pattern**<br/>
 
 The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
 In an service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
@@ -91,7 +91,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
-**» Roadmap for modules**<br/>
+**» Guidline for modules**<br/>
 
 -	Every component, directive and pipe must belong to **one** and **only one** module
 -	**Never** re-declare these elements in another module
@@ -105,7 +105,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 @TODO [text]
 @TODO [image]
 
-## Data model pattern  
+## Model pattern 
 
 The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
 It stores the domain knowledge or business logic and is very similar to the Repository pattern! The differences between the various patterns come down to the context and abstraction of the value container: Data Model (MVC), Resource Model (REST), Domain Model (DDD), Class (UML), Entity (ERM), View Model (UX) and so forth. 
@@ -154,9 +154,17 @@ A rich domain model instead hides and encapsulates the implementation details:
     }
 }
 ```
+
 In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
 **Neither domain state nor business logic should be implemented in the UI controller**.
+
+**» Aggregate pattern**<br/>
+
+@TODO [text]
+@TODO [image]
+
+**» Mapper pattern**<br/>
 
 By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
 
@@ -164,8 +172,6 @@ Mapping JSON-encoded server data to the model is mandatory if:
 
 - The domain model object defines any methods. 
 - The schema in the database is different from its representation in the application.
-
-**» Data Mapper**<br/>
 
 The data mapper pattern transfers data between two different schemas:
 
@@ -207,6 +213,7 @@ dreaded N+1 problems. It thus follows, the Web API layer not only should include
 HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
 
 ## Services
+
 Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services! 
 Nevertheless, we will taxonomize our code base in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every Angular developer abides by.
 
@@ -380,19 +387,16 @@ Normally, services in Angular are used to share state, beyond the lifetime of a 
 ## Router Service
 
 Angular's router service allows us to manage addressable state and view state. Simply put, the router state determines which components are visible on the screen and 
-it manages navigation between application states (HATEOAS). Any state transition results in a URL change! It is very important to notice, due to the router is a resource-oriented engine, 
-we **cannot place more than one component into the same location at the same time** (~Auxiliary Routes!). This means, if building a router SPA, we should desire a UX-Driven Design method 
-to determine the appropriate data model and types for the Web API. The UI project should introduce User-Centered Design (UCD), where user actions define the component and URL workflow.
+it manages navigation between application states (HATEOAS). Any state transition results in a URL change! It is very important to notice, due to the router is a resource-oriented engine, we **cannot place more than one component into the same location at the same time** (~Auxiliary Routes!). This means, if building a router SPA, we should desire a UX-Driven Design method to determine the appropriate data model and types for the Web API. The UI project should introduce User-Centered Design (UCD), where user actions define the component and URL workflow.
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Router.PNG)
 
 It also must be ensured that routes are covered by the Web API layer, for example, do not use routes like /products/:id/edit?filter='mam', if the Web API layer
 does not support query params. Always check if routes are present in the Web API layer. 
 
-## Property Bag Service
+## UI Services
 
-Build a property bag service anytime a component needs to stash away some property values or for communication 
-with itself or others. It offers a simple set of properties to share state. This pattern is good for retaining view state or draft state.
+Build a UI service anytime a component needs to stash away some property values or for communication with itself or others. It offers a simple set of properties to share state. This pattern is good for retaining view state or draft state.
 
 ```
 @Injectable 
@@ -402,7 +406,7 @@ export class PropertyService{
 }
 ```
 
-## State Management Service
+## Repository (State Management Service)
 
 Build a basic state management service to share state and communicate state changes using Angular's change detection, along with the operations, 
 transformations, and rules for creating, manipulating and storing that data. Use a state management service for any type of application data 
@@ -410,7 +414,7 @@ that requires state or storage management. Let's have a look at an example of ho
            
 ```
 @Injectable
-export class CustomerService {
+export class CustomerRepository {
     private customers: ICustomer[] = [];
    
     public getCustomers(){}
@@ -432,7 +436,7 @@ Angular's change detection provides notification of any changes to state values 
 This way, we keep the state in sync. Observables, Subjects or BehaviorSubjects can help to simplify asynchronous data-handling. 
 When sharing data that should always be in sync, reactive extensions are good solutions to this situation.
        
-## Notification Service
+## Application service
 
 One downside of sharing and binding state through services is that they are coupled to the view. Delayed changes to the state must be managed 
 by asynchronous binding techniques to **keep the shared state in sync**. However, with EventEmitters, Subjects or BehaviorSubjects we share data through notifications. 
@@ -459,7 +463,7 @@ export class NotificationService {
 }
 ```
 
-## Observable Store
+## Reactive Repository
 
 We also can combine services and reactive extensions to emulate a reactive store. By referencing an in-memory object 
 and emitting data anytime an action occurs, we promote a FLUX-oriented unidirectional data flow. Adding BehaviorSubjects 
@@ -488,13 +492,11 @@ export class StoreService<T> {
 Pattern | Store | Immutability | Debug | History | Change Notification | Binding | Root |
 ------------|:----------:|:-------------:|:--------------:|:--------------:|:-------:|:----------:|:----------:|
 State Management Service | &cross; | &cross; | &cross; | &cross; | &cross; | &check; | &cross; |
-Observable Store Service | &check; | &check; | &cross; | &check; | &check; | &check; | &check; |
+Reactive Repository | &check; | &check; | &cross; | &check; | &check; | &check; | &check; |
 
-## GoF State Pattern
+## GoF State & Strategy Pattern
 
-If we need a more robust UI state management approach, the State Pattern might be a good candidate. The GoF (Gang of Four) State Pattern is an object oriented pattern to manage the 
-complexity of view state transition. The State pattern uses a set of concrete classes that are derived from a base class to describe a particular state. Let's consider the following
-UML-Diagram: 
+If we need a more robust UI state management approach, the State Pattern might be a good candidate. The GoF (Gang of Four) State Pattern is an object oriented pattern to manage the complexity of view state transition. The State pattern uses a set of concrete classes that are derived from a base class to describe a particular state. Let's consider the following UML-Diagram: 
 
 @TODO [image]
 
