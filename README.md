@@ -116,7 +116,7 @@ Angular promotes two types of models:
 - `View Model`: This object represents data required by a view. It does not represent a real world object.
 - `Domain Model`: This object represents data and logic related to the business domain.  
 
-The view model and domain model should have different schemas to hold the domain model agnostic of view.
+The view model and domain model should have different schemas to hold the domain model agnostic of the view.
 
 **» Implementation patterns**<br/>
 
