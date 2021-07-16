@@ -144,107 +144,6 @@ With traditional CRUD-based web applications, conform to the REST architectural 
  
 After mapping the response schema to the client domain model, we are able to create any view model off the domain model. A domain model object should not be presented in the view layer or sent via message-passing queues (use DTO). The domain model focuses on invariants and use cases rather than view layer concerns. The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models.
 
-By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
-
-Mapping JSON-encoded server data to the model is mandatory if:
-
-- The domain model object defines any methods. 
-- The schema in the database is different from its representation in the application.
-
-**» Data Mapper**<br/>
-
-The data mapper pattern transfers data between two different schemas:
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/data_mapper.PNG)
-
-Let's have a look at an example of how to map the server response schema:
-
-```
-read(): Observable<Customers[]> {
-    return this.http.get<Customers[]>("/api/customers")
-        pipe(
-            map((customers: Customer[]) : Customer[] => {
-                let result: Customer[] = [];
-                customers.forEach((customer) => {
-                    result = [new Customer(customer.firstName, customer.lastName), ...result];
-                });
-                return result;
-            }),
-            catchError(()=>{})
-        );
-};
-```
-
-The Translater/Mapper Pattern is used by the Repository to ensure the right model schema.
-
-**» REST, HATEOAS and the Data Mapper**<br/>
-
-When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
-all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
-response schema to a complex object graph: 
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
-
-For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
-through the application state by navigating hypermedia. However, when mapping the response schema to the domain model, it is 
-important to choose a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
-links to a domain model. Many additional requests may be required; in the worst case for every resource, which can result in 
-dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
-HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
-
-## Data model pattern  
-
-The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
-It stores the domain knowledge or business logic and is very similar to the Repository pattern! The differences between the various patterns come down to the context and abstraction of the value container: Data Model (MVC), Resource Model (REST), Domain Model (DDD), Class (UML), Entity (ERM), View Model (UX) and so forth. 
-  
-Angular promotes two types of models:
-
-- `View Model`: This object represents data required by a view. It does not represent a real world object.
-- `Domain Model`: This object represents data and logic related to the business domain.  
-
-The view model and domain model may have different schemas to hold the domain model agnostic of view.
-
-**» Implementation patterns**<br/>
-
-- Anemic Domain Model
-- Rich Domain Model
-
-The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
-anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By including the rich domain model representation in the UI controller, we prevent the **domain logic to be spread across different layers multiple times**. The following example shows the negative side effects when using anemic domain models. Business logic is implemented in the UI controller: 
-
-*»  Effects of anemic models* <br/> 
-```
-@Component({
-    selector: 'emp',
-    templateUrl: './emp.component.html'
-}) class EmployeeComponent {
-    @Input() emp: Employee; 
-
-    public salaryIncreaseBy(percent:number){
-         emp.salary = (emp.salary * percent / 100) + emp.salary;
-    }
-}
-```
-
-A rich domain model instead hides and encapsulates the implementation details:
-
-*»  Effects of rich models*<br/>
-```
-@Component({
-    selector: 'emp',
-    templateUrl: './emp.component.html'
-}) class EmployeeComponent {
-    @Input() emp: Employee; 
-
-    public salaryIncreaseBy(percent:number){
-         emp.salaryIncreaseBy(percent);
-    }
-}
-```
-In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
-Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
-**Neither domain state nor business logic should be implemented in the UI controller**.
-
 **» CQRS in Angular**<br/>
  
 In the first version, two data stores are used, one for the write side and one for the read side. In the second version, 
@@ -346,6 +245,107 @@ class OrderForSalesRepository {
     ...
 }
 ``` 
+
+## Data model pattern  
+
+The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
+It stores the domain knowledge or business logic and is very similar to the Repository pattern! The differences between the various patterns come down to the context and abstraction of the value container: Data Model (MVC), Resource Model (REST), Domain Model (DDD), Class (UML), Entity (ERM), View Model (UX) and so forth. 
+  
+Angular promotes two types of models:
+
+- `View Model`: This object represents data required by a view. It does not represent a real world object.
+- `Domain Model`: This object represents data and logic related to the business domain.  
+
+The view model and domain model may have different schemas to hold the domain model agnostic of view.
+
+**» Implementation patterns**<br/>
+
+- Anemic Domain Model
+- Rich Domain Model
+
+The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
+anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By including the rich domain model representation in the UI controller, we prevent the **domain logic to be spread across different layers multiple times**. The following example shows the negative side effects when using anemic domain models. Business logic is implemented in the UI controller: 
+
+*»  Effects of anemic models* <br/> 
+```
+@Component({
+    selector: 'emp',
+    templateUrl: './emp.component.html'
+}) class EmployeeComponent {
+    @Input() emp: Employee; 
+
+    public salaryIncreaseBy(percent:number){
+         emp.salary = (emp.salary * percent / 100) + emp.salary;
+    }
+}
+```
+
+A rich domain model instead hides and encapsulates the implementation details:
+
+*»  Effects of rich models*<br/>
+```
+@Component({
+    selector: 'emp',
+    templateUrl: './emp.component.html'
+}) class EmployeeComponent {
+    @Input() emp: Employee; 
+
+    public salaryIncreaseBy(percent:number){
+         emp.salaryIncreaseBy(percent);
+    }
+}
+```
+In the second example it becomes clear that domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
+Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
+**Neither domain state nor business logic should be implemented in the UI controller**.
+
+By implementing a rich domain model on the client-side, we ensure that business behavior works. With higher functional ability in rich domain models, we must take the translater/mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
+
+Mapping JSON-encoded server data to the model is mandatory if:
+
+- The domain model object defines any methods. 
+- The schema in the database is different from its representation in the application.
+
+**» Data Mapper**<br/>
+
+The data mapper pattern transfers data between two different schemas:
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/data_mapper.PNG)
+
+Let's have a look at an example of how to map the server response schema:
+
+```
+read(): Observable<Customers[]> {
+    return this.http.get<Customers[]>("/api/customers")
+        pipe(
+            map((customers: Customer[]) : Customer[] => {
+                let result: Customer[] = [];
+                customers.forEach((customer) => {
+                    result = [new Customer(customer.firstName, customer.lastName), ...result];
+                });
+                return result;
+            }),
+            catchError(()=>{})
+        );
+};
+```
+
+The Translater/Mapper Pattern is used by the Repository to ensure the right model schema.
+
+**» REST, HATEOAS and the Data Mapper**<br/>
+
+When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
+all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
+response schema to a complex object graph: 
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
+
+For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
+through the application state by navigating hypermedia. However, when mapping the response schema to the domain model, it is 
+important to choose a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
+links to a domain model. Many additional requests may be required; in the worst case for every resource, which can result in 
+dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
+HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
 
 # State Management 
 
