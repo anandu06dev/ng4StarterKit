@@ -196,7 +196,7 @@ read(): Observable<Customer[]> {
 
 The Mapper pattern is associated with the Repository pattern to elaborate the domain model schema.
 
-**» REST, HATEOAS and the Data Mapper**<br/>
+**» REST, HATEOAS and the Mapper patter**<br/>
 
 When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
 all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
@@ -205,11 +205,11 @@ response schema to a complex object graph:
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
 
 For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
-through the application state by navigating hypermedia. However, when mapping the response schema to the domain model, it is 
-important to choose a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
-links to a domain model. Many additional requests may be required; in the worst case for every resource, which can result in 
-dreaded N+1 problems. It thus follows, the Web API layer not only should include hypermedia links but also data. There are many 
-HATEOAS implementation patterns like the **JSON API** specification, which seems to be a good solution to the aforementioned problem. 
+through the application state by navigating hypermedia. However, when mapping the response to the domain model, it is 
+important to provide a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
+links to a domain model. Many additional requests may be required; in the worst case scenario for every resource, which may result in the
+dreaded N+1 problem. Hence, the Web API layer not only should include hypermedia links but also data. There are many 
+HATEOAS implementation patterns such as the JSON API specification, which seems to be a good solution to the aforementioned problem. 
 
 **» Aggregate pattern**<br/>
 
@@ -238,9 +238,9 @@ If we want to coordinate scope and lifetime of services successfully we must adh
 
 **» Services vs. Repositories**<br/>
 
-As previously stated, services encapsulate business functionality and manage shared state. The service API design incorporates much with the "shared context"! 
+As previously stated, services encapsulate business functionality and manage shared state. The service API design incorporates substantially with the "shared context". 
 We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift when building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
+**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no big difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift when building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
