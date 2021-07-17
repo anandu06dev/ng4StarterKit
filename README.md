@@ -3,7 +3,7 @@ An introduction to build enterprise web applications with Angular.
 
 # Application architecture 
 
-Angular embraces patterns, principles and practices of Domain-Driven Design. Applying Object-Oriented Design, Domain-Driven Design and Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries. We divide business logic into layers with different responsibilities to keep our code in good condition.
+Angular embraces patterns, principles and practices of Domain-Driven Design. Applying Object-Oriented Design, Domain-Driven Design and Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries and divide business logic into layers with different responsibilities to keep our code in good condition.
 
 ## Frontend coupled to OOD, DDD and CQRS
 
@@ -45,19 +45,19 @@ Our multilayered architecture consists of the following conceptual layers:
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
-of the application. At best the domain layer is self-contained to evolve independently. In addition, we focus on abstracting business use cases of the application.
+of the application. At best the domain layer is self-contained to evolve independently. In addition, DDD focuses on abstracting business use cases of the application.
 
-When application services carry out full business use cases it may be a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide our use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in many Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
+When application services carry out full business use cases it may be a good idea to put use cases with simple logic into UI controllers. However, we don't want to hide use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
-It's debatable whether a higher granularity level distributed across multiple layers introduce unnecessary complexity in the frontend design system. Do we really need all these tactical patterns like factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using advanced concepts we have to evaluate incoming requirements and the code base!
+It's debatable whether a higher granularity level distributed across multiple layers introduce unnecessary complexity in the frontend design system. Do we really need all these tactical patterns such as factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using advanced concepts we have to evaluate incoming requirements and the code base!
 
 ## Object-Oriented Design
 
-**» Applying the SOLID principles**<br/>
+**» Applying SOLID principles**<br/>
 
-In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the Dependency Inversion Principle, we ensure that layers depend on abstraction as opposed to depending on concrete classes. 
+In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the Dependency Inversion Principle, we ensure that layers depend on abstraction as opposed to depending on concretion. 
 
-For example, we **provide the domain layer as an abstraction by using (generic) interfaces / type aliases**.
+For example, we **provide the domain layer as an abstraction by using interfaces / type aliases**.
 
 **» Applying cross-cutting concerns**<br/>
 
@@ -101,6 +101,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 -   **Do not** share contents of a feature module, instead add reusable elements to a shared module
 -   **Do not** import shared modules into the root module or core module
 -   **Do not** import the core module more than once. Use dependency lookup hooks to prevent multiple instances of the core module
+-   **Do not** use the Routing Module pattern (routing.module.ts) for nested feature modules (submodules), use the routes.ts pattern 
 
 **» Project scaffolding**<br/>
 
@@ -159,12 +160,12 @@ A rich domain model instead hides and encapsulates domain logic:
 ```
 
 In the second example the domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
-Keeping the model as independent as possible has many advantages. It improves reusability and allows easier refactoring.
+Keeping the model as independent as possible improves reusability and allows easier refactoring.
 **Neither domain state nor domain logic should be coded in the UI controller**.
 
 **» Mapper pattern**<br/>
 
-By implementing a rich domain model on the client side, we ensure that business behavior works. With higher functional ability in rich domain models, we may take the Mapper pattern into account. Mapping server data to the domain model object and vice versa is unnecessary if the model and server storage schema match.
+By implementing a rich domain model on the client side, we ensure that business behavior works. With higher functional ability in rich domain models, we may take the Mapper pattern into account. Mapping server data to the domain model and vice versa is unnecessary if the domain model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
 
@@ -175,7 +176,7 @@ The Mapper pattern transfers data between two different schemas:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/data_mapper.PNG)
 
-Let's have a look at an example of how to map the server response schema:
+Let's have a look at how to map the server response schema:
 
 ```
 read(): Observable<Customer[]> {
@@ -289,7 +290,7 @@ makes domain events and eventual consistency unnecessary as changes will be refl
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
-Let's have a look at an example of how to keep models in sync:
+Let's have a look at how to keep models in sync:
 
 ```
 class Order {
@@ -413,7 +414,7 @@ export class PropertyService{
 
 Build a basic state management service to share state and communicate state changes using Angular's change detection, along with the operations, 
 transformations, and rules for creating, manipulating and storing that data. Use a state management service for any type of application data 
-that requires state or storage management. Let's have a look at an example of how to define a state management service for a customer entity: 
+that requires state or storage management. Let's have a look at how to define a state management service for a customer entity: 
            
 ```
 @Injectable
@@ -469,7 +470,7 @@ One downside of sharing and binding state through services is that they are coup
 by asynchronous binding techniques to **keep the shared state in sync**. However, with EventEmitters, Subjects or BehaviorSubjects we share data through notifications. 
 We subscribe and react to changes using notification services. Those notifications are more than just changes to bound values. 
 
-Let's have a look at an example of how to build a notification service based on a Subject:
+Let's have a look at how to build a notification service based on a Subject:
 
 ```
 @Injectable()
