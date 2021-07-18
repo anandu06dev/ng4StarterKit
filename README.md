@@ -227,8 +227,8 @@ HATEOAS implementation patterns such as the JSON API specification, which seems 
 ## Services
 
 Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be written in services! 
-Nevertheless, we will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern instead of pure Data Access Services or State Management Services. We might easily get confused about the objectives and restrictions between services 
-in Domain-Driven Design and services Angular. 
+Nevertheless, we will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern instead of pure Data Access Services or State Management Services. We might easily get confused about the objectives and limitations between services 
+in Domain-Driven Design and services in Angular. 
 
 Following certain guidelines can help to successfully facilitate scope and lifetime of Angular services:
 
@@ -247,11 +247,11 @@ Following certain guidelines can help to successfully facilitate scope and lifet
 
 **» Services vs. Repositories**<br/>
 
-As previously mentioned, in Angular applications, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP API requests and responses and include CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
+As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP API requests and responses and include CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
 
-We will combine the Repository pattern with the CQRS pattern to handle the heavy-lift when building complex User Interfaces. By introducing a repository implementation for form or UI models, we become super heros! CQRS provides separation of concern and allows us to answer different use cases with the respective data models. In a complex User Interface, CQRS can help to avoid single models for every use case scenario that becomes to complicated to handle. Frontend developers face major challenges when managing data models für specific User Interface scenarios.
+We will combine the Repository pattern with the CQRS pattern to handle the heavy-lift when building complex User Interfaces. By introducing a repository implementation for form or UI models, we become superheros! The CQRS pattern allows us to answer different use cases with the respective data model. In a complex User Interface, CQRS can help to avoid complicated single models for every use case scenario. Frontend developers face major challenges when managing data models for complex task flows.
 
-In CQRS changes on the write side are replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. Normally, when CQRS encloses the client and server, the client side won't receive any notification about the current state. To gain a better consistency between the client and server side, we use any of these patterns: Pub-Sub, Polling, Optimistic Update or POST/Redirect/GET. For Angular applications, that introduce CQRS in the frontend design system however, we won't encounter this kind of asynchronous challenges, because Angular's change detection and RxJS allows us to reflect state changes in the automatically favoring the active model pull principle. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
+In CQRS changes on the write side are replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications that introduce CQRS in the frontend, we won't encounter this problem due to Angular's change detection. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
@@ -261,9 +261,7 @@ If no shared state exists, it is worth considering a simple Data Access Service 
 
 **» Why CQRS in the frontend?**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, the database table schema matches the resource schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models on the client side. Developers often apply this kind of logic directly into the UI controllers to elaborate view models, which, in the end, leads to fat controllers and other drawbacks. By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary such as i18n translation or date formatter services.
- 
-**If the Web API layer does not provide an interface that matches the view models, we must prepare the client through additional abstraction layers.**. 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, the database table schema matches the resource schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together complex models on the client side. Frontend developrs very often write this kind of logic into the UI controller to elaborate view models, which, in the end, leads to fat controllers. By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary for the presentation layer such as i18n translation or date formatter services.
  
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
  
