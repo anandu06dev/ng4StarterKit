@@ -209,9 +209,9 @@ response schema to a complex object graph:
 
 For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
 through the application state by navigating hypermedia. However, when mapping the response model to the domain model, it's 
-indispensable to provide a response schema that also has data rather than just hypermedia links. We can't map hypermedia 
-links to a domain model! Many additional requests may be required; in the worst case scenario for every resource, which may result in the
-dreaded N+1 problem. Hence, the Web API layer not only should include hypermedia links but also data. There are many 
+indispensable to provide a response schema that also includes data and not just hypermedia links. We can't map hypermedia 
+links to a domain model! Many additional requests may be required; in a worst case scenario for every resource, which may result in the
+dreaded N+1 problem. Hence, the Web API layer not only should include hypermedia links but also application data. There are many 
 HATEOAS implementation patterns such as the JSON API specification, which seems to be a good solution to the aforementioned problem. 
 
 **» Aggregate pattern**<br/>
