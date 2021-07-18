@@ -216,12 +216,16 @@ HATEOAS implementation patterns such as the JSON API specification, which seems 
 @TODO [text]
 @TODO [image]
 
+**» View Model**<br/>
+
+@TODO [text]
+@TODO [image]
+
 ## Services
 
-Singleton services are elementary artifacts in typical Angular applications. Most of the functionality that does not belong in a component would normally be added to services! 
-Nevertheless, we will taxonomize our code base in the direction of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in flavor of pure Data Access Services or State Management Services that almost every Angular developer abides by.
-
-If we want to coordinate scope and lifetime of services successfully we must adhere to a few guidelines:
+Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be written in services! 
+Nevertheless, we will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern instead of pure Data Access Services or State Management Services. We might easily get confused about the objectives and restrictions between services 
+in Domain-Driven Design and Angular. Following certain guidelines may help to successfully facilitate scope and lifetime of Angular services:
 
 **» Services shared through the module providers array**<br/>
 
@@ -238,19 +242,16 @@ If we want to coordinate scope and lifetime of services successfully we must adh
 
 **» Services vs. Repositories**<br/>
 
-As previously stated, services encapsulate business functionality and manage shared state. The service API design incorporates substantially with the "shared context"! 
-We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls and include CRUD operations.
-**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no big difference! It's just a matter of semantics. 
+As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP API requests and responses and include CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
 
-We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift when building complex User Interfaces by introducing an repository implementation for form or UI models. RxJS gives us with many great tools and operators to handle the "projection process" between the read and write side. In CQRS changes on the write side are replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. 
-
-When the CQRS pattern spans the client and server, the client side won't receive any notification about the current state. To gain a better consistency between the client and server side, we normally use any of the following patterns: Pub-Sub, Polling, Optimistic Update or POST/Redirect/GET. For Angular applications, that introduce CQRS in the frontend design system however, we won't encounter this kind of asynchronous challenges, because Angular's change detection and RxJS allows us to reflect state changes in the  automatically flavoring the active model pull principle. 
+We will combine the Shared Repository pattern with the CQRS pattern to handle the heavy-lift when building complex User Interfaces. By introducing a shared repository implementation for form or UI models only, we become super heros. In CQRS changes on the write side are replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. 
+Normally, when CQRS encloses the client and server, the client side won't receive any notification about the current state. To gain a better consistency between the client and server side, we use any of these patterns: Pub-Sub, Polling, Optimistic Update or POST/Redirect/GET. For Angular applications, that introduce CQRS in the frontend design system however, we won't encounter this kind of asynchronous challenges, because Angular's change detection and RxJS allows us to reflect state changes in the automatically favoring the active model pull principle. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
 **A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With an reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side.
 
-If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
+If no shared state exists, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
 
 **» Why CQRS in the frontend?**<br/>
  
