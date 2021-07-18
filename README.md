@@ -238,49 +238,19 @@ If we want to coordinate scope and lifetime of services successfully we must adh
 
 **» Services vs. Repositories**<br/>
 
-As previously stated, services encapsulate business functionality and manage shared state. The service API design incorporates substantially with the "shared context". 
-We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls that include CRUD operations.
-**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no big difference! It's just a matter of semantics. We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift when building complex User Interfaces by introducing a repository implementation for form or UI models. RxJS provides us with many great tools and operators to handle the "projection process" between the read/write side. 
+As previously stated, services encapsulate business functionality and manage shared state. The service API design incorporates substantially with the "shared context"! 
+We normally relate to stateful services if we need to share data across components. Often in Angular simple services processes HTTP API calls and include CRUD operations.
+**We will depart from the status quo and use reactive repositories instead**. Technically speaking, there is no big difference! It's just a matter of semantics. 
+
+We will also combine the CQRS pattern with the Repository pattern to handle the heavy-lift when building complex User Interfaces by introducing an repository implementation for form or UI models. RxJS gives us with many great tools and operators to handle the "projection process" between the read and write side. In CQRS changes on the write side are replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. 
+
+When the CQRS pattern spans the client and server, the client side won't receive any notification about the current state. To gain a better consistency between the client and server side, we normally use any of the following patterns: Pub-Sub, Polling, Optimistic Update or POST/Redirect/GET. For Angular applications, that introduce CQRS in the frontend design system however, we won't encounter this kind of asynchronous challenges, because Angular's change detection and RxJS allows us to reflect state changes in the  automatically flavoring the active model pull principle. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With a reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
+**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With an reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side.
 
-**» Why CQRS in the frontend?**<br/>
- 
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, the database table schema matches the resource schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models on the client side. Developers often apply this kind of logic directly into the UI controllers to elaborate view models, which, in the end, leads to fat controllers and other drawbacks. By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary such as i18n translation or date formatter services.
- 
-**If the Web API layer does not provide an interface that matches the view models, we must prepare the client through additional abstraction layers.**. 
- 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
- 
-After mapping the data-transfer object to the client domain model, we are able to create any view model. A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view layer. 
-
-The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models. 
-
-**» CQRS in Angular**<br/>
- 
-Typically state changes on the write side are replicated back to the read side. This process is called projection. A projection can be 
-leveraged in different ways and layers. The most commonly used approach is an event-centric projection causing an 
-eventually consistent system.
-  
-The complicated part and difficult undertaking in this type of frontend architecture relies on the read side. Based on 
-that information, we are facing the following limitations with regards to Angular and the HTML5 IndexedDB:
-
-- Events: No extra eventing system  
-- Reactivity: Reactive state handling.
-- Consistency: No eventual consitency.
-- Round trips: Save view state by HTTP API in view model repositories. 
-- Query: Support for .onPush strategy throughout immutable query objects. 
-
-**» CQRS in reactive systems**<br/>
-
-As described earlier, in the traditional server-side CQRS pattern, state changes in the write model are propagated to the 
-read model by sending events. However, the client-side won't receive any notification to update it's current state. To 
-achieve a greater consistency between the client- and server, we implement the following patterns: Pub-Sub, Polling, 
-Optimistic Update or POST/Redirect/GET. For Angular applications that introduce CQRS in the frontend requires us to 
-reexamine the projection process because Angular's change detection strategy allows us to reflect state changes in the
-component's template (read model) automatically. 
+If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
 
 **» Projection by Entity**<br/>
 
@@ -356,6 +326,25 @@ class OrderForSalesRepository {
     ...
 }
 ``` 
+**» Why CQRS in the frontend?**<br/>
+ 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, the database table schema matches the resource schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models on the client side. Developers often apply this kind of logic directly into the UI controllers to elaborate view models, which, in the end, leads to fat controllers and other drawbacks. By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary such as i18n translation or date formatter services.
+ 
+**If the Web API layer does not provide an interface that matches the view models, we must prepare the client through additional abstraction layers.**. 
+ 
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
+ 
+After mapping the data-transfer object to the client domain model, we are able to create any view model. A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view layer. 
+
+The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models. 
+
+The read side repository has many advantages:
+
+- Events: No extra eventing system  
+- Reactivity: Reactive state handling.
+- Consistency: No eventual consitency.
+- Round trips: Save view state by HTTP API in view model repositories. 
+- Query: Support for .onPush strategy throughout immutable query objects. 
 
 # State Management 
 
