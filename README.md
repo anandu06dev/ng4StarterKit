@@ -61,9 +61,9 @@ For example, we **provide the domain layer as an abstraction by using interfaces
 
 **» Applying cross-cutting concerns**<br/>
 
-The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and encapsulation of cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information about AOP in TypeScript please visit: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
+The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and encapsulation of cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information about AOP in TypeScript please visit the following website: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
 
-Other features that are located in the infrastructure layer: Repository, Logging, Caching, Error, Tracing, Security, Configuration, Tokens, Persistence, Monitoring, Messaging, Crypto, Generators, Translation.
+Other features that are located in the infrastructure layer: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Tokens, Persistence, Monitoring, Messaging, Crypto, Generators, Translation*.
 
 # Angular strategies
 
@@ -84,16 +84,9 @@ That is, the entry point is the root module. Angular's module system gives a cle
 `Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
 `Feature modules`: Custom modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
-**» Bounded context pattern**<br/>
+**» Module guidelines**<br/>
 
-The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
-In an service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
-Applying the bounded context pattern to feature modules allows us to structure modules by an domain driven approach. The following meta model 
-illustrates the interaction between the bounded context pattern and feature modules:
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
-
-**» Guidline for modules**<br/>
+Following certain guidelines can help to successfully facilitate the orchestration of Angular modules:<br/>
 
 -	Every component, directive and pipe must belong to **one** and **only one** module
 -	**Never** re-declare these elements in another module
@@ -102,6 +95,15 @@ illustrates the interaction between the bounded context pattern and feature modu
 -   **Do not** import shared modules into the root module or core module
 -   **Do not** import the core module more than once. Use dependency lookup hooks to prevent multiple instances of the core module
 -   **Do not** use the Routing Module pattern (routing.module.ts) for nested feature modules (submodules), use the routes.ts pattern 
+
+**» Bounded context pattern**<br/>
+
+The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
+In an service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
+Applying the bounded context pattern to feature modules allows us to structure modules by an domain driven approach. The following meta model 
+illustrates the interaction between the bounded context pattern and feature modules:
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
 **» Project scaffolding**<br/>
 
@@ -125,6 +127,7 @@ The view model and domain model should have different schemas to hold the domain
 
 - Anemic Domain Model
 - Rich Domain Model
+- View Model 
 
 The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
 anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By having rich domain model representations in the UI controller, we prevent **domain logic spreading across different layers multiple times**. The following example shows the negative side effect when using anemic domain models. Domain logic is coded in the UI controller: 
@@ -225,7 +228,9 @@ HATEOAS implementation patterns such as the JSON API specification, which seems 
 
 Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be written in services! 
 Nevertheless, we will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern instead of pure Data Access Services or State Management Services. We might easily get confused about the objectives and restrictions between services 
-in Domain-Driven Design and Angular. Following certain guidelines may help to successfully facilitate scope and lifetime of Angular services:
+in Domain-Driven Design and Angular. 
+
+Following certain guidelines can help to successfully facilitate scope and lifetime of Angular services:
 
 **» Services shared through the module providers array**<br/>
 
