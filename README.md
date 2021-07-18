@@ -196,7 +196,7 @@ read(): Observable<Customer[]> {
 
 The Mapper pattern is associated with the Repository pattern to elaborate the domain model schema.
 
-**» REST, HATEOAS and the Mapper patter**<br/>
+**» REST, HATEOAS and the Mapper pattern**<br/>
 
 When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
 all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
