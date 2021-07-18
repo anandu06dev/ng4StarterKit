@@ -252,6 +252,26 @@ When the CQRS pattern spans the client and server, the client side won't receive
 
 If there is no shared state, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
 
+**» Why CQRS in the frontend?**<br/>
+ 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, the database table schema matches the resource schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models on the client side. Developers often apply this kind of logic directly into the UI controllers to elaborate view models, which, in the end, leads to fat controllers and other drawbacks. By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary such as i18n translation or date formatter services.
+ 
+**If the Web API layer does not provide an interface that matches the view models, we must prepare the client through additional abstraction layers.**. 
+ 
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
+ 
+After mapping the data-transfer object to the client domain model, we are able to create any view model. A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view layer. 
+
+The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models. 
+
+The read side repository has many advantages:
+
+- Events: No extra eventing system  
+- Reactivity: Reactive state handling.
+- Consistency: No eventual consitency.
+- Round trips: Save view state by HTTP API in view model repositories. 
+- Query: Support for .onPush strategy throughout immutable query objects. 
+
 **» Projection by Entity**<br/>
 
 Decorating aggregates with factory methods that return different read models interplays with Angular's built-in change 
@@ -326,25 +346,6 @@ class OrderForSalesRepository {
     ...
 }
 ``` 
-**» Why CQRS in the frontend?**<br/>
- 
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, the database table schema matches the resource schema. Even in the case of advanced Web APIs (UC or UX-driven) it is very likely to happen that we must create and stitch together view models on the client side. Developers often apply this kind of logic directly into the UI controllers to elaborate view models, which, in the end, leads to fat controllers and other drawbacks. By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary such as i18n translation or date formatter services.
- 
-**If the Web API layer does not provide an interface that matches the view models, we must prepare the client through additional abstraction layers.**. 
- 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
- 
-After mapping the data-transfer object to the client domain model, we are able to create any view model. A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view layer. 
-
-The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models. 
-
-The read side repository has many advantages:
-
-- Events: No extra eventing system  
-- Reactivity: Reactive state handling.
-- Consistency: No eventual consitency.
-- Round trips: Save view state by HTTP API in view model repositories. 
-- Query: Support for .onPush strategy throughout immutable query objects. 
 
 # State Management 
 
