@@ -5,7 +5,7 @@ An introduction to build enterprise web applications with Angular.
 
 Angular embraces patterns, principles and practices of Domain-Driven Design. Applying Object-Oriented Design, Domain-Driven Design and Command-Query-Responsibility-Segregation in the frontend design system, we break down complex requirements into logical boundaries and divide business logic into layers with different responsibilities to keep our code in good condition.
 
-## Frontend coupled to OOD, DDD and CQRS
+## Frontend coupled to DDD, OOD and CQRS
 
 The building blocks of Angular already provides us with code organisation strategies for frontend architectures. Nevertheless, to gain a better abstraction we will bypass Angular's data-driven mindset and consider strategies like Domain-Driven Design and CQRS:
 
