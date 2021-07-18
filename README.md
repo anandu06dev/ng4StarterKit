@@ -208,9 +208,9 @@ response schema to a complex object graph:
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
 
 For example, HAL is a hypermedia type that provides hypermedia links in the response schema so that we can make transitions 
-through the application state by navigating hypermedia. However, when mapping the response to the domain model, it is 
-important to provide a response schema that also includes data rather than just hypermedia links. We cannot map hypermedia 
-links to a domain model. Many additional requests may be required; in the worst case scenario for every resource, which may result in the
+through the application state by navigating hypermedia. However, when mapping the response model to the domain model, it's 
+indispensable to provide a response schema that also has data rather than just hypermedia links. We can't map hypermedia 
+links to a domain model! Many additional requests may be required; in the worst case scenario for every resource, which may result in the
 dreaded N+1 problem. Hence, the Web API layer not only should include hypermedia links but also data. There are many 
 HATEOAS implementation patterns such as the JSON API specification, which seems to be a good solution to the aforementioned problem. 
 
@@ -228,7 +228,7 @@ HATEOAS implementation patterns such as the JSON API specification, which seems 
 
 Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be written in services! 
 Nevertheless, we will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern instead of pure Data Access Services or State Management Services. We might easily get confused about the objectives and restrictions between services 
-in Domain-Driven Design and Angular. 
+in Domain-Driven Design and services Angular. 
 
 Following certain guidelines can help to successfully facilitate scope and lifetime of Angular services:
 
@@ -247,10 +247,11 @@ Following certain guidelines can help to successfully facilitate scope and lifet
 
 **» Services vs. Repositories**<br/>
 
-As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP API requests and responses and include CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
+As previously mentioned, in Angular applications, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP API requests and responses and include CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
 
-We will combine the Shared Repository pattern with the CQRS pattern to handle the heavy-lift when building complex User Interfaces. By introducing a shared repository implementation for form or UI models only, we become super heros. In CQRS changes on the write side are replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. 
-Normally, when CQRS encloses the client and server, the client side won't receive any notification about the current state. To gain a better consistency between the client and server side, we use any of these patterns: Pub-Sub, Polling, Optimistic Update or POST/Redirect/GET. For Angular applications, that introduce CQRS in the frontend design system however, we won't encounter this kind of asynchronous challenges, because Angular's change detection and RxJS allows us to reflect state changes in the automatically favoring the active model pull principle. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
+We will combine the Repository pattern with the CQRS pattern to handle the heavy-lift when building complex User Interfaces. By introducing a repository implementation for form or UI models, we become super heros! CQRS provides separation of concern and allows us to answer different use cases with the respective data models. In a complex User Interface, CQRS can help to avoid single models for every use case scenario that becomes to complicated to handle. Frontend developers face major challenges when managing data models für specific User Interface scenarios.
+
+In CQRS changes on the write side are replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. Normally, when CQRS encloses the client and server, the client side won't receive any notification about the current state. To gain a better consistency between the client and server side, we use any of these patterns: Pub-Sub, Polling, Optimistic Update or POST/Redirect/GET. For Angular applications, that introduce CQRS in the frontend design system however, we won't encounter this kind of asynchronous challenges, because Angular's change detection and RxJS allows us to reflect state changes in the automatically favoring the active model pull principle. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
