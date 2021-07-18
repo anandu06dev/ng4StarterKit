@@ -270,12 +270,11 @@ The view model repository in the frontend has many advantages:
 - Separating concerns of each data model 
 - Reactive state handling results in "no eventual consistency" (active model push)
 - Always returns use case specific models
-- Helps to compose different API endoints 
+- Simplifies the composition of different API endoints 
 - Providing immutable view models complies with the .onPush strategy
-- Sorting and Filtering data is separated from template pipes 
-- Storing UI state on server side through HTTP requests possible
-- No code chaos!
-- Better unit testing 
+- Sorting and Filtering data is extracted from Angular pipes 
+- Storing UI state on the server side through HTTP requests possible
+- No code chaos and better unit testing 
  
 **» Projection patterns**<br/>
 
