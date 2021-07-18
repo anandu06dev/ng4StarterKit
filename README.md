@@ -227,7 +227,7 @@ HATEOAS implementation patterns such as the JSON API specification, which seems 
 ## Services
 
 Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be written in services! 
-Nevertheless, we will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern instead of pure Data Access Services or State Management Services. We might easily get confused about the objectives and limitations between services 
+We will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern instead of pure Data Access Services or State Management Services. We might get confused about the objectives and limitations between services 
 in Domain-Driven Design and services in Angular. 
 
 Following certain guidelines can help to successfully facilitate scope and lifetime of Angular services:
@@ -251,9 +251,9 @@ As previously mentioned, it's a common practice to use services for business fun
 
 We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex User Interfaces. By introducing a repository implementation for form or UI models, we become superheros! The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications, however, we won't encounter this problem due to Angular's reactive change detection behaviour. 
 
-**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With an reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
-
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
+
+**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactive techniques to prevent stale data. With an reactive approach we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 If no shared state exists, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
 
