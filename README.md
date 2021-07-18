@@ -100,7 +100,7 @@ Following certain guidelines can help to successfully facilitate the orchestrati
 
 The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
 In an service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
-Applying the bounded context pattern to feature modules allows us to structure modules by an domain driven approach. The following meta model 
+Applying the bounded context pattern to feature modules allows us to structure modules with a domain-driven approach. The following meta model 
 illustrates the interaction between the bounded context pattern and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
