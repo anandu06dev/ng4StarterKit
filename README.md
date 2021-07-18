@@ -263,9 +263,9 @@ With traditional CRUD-based web applications, conform to the REST architectural 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
 
-A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view. Taking it to the next level, it's advisable to use a view model repositories interfaces for the purpose of creating complex User Interfaces. We create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are essential. In complex UI flows, CQRS can help to avoid complicated single models for every use case. A challenge which is strongly neglected by many developers. 
+A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of a view. Taking it to the next level, it's better to use view model repository singletons for the purpose of creating complex User Interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A challenge which is neglected by so many frontend developers. 
 
-The view model repository in the frontend has many advantages:
+A view model repository in the frontend design system has many advantages:
 
 - Separating concerns of each data model 
 - Reactive state handling results in "no eventual consistency" (active model push)
