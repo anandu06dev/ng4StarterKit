@@ -197,7 +197,7 @@ read(): Observable<Customer[]> {
 };
 ```
 
-The Mapper pattern is associated with the Repository pattern to elaborate the domain model schema.
+The Mapper pattern is associated with the Repository pattern to elaborate the domain model schema. The translater or adapter pattern enables two incompatible schemas to work together.
 
 **» REST, HATEOAS and the Mapper pattern**<br/>
 
@@ -259,24 +259,21 @@ If no shared state exists, it is worth considering a simple Data Access Service 
 
 **» Why CQRS in the frontend?**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, we must transform and prepare data for the presentation. Even in the case of sophisticated Web APIs, it's likely to happen that we must stitch together complex view models on the client side. Frontend developrs often write this kind of logic in UI controllers to elaborate view models, which, in the end, leads to fat and unmanagable controllers. 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, we must transform and prepare data for the presentation. Even in the case of sophisticated Web APIs, it's likely to happen that we must stitch together complex view models on the client side. Frontend developers often write adapter methods in UI controllers to elaborate view models, which, in the end, leads to fat and unmanagable controllers: 
 
-By working with view model repository interfaces we create a meaningful layer, where we accommodate the needs of the view and only resolve dependencies that are necessary for the presentation layer. In complex UI flows, CQRS can help to avoid complicated single models for every use case scenario. Developers face major challenges when managing data models in the frontend design system.
- 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
- 
-After mapping the data-transfer object to the client domain model, we are able to create any view model. A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view layer. 
 
-The translater or adapter pattern enables two incompatible schemas to work together and can be implemented in the UI controller. Taking this solution to the next level, we will create repositories only for the purpose of abstracting the tedious task of building and providing query objects as view models. 
+A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of the view layer. Taking it to the next level, it's desireable to use a read repositories interfaces for the purpose of creating complex view models only. 
+We create a meaningful layer, where we accommodate the needs of the view layer and resolve only dependencies that are essentail. In complex UI flows, CQRS can help to avoid complicated single models for every use case scenario. Developers face major challenges when managing data models in the frontend design system.
 
-The read side repository has many advantages:
+The read side repository has following advantages:
 
 - Events: No extra eventing system  
 - Reactivity: Reactive state handling.
 - Consistency: No eventual consitency.
 - Round trips: Save view state by HTTP API in view model repositories. 
 - Query: Support for .onPush strategy throughout immutable query objects. 
-
+ 
 **» Projection by Entity**<br/>
 
 Decorating aggregates with factory methods that return different read models interplays with Angular's built-in change 
