@@ -249,7 +249,7 @@ Following certain guidelines can help to successfully facilitate scope and lifet
 
 As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
 
-We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex User Interfaces. By introducing a repository implementation for form or UI models, we become superheros! The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications however, we won't encounter this problem due to Angular's reactive change detection behaviour. 
+We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces. By introducing a repository implementation for form or UI models, we become superheros! The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications however, we won't encounter this problem due to Angular's reactive change detection behaviour. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
@@ -263,7 +263,7 @@ With traditional CRUD-based web applications, conform to the REST architectural 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
 
-A domain model object should not be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than the needs of a view. Taking it to the next level, it's better to use view model repository singletons for the purpose of creating complex User Interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A challenge which is neglected by so many frontend developers. 
+Domain model objects shouldn't be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than view layer concerns. Taking this to the next level. It's better to use view model repositories for the purpose of creating complex user interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A challenge which is neglected by so many frontend developers. 
 
 A view model repository in the frontend design system has many advantages:
 
@@ -271,7 +271,7 @@ A view model repository in the frontend design system has many advantages:
 - Reactive state handling results in "no eventual consistency" (active model push)
 - Always returns use case specific models
 - Simplifies the composition of different API endoints 
-- Providing immutable view models complies with the .onPush strategy
+- Providing immutable view models complies with the `.onPush` strategy
 - Sorting and Filtering data is extracted from Angular pipes 
 - Storing UI state on the server side through HTTP requests possible
 - No code chaos and better unit testing 
