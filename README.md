@@ -57,7 +57,7 @@ It's debatable whether a higher granularity level distributed across multiple la
 
 In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the Dependency Inversion Principle, we ensure that layers depend on abstraction as opposed to depending on concretion. 
 
-For example, we **provide the domain layer as an abstraction by using interfaces / type aliases**.
+For example, we provide the domain layer as an abstraction by using interfaces / type aliases.
 
 **» Applying cross-cutting concerns**<br/>
 
@@ -130,7 +130,7 @@ The view model and domain model should have different schemas to hold the domain
 - View Model 
 
 The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
-anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By leveraging rich domain model representations in the UI controller, we prevent **domain logic spreading across different layers multiple times**. The following example shows the negative side effect when using anemic domain models. Domain logic is coded in the UI controller: 
+anti-pattern because it does not contain business logic except `get` and `set` (CRUD) methods. It introduces a tight coupling with the UI controller and can't protect it's invariants. Hence, the rich domain model is a more suitable candidate. By leveraging rich domain model representations in the UI controller, we prevent **domain logic spreading across different layers multiple times**. The following example shows the negative side effect when using anemic domain models. Domain logic is coded in UI controllers: 
 
 *»  Effects of anemic models* <br/> 
 ```
@@ -168,7 +168,7 @@ Keeping the model as independent as possible improves reusability and allows eas
 
 **» Mapper pattern**<br/>
 
-By implementing a rich domain model on the client side, we ensure that business behavior works. With higher functional ability in rich domain models, we may take the Mapper pattern into account. Mapping server data to the domain model and vice versa is unnecessary if the domain model and server storage schema match.
+By leveraging rich domain models on the client side, we ensure that business behavior works. With higher functional ability in rich domain models, we may take the Mapper pattern into account. Mapping server data to the domain model and vice versa is unnecessary if the domain model and server storage schema match.
 
 Mapping JSON-encoded server data to the model is mandatory if:
 
@@ -226,7 +226,7 @@ HATEOAS implementation patterns such as the JSON API specification, which seems 
 
 ## Services
 
-Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be written in services! 
+Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be located in services! 
 We will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in the meaning of pure Data Access Services or State Management Services. We might get confused about the objectives and limitations between services 
 in Domain-Driven Design and services in Angular. 
 
@@ -247,7 +247,7 @@ Following certain guidelines can help to successfully facilitate scope and lifet
 
 **» Services vs. Repositories**<br/>
 
-As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP API requests and responses and include CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
+As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
 
 We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex User Interfaces. By introducing a repository implementation for form or UI models, we become superheros! The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications however, we won't encounter this problem due to Angular's reactive change detection behaviour. 
 
@@ -259,7 +259,7 @@ If no shared state exists, it is worth considering a simple Data Access Service 
 
 **» Why CQRS in the frontend?**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, we must transform and prepare data for the presentation layer. Even in the case of sophisticated Web APIs, it's likely to happen that we must stitch together complex view models on the client side. Frontend developers often write adapter methods in UI controllers to elaborate view models, which, in the end, leads to fat and unmanagable controllers: 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, we must transform and prepare data for the presentation layer. Even in the case of sophisticated Web APIs, it's likely to happen that we must stitch together complex view models on the client side. Frontend developers often write adapter methods in UI controllers to elaborate view models, which, in the end, leads to fat and unmanagable UI controllers: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
 
