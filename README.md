@@ -267,14 +267,13 @@ Domain model objects shouldn't be presented in the view layer or sent via messag
 
 A view model repository in the frontend design system has many advantages:
 
-- Separating concerns of each data model 
-- Reactive state handling prevents "eventual consistency" 
-- Always provides use case specific models
-- Simplifies the composition of different API endoints 
-- Immutable view models complies with the `.onPush` strategy
-- Sort and Filter functions are detached from template pipes 
-- Storing UI state on the server side through HTTP requests
+- Separating concerns of each data model
+- No eventual consistency
 - Unidirectional data flow 
+- Composition of multiple API endoints 
+- Immutable view models complies with the `.onPush` strategy
+- Sort and filter functions can be detached from template pipes 
+- Storing UI state on the server side through HTTP requests
 - Better unit testing 
  
 **» Projection patterns**<br/>
