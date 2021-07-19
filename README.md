@@ -197,12 +197,12 @@ read(): Observable<Customer[]> {
 };
 ```
 
-The Mapper pattern is associated with the Repository pattern to elaborate the domain model schema. 
+The Mapper is associated in the Repository to elaborate the domain model schema. 
 
 **» REST, HATEOAS and the Mapper pattern**<br/>
 
 When building multi-layered, distributed web applications, data transformation is among the major challenges that occur when data traverses 
-all layers (data flows up and down the stack). More precisely, if the domain model resides on the client, we must transform the server 
+all layers (data flows up and down the stack). Hence, if the domain model resides on the client side, we must transform the server 
 response schema to a complex object graph: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Mapper_Response.PNG)
@@ -249,7 +249,7 @@ Following certain guidelines can help to successfully facilitate scope and lifet
 
 As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
 
-We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces. By introducing a repository implementation for form or UI models, we become superheros! The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications however, we won't encounter this problem due to Angular's reactive change detection behaviour. 
+We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications however, we won't encounter this problem due to Angular's reactive change detection behaviour. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
@@ -263,18 +263,19 @@ With traditional CRUD-based web applications, conform to the REST architectural 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
 
-Domain model objects shouldn't be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than view layer concerns. Taking this to the next level. It's better to use view model repositories for the purpose of creating complex user interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A challenge which is neglected by so many frontend developers. 
+Domain model objects shouldn't be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than view layer concerns. Taking this to the next level. It's better to use view model repositories for the purpose of creating complex user interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential for the view. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A challenge which is neglected by so many frontend developers. 
 
 A view model repository in the frontend design system has many advantages:
 
 - Separating concerns of each data model 
-- Reactive state handling results in "no eventual consistency" (active model push)
-- Always returns use case specific models
+- Reactive state handling prevents "eventual consistency" 
+- Always provides use case specific models
 - Simplifies the composition of different API endoints 
-- Providing immutable view models complies with the `.onPush` strategy
-- Sorting and Filtering data is extracted from Angular pipes 
-- Storing UI state on the server side through HTTP requests possible
-- No code chaos and better unit testing 
+- Immutable view models complies with the `.onPush` strategy
+- Sort and Filter functions are detached from template pipes 
+- Storing UI state on the server side through HTTP requests
+- Unidirectional data flow 
+- Better unit testing 
  
 **» Projection patterns**<br/>
 
@@ -299,7 +300,7 @@ class Order {
 }
 ``` 
 
-One obvious caveat in this approach is that it only works for a single entity. What if a view model requires multiple 
+One obvious caveat with this approach is that it only works for a single entity. What if a view model requires multiple 
 sources? Providing different view model attached to domain models implementations violates the single responsibility rule. 
 By using an abstract class we could put together reusable factory methods:
 
@@ -323,9 +324,8 @@ class Order extends OrderViewModel {
 }
 ``` 
 
-To obtain a better separation, we create view model repositories. As for the view model repositories, they provide 
-different read model objects for specific use cases and use domain models as the base. Both approaches interplays with Angular's 
-built-in change detection strategy. 
+As for the view model repositories, they provide different view model schemas for specific use cases. 
+Both approaches interplays with Angular's built-in change detection behaviour. 
 
 The view model repositories can be used in UI controllers or in application services.
 
@@ -355,7 +355,7 @@ client state management of native applications. In a SPA most of the business lo
 manages authentication, validation or persistence. Typically, a SPA has more complex states than traditional server-side 
 applications. In Angular applications, services are usually used to share state beyond the lifetime of a component. 
 
-There are an array of different states to deal with:
+There are an array of different state types to deal with:
 
 Domain State | Addressable State (URL) | Draft State | Persisted State | View State | Session State | Application State |
 ------------|------------------|-------------|-----------------|--------------|--------------|--------------|
@@ -363,7 +363,7 @@ Aggregate | Sort/Filter/Search | E-Mail, Comments | IndexedDB, Local Storage | S
 
 ## Domain State   
 
-Build a domain model to store the domain state of an application. The entity encapsulates methods, that need to operate on the data.
+Create an entity to store the domain state of the application. The entity encapsulates methods, that need to operate on the data.
 
 ```
 class Customer {
@@ -381,13 +381,13 @@ class Customer {
 
 ## Router State
 
-Angular's router service allows us to manage addressable state and view state. Simply put, the router state determines which components are visible on the screen and 
-it manages navigation between application states (HATEOAS). Any state transition results in a URL change! It is very important to notice, due to the router is a resource-oriented engine, we **cannot place more than one component into the same location at the same time** (~Auxiliary Routes!). This means, if building a router SPA, we should blend with UX-Driven Design to determine the appropriate data models for the Web API interface. The UI project should introduce User-Centered Design (UCD), where user actions define the URL workflow.
+Angular's router service allows us to manage addressable state and UI state. Simply put, the router state determines which components are visible on the screen and 
+it manages navigation between application states (HATEOAS). Any state transition results in a URL change! It is very important to notice, due to the router is a resource-oriented engine, we **cannot place more than one component into the same location at the same time** (~Auxiliary Routes!). This means, if building a router SPA, we should blend with UX-Driven Design to determine the appropriate data models for the Web API interface. The UI project should comply with User-Centered Design (UCD), where user actions define the URL workflow.
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Router.PNG)
 
-In Addition to this, we msut ensure that routes are provided by the Web API layer. For example, don't use routes like /products/:id/edit?filter='mam', if the Web API layer
-doesn't support query params like such. Always evaluate if routes are presented throughout the Web API layer. 
+In Addition to this, we must ensure that routes are provided by the Web API layer. For example, don't use routes like /products/:id/edit?filter='mam', if the Web API layer
+doesn't support query params. Always check if routes are represented by the Web API layer! 
 
 ## UI State
 
@@ -404,9 +404,8 @@ export class UIService{
 
 ## Repository (State Management Service)
 
-Build a basic repository to share state and communicate state changes using Angular's change detection, along with the operations, 
-transformations, and rules for creating, manipulating and storing that data. Use a repository for any type of application data 
-that requires state or storage management. Let's have a look at how to define a basic repository for the customer domain: 
+Build a reactive repository to share state and communicate state changes using RxJS reactive operators, along with the operations, 
+transformations, and rules for creating, manipulating and storing that data. Let's have a look at how to define a basic repository for the customer domain: 
            
 ```
 @Injectable
@@ -425,7 +424,7 @@ export class CustomerRepository {
 
 ## Reactive Repository
 
-We use reactive extensions to create a shared reactive repository. By referencing an in-memory object and emitting data anytime an action occurs, we embrace a unidirectional data flow. Using BehaviorSubjects allows us to notify subscribers about data changes. 
+We use reactive extensions to create a shared reactive repository. By referencing an in-memory object and emitting data anytime an action occurs, we embrace a unidirectional data flow. Using BehaviorSubjects allows us to notify subscribers about state changes. 
 
 ```
 @Injectable()
@@ -444,7 +443,7 @@ Angular's change detection provides notification of any changes to state values 
 This way, we keep the state in sync. Observables, Subjects or BehaviorSubjects can help to simplify asynchronous data-handling. 
 When sharing data that should always be in sync, reactive extensions are good solutions to this situation.
        
-## Application service
+## Application-, Domain- and Infrastrucutre service
 
 One downside of sharing and binding state through services is that they are coupled to the view. Delayed changes to the state must be managed 
 by asynchronous binding techniques to **keep the shared state in sync**. However, with EventEmitters, Subjects or BehaviorSubjects we share data through notifications. 
