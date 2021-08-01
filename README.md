@@ -13,7 +13,7 @@ The building blocks of Angular already provides us with code organisation strate
 
 Considering a multilayered architecture the question arises how to organize layers in an SPA application? This question refers to code splitting, communication across layers and demanding business logic throughout services.
 
-## Layered architecture
+## A simple 3 layer architecture
 
 Our multilayered architecture consists of the following conceptual layers:
 
@@ -23,7 +23,7 @@ Our multilayered architecture consists of the following conceptual layers:
 
 *» Abstraction layers*<br/>
 
-- Application layer: Application & UI services, Read models, Read model repository interfaces, Event listeners <br/>
+- Application layer: Use Case & UI services, Read models, Read model repository interfaces <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces <br/>
 - Infrastructure layer: Reactive write and read model repository implementations <br/>
 
@@ -33,6 +33,11 @@ Our multilayered architecture consists of the following conceptual layers:
 - Stateless application services carry out full business use cases and are procedural 
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
+
+*» Validation layers*<br/>
+
+- Application layer: Data types (null, undefined), format (length, whitespace) 
+- Domain Layer: Business/Domain Rules
 
 **» Vertical cut**<br/> Cutting the application into features / use cases...
 
@@ -61,9 +66,9 @@ For example, we provide the domain layer as an abstraction by using interfaces /
 
 **» Applying cross-cutting concerns**<br/>
 
-The infrastructure layer includes cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and encapsulation of cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information about AOP in TypeScript please visit the following website: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
+The infrastructure layer may include cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and encapsulation of cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information about AOP in TypeScript please visit the following website: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
 
-Other features that are located in the infrastructure layer: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Tokens, Persistence, Monitoring, Messaging, Crypto, Generators, Translation*.
+Other features that are located in the infrastructure layer: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Token, Persistence, Monitoring, Messaging, Crypto, Generator, Converter, Date, Translation*.
 
 # Angular strategies
 
@@ -114,7 +119,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 The model in the classic MVC pattern is a representation of application data. The model contains code to create, read, update and delete or transform model data. 
 It stores the domain knowledge and is very similar to the Repository pattern! The differences between the various patterns come down to the historcial 
-context and abstraction of the model data: Model (MVC), Resource Model (REST), Domain Model (DDD), View Model (UX), Class (UML), Entity (ERM) and so forth. 
+context and abstraction of the model data: Data Model (MVC), Resource Model (REST), Domain Model (DDD), View Model (UX), Class Model (UML), Entity Model (ERM) and so forth. 
   
 Angular promotes two types of models:
 
@@ -247,9 +252,9 @@ Following certain guidelines can help to successfully facilitate scope and lifet
 
 **» Services vs. Repositories**<br/>
 
-As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of semantics. 
+As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a convention. 
 
-We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. For Angular applications however, we won't encounter this problem due to Angular's reactive change detection behaviour. 
+We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read. This process is called "projection". A projection can be leveraged in different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not face problems of this kind, due to Angular's reactive change detection behaviour. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
@@ -259,11 +264,12 @@ If no shared state exists, it is worth considering a simple Data Access Service 
 
 **» Why CQRS in the frontend?**<br/>
  
-With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are very strict resource-oriented. In addition to this, we must transform and prepare data for the presentation layer. Even in the case of sophisticated Web APIs, it's likely to happen that we must stitch together complex view models on the client side. Frontend developers often write adapter methods in UI controllers to elaborate view models, which, in the end, leads to fat and unmanagable UI controllers: 
+With traditional CRUD-based web applications, conform to the REST architectural style, we may fall into the situation where we have to stitch together multiple resources to build a complex view model. Often RESTful APIs are strict resource-oriented. In addition, we must transform and prepare data for the presentation layer. Even in the case of sophisticated Web APIs, it's likely to happen that we must stitch together complex view models on the client side and disjoint the view models for CUD operations. Frontend developers often implement adapter methods in UI controllers to elaborate view models, which, in the end, leads to fat and unmanagable UI controllers: 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
 
-Domain model objects shouldn't be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than view layer concerns. Taking this to the next level. It's better to use view model repositories for the purpose of creating complex user interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential for the view. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A challenge which is neglected by so many frontend developers. 
+Domain model objects shouldn't be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than view layer concerns. Taking this to the next level. It's better to use view model repositories for the purpose of creating complex user interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential to the view properties. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A view model respository is a perfect layer to pre-compute filtering and sorting logic (https://angular.io/guide/styleguide#style-04-13). 
+A challenge which is neglected by many frontend developers. 
 
 A view model repository in the frontend design system has many advantages:
 
