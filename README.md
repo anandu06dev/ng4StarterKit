@@ -23,9 +23,10 @@ Our multilayered architecture consists of the following conceptual layers:
 
 *» Abstraction layers*<br/>
 
+- Presentation layer: Widgets, Components, Directives, Pipes <br/>
 - Application layer: Use Case & UI services, Read models, Read model repository interfaces <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces <br/>
-- Infrastructure layer: Reactive write and read model repository implementations <br/>
+- Infrastructure layer: Write and read model repository implementations <br/>
 
 *» Service layers* <br/>
 
@@ -36,6 +37,7 @@ Our multilayered architecture consists of the following conceptual layers:
 
 *» Validation layers*<br/>
 
+- Presentation layer: UI & Business Rules
 - Application layer: Data types (null, undefined), format (length, whitespace) 
 - Domain Layer: Business/Domain Rules <br/><br/>
 
