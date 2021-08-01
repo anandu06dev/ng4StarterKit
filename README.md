@@ -37,7 +37,7 @@ Our multilayered architecture consists of the following conceptual layers:
 *» Validation layers*<br/>
 
 - Application layer: Data types (null, undefined), format (length, whitespace) 
-- Domain Layer: Business/Domain Rules
+- Domain Layer: Business/Domain Rules <br/><br/>
 
 **» Vertical cut**<br/> Cutting the application into features / use cases...
 
