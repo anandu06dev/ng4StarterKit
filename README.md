@@ -13,7 +13,7 @@ The building blocks of Angular already provides us with code organisation strate
 
 Considering a multilayered architecture the question arises how to organize layers in an SPA application? This question refers to code splitting, communication across layers and demanding business logic through services.
 
-## A simple 3-layer architecture
+## Layered architecture
 
 Our multilayered architecture consists of the following conceptual layers:
 
@@ -78,18 +78,17 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-It is mandatory to maintain a clear module structure and split code into reusable blocks. It is a common practice to classify modules into different categories. 
-The **Service module** shares it's content (services) application wide as singletons. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. For a more complete overview, see https://angular.io/guide/module-types#summary-of-ngmodule-categories
+It is mandatory to maintain a clear module structure and split code into reusable blocks. It is a common practice to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. The **Service module** shares it's content application wide as singletons. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
 That is, the entry point is the root module. Angular's module system gives a clean design response:  
 
 **» Module architecture**<br/>
 
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/module_arch.PNG)
+![alt text](https://github.com/bilgino/ng4StarterKit/blob/master/src/assets/images/module_arch.png)
 
 **» Examples**<br/>
 
-`Core module`: Application wide components and services as singleton e.g. *HeaderComponent*<br/>
+`Service modules`: Application wide services as singletons e.g. *AuthenticationService*<br/>
 `Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
 `Feature modules`: Custom modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
@@ -508,7 +507,7 @@ It is obvious that this approach does not comply with a DDD task-based UI projec
 Moreover, while with task-based UI components we expect appropriate view models, the HATEOAS approach provides us with CRUD-based resource models. 
 Very often service providers create RESTful Web APIs, where clients have to stitch data together by themselves. In order to satisfy UX requirements 
 it is not feasible to prepare read models for every client's use case! In this context a HATEOAS approach is excellent for mobile devices and CRUD-based applications, 
-but can be crucial to smart desktop applications. For more information about REST data aggregation please visit: https://phauer.com/2015/restful-api-design-best-practices/ 
+but can be crucial to smart desktop applications. For more information about REST and data aggregation visit the following website: https://phauer.com/2015/restful-api-design-best-practices/ 
 
 ## Navigation patterns
 
