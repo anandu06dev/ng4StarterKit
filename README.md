@@ -11,7 +11,7 @@ The building blocks of Angular already provides us with code organisation strate
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/frontend_arch.PNG)
 
-Considering a multilayered architecture the question arises how to organize layers in an SPA application? This question refers to code splitting, communication across layers and demanding business logic throughout services.
+Considering a multilayered architecture the question arises how to organize layers in an SPA application? This question refers to code splitting, communication across layers and demanding business logic through services.
 
 ## A simple 3-layer architecture
 
