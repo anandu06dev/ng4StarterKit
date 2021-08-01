@@ -37,7 +37,6 @@ Our layered architecture consists of the following conceptual layers:
 
 *» Validation layers*<br/>
 
-- Presentation layer: UI & Business Rules
 - Application layer: Data types (null, undefined), format (length, whitespace) 
 - Domain Layer: Business/Domain Rules <br/><br/>
 
@@ -78,7 +77,7 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-It is mandatory to maintain a clear module structure and split code into reusable blocks. It is a common practice to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. The **Service module** shares it's content application wide as singletons. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. The **Service module** shares it's content application wide as singletons. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
 That is, the entry point is the root module. Angular's module system gives a clean design response:  
 
@@ -90,11 +89,11 @@ That is, the entry point is the root module. Angular's module system gives a cle
 
 `Service modules`: Application wide services as singletons e.g. *AuthenticationService*<br/>
 `Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
-`Feature modules`: Custom modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
+`Feature modules`: Domain modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
 **» Module guidelines**<br/>
 
-Following certain guidelines can help to successfully facilitate the orchestration of Angular modules:<br/>
+Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 
 -	Every component, directive and pipe must belong to **one** and **only one** module
 -	**Never** re-declare these elements in another module
@@ -238,7 +237,7 @@ Singleton services are elementary artifacts in Angular applications. Most of the
 We will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in the meaning of pure Data Access Services or State Management Services. We might get confused about the objectives and limitations between services 
 in Domain-Driven Design and services in Angular. 
 
-Following certain guidelines can help to successfully facilitate scope and lifetime of Angular services:
+Following guidelines can help to facilitate scope and lifetime of Providers:
 
 **» Services shared through the module providers array**<br/>
 
