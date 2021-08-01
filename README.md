@@ -15,7 +15,7 @@ Considering a multilayered architecture the question arises how to organize laye
 
 ## Layered architecture
 
-Our multilayered architecture consists of the following conceptual layers:
+Our layered architecture consists of the following conceptual layers:
 
 **» Horizontal cut**<br/> Cutting the application into layers...
 
