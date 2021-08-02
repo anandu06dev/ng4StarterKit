@@ -77,7 +77,7 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. The **Service module** shares it's content application wide as singletons. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **feature modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. The **Service module** shares it's content application wide as singletons. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
 That is, the entry point is the root module. Angular's module system gives a clean design response:  
 
