@@ -99,8 +99,8 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 -	**Never** re-declare these elements in another module
 -	Except services, module contents are private by default and transitive dependencies aren't visible. Use `exports` to manage visibility of private elements
 -   **Do not** share contents of a feature module, instead add reusable elements to a shared module
--   **Do not** import shared modules into the root module or core module
--   **Do not** import the core module more than once. Use dependency lookup hooks to prevent multiple instances of the core module
+-   **Do not** import shared modules into the root module
+-   **Do not** import the service module more than once. Use dependency lookup hooks to prevent multiple instances of the service module
 -   **Do not** use the Routing Module pattern (routing.module.ts) for nested feature modules (submodules), use the routes.ts pattern 
 
 **» Bounded context pattern**<br/>
