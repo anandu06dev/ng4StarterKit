@@ -112,7 +112,7 @@ illustrates the interaction between the bounded context pattern and feature modu
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
-**» Project scaffolding**<br/>
+**» Project scaffolding in the sense of DDD**<br/>
 
 @TODO [text]
 @TODO [image]
@@ -242,15 +242,19 @@ Following guidelines can help to facilitate scope and lifetime of Providers:
 **» Services shared through the module providers array**<br/>
 
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton
--	**Do not** add services to the `providers` array of a shared module, instead create a core module with a few services and import them once into the root module
+-	**Do not** add services to the `providers` array of a shared module, instead create a service module with a set of services and import them once into the root module
 - Services must be registered at the root of the application, making them available to other services
--	For lazy loaded services a different approach must be adopted (*Please see official documentation*)
+-	For lazy-loaded services a different approach must be adopted (*Please see official documentation*)
 
 **» Services shared through the component providers array**<br/>
 
 -	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
 -	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
 - Use dependency lookup hook decorators `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
+
+**» Services shared through the provideIn property**<br/>
+@TODO [text]
+@TODO [image]
 
 **» Services vs. Repositories**<br/>
 
