@@ -107,7 +107,7 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 
 **» Bounded context pattern**<br/>
 
-The bounded context pattern in Domain-Driven Design defines areas inside a domain model by decomposing a domain to multiple domains. 
+The bounded context pattern in Domain-Driven Design defines fragments inside a domain model by decomposing a domain into subdomains. 
 In an service-based environment the bounded context marks the boundaries of an application service. This is similar to feature (domain) modules where we mark the boundries based on features. Applying the bounded context pattern to feature modules allows us to structure modules by an domain-driven approach. An application service is a concretion of the bounded context pattern. The following meta model illustrates the interaction between the bounded context pattern and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
@@ -258,16 +258,15 @@ Following guidelines can help to facilitate scope and lifetime of providers:
 
 **» Stateful Services vs. Repositories**<br/>
 
-As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. If no shared state exists, it is worth considering a simple Data Access Service and store temporary data as class members in the component. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of convention. 
+As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of convention. 
 
-We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not face any problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
+We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model. State changes are immediately replicated back to the read side. This process is named "projection". A projection can be leveraged in many different ways or layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not encounter any problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
 
-**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure no "eventual consistency" that normally arises when CQRS spans the client and server side. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
+**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure "eventual consistency" that normally arises when CQRS spans the client and server side, won't occur. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-Basically, application services provide an API for view models of domain state by stitching together domain objects. However, for complex user interfaces it would be inefficient to construct view models in an application service and urging clients to depend on these large services just to use a subset of the API. With the view model repository approach, we facilitate access to view models in an efficient manner. Consequently, in our case the UI controller would use the application service, that in turn would use the view model repository, instead of using the view model repository in the UI controller directly. Sometimes the application service demands information to make bussines domain decisions. 
-The right choice must be made for the individual use case. A view model repository uses any dependency that is necessary for building view model.
+Basically, application services provide an API for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service and urging clients to depend on large application services. With the view model repository approach, we facilitate access to view models in an efficient manner. Consequently, in our case the UI controller would use the application service, that in turn, would use the view model repository instead of using the view model repository in the UI controller directly. The right choice must be made for the specific use case. A view model repository uses any dependency that is necessary for creating view models.
 
 **» Why CQRS in the frontend?**<br/>
  
@@ -342,13 +341,11 @@ As for the view model repositories, they provide different view model schemas fo
 ```
 @Injectable()
 class OrderForSalesRepository {
-    orderRepository: OrderRepository;
-    productRepository: ProductRepository;
-    dateService: DateService;
     
-    constructor(orderRepository: OrderRepository, productRepository: ProductRepository, dateService: DateService){
-        orderRepository = orderRepository;
-        productRepository = ProductRepository;
+    constructor(
+    private orderRepository: OrderRepository, 
+    private productRepository: ProductRepository, 
+    private dateService: DateService){
     }
 
     public getOrderForSales(id): Observable<OrderForSales> {
