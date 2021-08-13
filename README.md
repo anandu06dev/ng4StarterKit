@@ -34,10 +34,11 @@ Our layered architecture consists of the following conceptual layers:
 - Stateless application services carry out full business use cases and are procedural 
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
+  Examples: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Token, Persistence, Monitoring, Messaging, Crypto,   Generator, Converter, Date, Translation*.
 
 *» Validation layers*<br/>
 
-- Application layer: Data types (null, undefined), format (length, whitespace) 
+- Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard, birthday)
 - Domain Layer: Business/Domain Rules <br/><br/>
 
 **» Vertical cut**<br/> Cutting the application into features / use cases...
@@ -59,6 +60,8 @@ It's debatable whether a higher granularity level distributed across multiple la
 
 ## Object-Oriented Design
 
+Although functional programming has gained a strong foothold in front-end development in recent years, a consistent object-oriented approach is better suited for Angular projects.
+
 **» Applying SOLID principles**<br/>
 
 In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the Dependency Inversion Principle, we ensure that layers depend on abstraction as opposed to depending on concretion. 
@@ -69,15 +72,13 @@ For example, we provide the domain layer as an abstraction by using interfaces /
 
 The infrastructure layer may include cross-cutting concerns such as logging, caching or security. A naive approach to implement this functionality directly usually leads to duplicated or coupled code, which violates Don't Repeat Yourself and Single Responsibility Principle. The Aspect Oriented Programming promotes an abstraction and encapsulation of cross-cutting concerns by interlacing additional code, resulting in loose coupling between the actual logic and the infrastructure logic. For more information about AOP in TypeScript please visit the following website: https://jaxenter.com/cross-cutting-concerns-angular-2-typescript-128925.html
 
-Other features that are located in the infrastructure layer: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Token, Persistence, Monitoring, Messaging, Crypto, Generator, Converter, Date, Translation*.
-
 # Angular strategies
 
 Angular's design strategies such as modules, services, components etc. encourages us to comply with DDD principles.
 
 ## Modules
 
-It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. The **Service module** shares it's content application wide as singletons. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **root module** may own an unlimited amount of feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **Service module** shares it's content application wide as singletons and the **root module** can include multiple feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
 That is, the entry point is the root module. Angular's module system gives a clean design response:  
 
@@ -105,10 +106,8 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 
 **» Bounded context pattern**<br/>
 
-The bounded context pattern in Domain-Driven Design defines areas in a domain model by decomposing a domain inside a domain. 
-In an service-based environment the bounded context marks the boundaries of a service. This is similar to feature modules where we mark the boundries based on features. 
-Applying the bounded context pattern to feature modules allows us to structure modules with a domain-driven approach. The following meta model 
-illustrates the interaction between the bounded context pattern and feature modules:
+The bounded context pattern in Domain-Driven Design defines areas inside a domain model by decomposing a domain to multiple domains. 
+In an service-based environment the bounded context marks the boundaries of an application service. This is similar to feature (domain) modules where we mark the boundries based on features. Applying the bounded context pattern to feature modules allows us to structure modules by an domain-driven approach. An application service is a concretion of the bounded context pattern. The following meta model illustrates the interaction between the bounded context pattern and feature modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
@@ -256,17 +255,20 @@ Following guidelines can help to facilitate scope and lifetime of Providers:
 @TODO [text]
 @TODO [image]
 
-**» Services vs. Repositories**<br/>
+**» Stateful Services vs. Repositories**<br/>
 
 As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a convention. 
 
-We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read. This process is called "projection". A projection can be leveraged in different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not face problems of this kind, due to Angular's reactive change detection behaviour. 
+We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not face problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
+
+**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. With reactivity we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
+
+If no shared state exists, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data. With reactivity we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
-
-If no shared state exists, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
+Basically, application services provide an API for reading view models of domain state by stitching together domain objects. However, for complex user interfaces it would be inefficient to construct view models in an application service method and urging clients to depend on such large constructs to retrieve view models. With the view model repository approach we facilitate access to view models in an efficient manner. Consequently, in our case the UI controller would use the application service, that in turn would use the view model repository, instead of using the view model repository in the UI controller directly. Sometimes the application service demands information to make relevant decisions.
+The right choice must be made for the individual use case.
 
 **» Why CQRS in the frontend?**<br/>
  
@@ -282,11 +284,11 @@ A view model repository in the frontend design system has many advantages:
 - Separating concerns of each data model
 - No eventual consistency
 - Unidirectional data flow 
-- Composition of multiple API endoints 
+- Easily composing multiple API endoints 
 - Immutable view models complies with the `.onPush` strategy
-- Sort and filter functions can be detached from template pipes 
-- Storing UI state on the server side through HTTP requests
-- Better unit testing 
+- Sort and filter functions can be detached from template pipes (https://angular.io/guide/styleguide#do-not-add-filtering-and-sorting-logic-to-pipes)
+- Storing UI state on the server side 
+- Much better unit testing 
  
 **» Projection patterns**<br/>
 
