@@ -237,7 +237,7 @@ Singleton services are elementary artifacts in Angular applications. Most of the
 We will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in the meaning of pure Data Access Services or State Management Services. We might get confused about the objectives and limitations between services 
 in Domain-Driven Design and services in Angular. 
 
-Following guidelines can help to facilitate scope and lifetime of Providers:
+Following guidelines can help to facilitate scope and lifetime of providers:
 
 **» Services shared through the module providers array**<br/>
 
@@ -258,17 +258,15 @@ Following guidelines can help to facilitate scope and lifetime of Providers:
 
 **» Stateful Services vs. Repositories**<br/>
 
-As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a convention. 
+As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. If no shared state exists, it is worth considering a simple Data Access Service and store temporary data as class members in the component. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of convention. 
 
-We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not face problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
+We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model, state changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways and layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not face any problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
 
-**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. With reactivity we ensure that there will be no "eventual consistency" that normally arises when CQRS spans the client and server side. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
-
-If no shared state exists, it is worth considering a simple Data Access Service and store temporary data as class members in the component.
+**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure no "eventual consistency" that normally arises when CQRS spans the client and server side. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-Basically, application services provide an API for reading view models of domain state by stitching together domain objects. However, for complex user interfaces it would be inefficient to construct view models in an application service method and urging clients to depend on such large constructs to retrieve view models. With the view model repository approach we facilitate access to view models in an efficient manner. Consequently, in our case the UI controller would use the application service, that in turn would use the view model repository, instead of using the view model repository in the UI controller directly. Sometimes the application service demands information to make relevant decisions.
+Basically, application services provide an API for view models of domain state by stitching together domain objects. However, for complex user interfaces it would be inefficient to construct view models in an application service and urging clients to depend on these large services just to use a subset of the API. With the view model repository approach, we facilitate access to view models in an efficient manner. Consequently, in our case the UI controller would use the application service, that in turn would use the view model repository, instead of using the view model repository in the UI controller directly. Sometimes the application service demands information to make bussines domain decisions. 
 The right choice must be made for the individual use case. A view model repository uses any dependency that is necessary for building view model.
 
 **» Why CQRS in the frontend?**<br/>
@@ -355,8 +353,8 @@ class OrderForSalesRepository {
 
     public getOrderForSales(id): Observable<OrderForSales> {
         return this._orderRepository.getById(id).pipe(
-          map(),
-          filter(),
+          map(order),
+          filter(order),
           mergeMap((order)=>{
              return of(new OrderForSales(order.quantity));
           })
@@ -365,12 +363,12 @@ class OrderForSalesRepository {
     
     public getOrderForProductSales(id): Observable<OrderForProductSales> {
         return combineLatest(this._orderRepository.getById(id), this._productRepository.getById(id)).pipe(
-          map((order)=>{
+          map((order, product) => {
               let order.date = this.dateService.now();
               return order;
           }),
-          filter(),
-          mergeMap(()=>{
+          filter(() => order.cancel === !order.cancel),
+          mergeMap((oder, product) => {
             return new OrderForProductSales(order.quantity, product.price);
           })
         )        
