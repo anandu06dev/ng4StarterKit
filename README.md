@@ -61,6 +61,7 @@ It's debatable whether a higher granularity level distributed across multiple la
 ## Object-Oriented Design
 
 Although functional programming has gained a strong foothold in front-end development in recent years, a consistent object-oriented approach is better suited for Angular projects.
+Object-Oriented Design enables us to approach a more human-readable code base, where the UL (Ubiquitous language) can help to design the right taxonomy and data types. 
 
 **» Applying SOLID principles**<br/>
 
@@ -268,7 +269,7 @@ If no shared state exists, it is worth considering a simple Data Access Service 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
 Basically, application services provide an API for reading view models of domain state by stitching together domain objects. However, for complex user interfaces it would be inefficient to construct view models in an application service method and urging clients to depend on such large constructs to retrieve view models. With the view model repository approach we facilitate access to view models in an efficient manner. Consequently, in our case the UI controller would use the application service, that in turn would use the view model repository, instead of using the view model repository in the UI controller directly. Sometimes the application service demands information to make relevant decisions.
-The right choice must be made for the individual use case.
+The right choice must be made for the individual use case. A view model repository uses any dependency that is necessary for building view model.
 
 **» Why CQRS in the frontend?**<br/>
  
@@ -292,7 +293,7 @@ A view model repository in the frontend design system has many advantages:
  
 **» Projection patterns**<br/>
 
-The projection by entity pattern makes domain events and eventual consistency redundant as changes will be reflected almost simultaneously. 
+The "projection by entity" pattern makes domain events and eventual consistency redundant as changes will be reflected almost simultaneously. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
@@ -313,9 +314,9 @@ class Order {
 }
 ``` 
 
-One obvious caveat with this approach is that it only works for a single entity. What if a view model requires multiple 
-sources? Providing different view model attached to domain models implementations violates the single responsibility rule. 
-By using an abstract class we could put together reusable factory methods:
+One obvious caveat in this approach is that it only works for a single entity. What if a view model demands multiple sources? 
+Providing view models incorporated into a domain model implementation violates the single responsibility rule. 
+By using an abstract class we can unite reusable factory methods:
 
 ```
 abstract class OrderViewModel {
@@ -337,25 +338,42 @@ class Order extends OrderViewModel {
 }
 ``` 
 
-As for the view model repositories, they provide different view model schemas for specific use cases. 
-Both approaches interplays with Angular's built-in change detection behaviour. 
-
-The view model repositories can be used in UI controllers or in application services.
+When building complex user interfaces that require multiple aggregates, we will encounter issues very quickly.
+As for the view model repositories, they provide different view model schemas for different use cases. 
 
 ```
 @Injectable()
 class OrderForSalesRepository {
     orderRepository: OrderRepository;
     productRepository: ProductRepository;
-
-    constructor(orderRepository: OrderRepository, productRepository: ProductRepository){
+    dateService: DateService;
+    
+    constructor(orderRepository: OrderRepository, productRepository: ProductRepository, dateService: DateService){
         orderRepository = orderRepository;
         productRepository = ProductRepository;
     }
 
-    public getOrderForSales(id): OrderForSales {
-        const order = this._orderRepository.getById(id);
-        return new OrderForSales(order.quantity);
+    public getOrderForSales(id): Observable<OrderForSales> {
+        return this._orderRepository.getById(id).pipe(
+          map(),
+          filter(),
+          mergeMap((order)=>{
+             return of(new OrderForSales(order.quantity));
+          })
+        )
+    }
+    
+    public getOrderForProductSales(id): Observable<OrderForProductSales> {
+        return combineLatest(this._orderRepository.getById(id), this._productRepository.getById(id)).pipe(
+          map((order)=>{
+              let order.date = this.dateService.now();
+              return order;
+          }),
+          filter(),
+          mergeMap(()=>{
+            return new OrderForProductSales(order.quantity, product.price);
+          })
+        )        
     }
     ...
 }
