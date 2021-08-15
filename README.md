@@ -21,6 +21,14 @@ Our layered architecture consists of the following conceptual layers:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_hc.PNG)
 
+**» Vertical cut**<br/> Cutting the application into features / use cases...
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_vc.PNG)
+
+**» Cross cut**<br/> Cutting the application into modules...
+
+![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
+
 *» Abstraction layers*<br/>
 
 - Application layer: Use Case & UI services, Read models, Read model repository interfaces <br/>
@@ -39,15 +47,7 @@ Our layered architecture consists of the following conceptual layers:
 
 - Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard, birthday)
 - Domain Layer: Business/Domain Rules <br/><br/>
-
-**» Vertical cut**<br/> Cutting the application into features / use cases...
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_vc.PNG)
-
-**» Cross cut**<br/> Cutting the application into modules...
-
-![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/layers_cc.PNG)
-
+- 
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
