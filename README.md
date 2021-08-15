@@ -52,16 +52,16 @@ Our layered architecture consists of the following conceptual layers:
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
-of the application. At best the domain layer is self-contained to evolve independently. In addition, DDD focuses on abstracting business use cases of the application.
+of the application. In the best case, the domain layer is self-contained to evolve independently. In addition, DDD focuses on abstracting business use cases of the application.
 
-When application services carry out full business use cases, it may be a good idea to place use cases that contain less logic in UI controllers. However, we don't want to hide use cases from the rest of the application. Considering using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
+When application services carry out full business use cases, it may be a good idea to place use cases that contain less logic in UI controllers. However, we don't want to hide use cases from the rest of the application! Using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than services.
 
 It's debatable whether a higher granularity level distributed across multiple layers introduce unnecessary complexity in the frontend design system. Do we really need all these tactical patterns such as factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture patterns because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using advanced concepts we have to evaluate incoming requirements and the code base!
 
 ## Object-Oriented Design
 
 Although functional programming has gained a strong foothold in front-end development in recent years, a consistent object-oriented approach is better suited for Angular projects.
-Object-Oriented Design enables us to approach a more human-readable code base, where the UL (Ubiquitous language) can help to design the right taxonomy and data types. 
+Object-Oriented Design enables us to approach a more human-readable code base, where the UL (Ubiquitous language) can help to design a better taxonomy and right data types. 
 
 **» Applying SOLID principles**<br/>
 
@@ -134,6 +134,7 @@ The view model and domain model should have different schemas to hold the domain
 
 - Anemic Domain Model
 - Rich Domain Model
+- Input Model
 - View Model 
 
 The anemic domain model is quite often used in CRUD-based web applications as value container, conform to RESTful practices. The anemic domain model, however, is considered an 
@@ -204,7 +205,12 @@ read(): Observable<Customer[]> {
 };
 ```
 
-The Mapper is associated in the Repository to elaborate the domain model schema. 
+The data mapper is used in the repository to elaborate the correct domain model schema. 
+
+**» Translator pattern (Mapping VM to DM and vice versa)**<br/>
+
+@TODO [text]
+@TODO [image]
 
 **» REST, HATEOAS and the Mapper pattern**<br/>
 
@@ -221,20 +227,20 @@ links to a domain model! Many additional requests may be required; in a worst ca
 dreaded N+1 problem. Hence, the Web API layer not only should include hypermedia links but also application data. There are many 
 HATEOAS implementation patterns such as the JSON API specification, which seems to be a good solution to the aforementioned problem. 
 
-**» Aggregate pattern**<br/>
+**» Domain Model - Aggregate**<br/>
 
 @TODO [text]
 @TODO [image]
 
-**» View Model**<br/>
+**» View Model - Input Model**<br/>
 
 @TODO [text]
 @TODO [image]
 
 ## Services
 
-Singleton services are elementary artifacts in Angular applications. Most of the functionality that does not belong in a component would normally be located in services! 
-We will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the Repository pattern in the meaning of pure Data Access Services or State Management Services. We might get confused about the objectives and limitations between services 
+Singleton services are elementary artifacts in Angular applications. Most of the functionality that doesn't belong in a component would normally be located in services! 
+We will taxonomize our code base in favor of Domain-Driven Design, which embraces application-, domain- and infrastructure services. We will introduce the shared repository pattern in the meaning of pure data access services or state management services. We might get confused about the objectives and limitations between services 
 in Domain-Driven Design and services in Angular. 
 
 Following guidelines can help to facilitate scope and lifetime of providers:
@@ -253,12 +259,13 @@ Following guidelines can help to facilitate scope and lifetime of providers:
 - Use dependency lookup hook decorators `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
 
 **» Services shared through the provideIn property**<br/>
+
 @TODO [text]
 @TODO [image]
 
-**» Stateful Services vs. Repositories**<br/>
+**» Stateful Services vs. Shared Repositories**<br/>
 
-As previously mentioned, it's a common practice to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of active data stores**. Technically speaking, there is no big difference! It's just a matter of convention. 
+As previously mentioned, it's a common practice in Angular projects to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive shared repositories in favor of an active data store**. Technically speaking, there is no big difference! It's just a matter of convention. 
 
 We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model. State changes are immediately replicated back to the read side. This process is named "projection". A projection can be leveraged in many different ways or layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not encounter any problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
 
@@ -266,7 +273,7 @@ We will combine the Repository pattern with the CQRS pattern to stem the heavy-l
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-Basically, application services provide an API for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service and urging clients to depend on large application services. With the view model repository approach, we facilitate access to view models in an efficient manner. Consequently, in our case the UI controller would use the application service, that in turn, would use the view model repository instead of using the view model repository in the UI controller directly. The right choice must be made for the specific use case. A view model repository uses any dependency that is necessary for creating view models.
+Normally, an application service provides methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring too many dependencies. By using a view model repository however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation models. A view model repository then uses as many dependency necessary to fulfill the presentation layers request. Sometimes it may be advantageous to use view model repositories directly in UI controllers without. At worst, we may end up with a useless passthrough layer.
 
 **» Why CQRS in the frontend?**<br/>
  
