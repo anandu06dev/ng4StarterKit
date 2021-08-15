@@ -41,12 +41,13 @@ Our layered architecture consists of the following conceptual layers:
 - Stateless application services carry out full business use cases and are procedural 
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
-  Examples: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Token, Persistence, Monitoring, Messaging, Crypto,   Generator, Converter, Date, Translation*.
 
 *» Validation layers*<br/>
 
 - Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard, birthday)
 - Domain Layer: Business/Domain Rules <br/><br/>
+- 
+Examples of the infrastructure layer: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Token, Persistence, Monitoring, Messaging, Crypto,   Generator, Converter, Date, Translation*.
 
 **» Applying DDD to Angular**<br/>
 
