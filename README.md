@@ -47,7 +47,7 @@ Our layered architecture consists of the following conceptual layers:
 
 - Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard, birthday)
 - Domain Layer: Business/Domain Rules <br/><br/>
-- 
+
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
@@ -272,7 +272,7 @@ We will combine the Repository pattern with the CQRS pattern to stem the heavy-l
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-Normally, an application service provides methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring too many dependencies. By using a view model repository however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation models. A view model repository then uses as many dependency necessary to fulfill the presentation layers request. Sometimes it may be advantageous to use view model repositories directly in UI controllers without. At worst, we may end up with a useless passthrough layer.
+Normally, application services provide methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring many dependencies. By using a view model repository however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation models. A view model repository then uses as many dependency necessary to fulfill the presentation layer requests. It may be advantageous to use view model repositories directly in UI controllers without a passthrough layer.
 
 **» Why CQRS in the frontend?**<br/>
  
@@ -352,6 +352,7 @@ class OrderForSalesRepository {
     constructor(
       private orderRepository: OrderRepository, 
       private productRepository: ProductRepository, 
+      private productSelected : ProductSelected,
       private dateService: DateService){
     }
 
@@ -373,7 +374,7 @@ class OrderForSalesRepository {
           }),
           filter() => order.cancel === !order.cancel),
           mergeMap() => {
-            return new OrderForProductSales(order.quantity, product.price);
+            return of(new OrderForProductSales(order.quantity, product.price));
           })
         )        
     }
