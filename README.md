@@ -23,7 +23,6 @@ Our layered architecture consists of the following conceptual layers:
 
 *» Abstraction layers*<br/>
 
-- Presentation layer: Widgets, Components, Directives, Pipes <br/>
 - Application layer: Use Case & UI services, Read models, Read model repository interfaces <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces <br/>
 - Infrastructure layer: Write and read model repository implementations <br/>
@@ -99,7 +98,7 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 
 -	Every component, directive and pipe must belong to **one** and **only one** module
 -	**Never** re-declare these elements in another module
--	Except services, module contents are private by default and transitive dependencies aren't visible. 
+-	Except services, module contents are private by default and transitive dependencies aren't visible
 -   **Do not** share contents of a domain module, instead add reusable elements to a shared module
 -   **Do not** import shared modules into the root module
 -   **Do not** import the service module more than once. Use dependency lookup hooks to prevent multiple instanciation
