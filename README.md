@@ -79,9 +79,9 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple types. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. **Shared modules** contain the most commonly used code to be reused in feature modules. The **Service module** shares it's content application wide as singletons and the **root module** can include multiple feature modules. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple categories. **Shared modules** contain the most commonly used code to be reused in domain modules. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. The **Service module** shares it's content application wide as singletons. The **root module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
-That is, the entry point is the root module. Angular's module system gives a clean design response:  
+ Angular's module system gives a clean design response:  
 
 **» Module architecture**<br/>
 
@@ -91,7 +91,7 @@ That is, the entry point is the root module. Angular's module system gives a cle
 
 `Service modules`: Application wide services as singletons e.g. *AuthenticationService*<br/>
 `Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
-`Feature modules`: Domain modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
+`Domain modules`: Domain modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
 **» Module guidelines**<br/>
 
@@ -99,16 +99,16 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 
 -	Every component, directive and pipe must belong to **one** and **only one** module
 -	**Never** re-declare these elements in another module
--	Except services, module contents are private by default and transitive dependencies aren't visible. Use `exports` to manage visibility of private elements
--   **Do not** share contents of a feature module, instead add reusable elements to a shared module
+-	Except services, module contents are private by default and transitive dependencies aren't visible. 
+-   **Do not** share contents of a domain module, instead add reusable elements to a shared module
 -   **Do not** import shared modules into the root module
--   **Do not** import the service module more than once. Use dependency lookup hooks to prevent multiple instances of the service module
--   **Do not** use the Routing Module pattern (routing.module.ts) for nested feature modules (submodules), use the routes.ts pattern 
+-   **Do not** import the service module more than once. Use dependency lookup hooks to prevent multiple instanciation
+-   **Do not** use the Routing Module pattern (routing.module.ts) for submodules, use the routes.ts pattern 
 
 **» Bounded context pattern**<br/>
 
-The bounded context pattern in Domain-Driven Design defines fragments inside a domain model by decomposing a domain into subdomains. 
-In an service-based environment the bounded context marks the boundaries of an application service. This is similar to feature (domain) modules where we mark the boundries based on features. Applying the bounded context pattern to feature modules allows us to structure modules by an domain-driven approach. An application service is a concretion of the bounded context pattern. The following meta model illustrates the interaction between the bounded context pattern and feature modules:
+The bounded context pattern in Domain-Driven Design defines fragments inside a domain model by decomposing a domain into bounded subdomains. 
+In an service-based environment the bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern. This is similar to domain modules in Angualr where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven context. The following meta model illustrates the interaction between the bounded context pattern and domain modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
@@ -250,7 +250,7 @@ Following guidelines can help to facilitate scope and lifetime of providers:
 -	**Never export a service**: Services added to the `providers` array of a module are registered at the root of the application, making them available for injection to any class in the application. They already shared as an application wide singleton
 -	**Do not** add services to the `providers` array of a shared module, instead create a service module with a set of services and import them once into the root module
 - Services must be registered at the root of the application, making them available to other services
--	For lazy-loaded services a different approach must be adopted (*Please see official documentation*)
+-	For lazy-loaded modules, please see official Angular documentation
 
 **» Services shared through the component providers array**<br/>
 
@@ -342,24 +342,25 @@ class Order extends OrderViewModel {
 }
 ``` 
 
-When building complex user interfaces that require multiple aggregates, we will encounter issues very quickly.
-As for the view model repositories, they provide different view model schemas for different use cases. 
+When building complex user interfaces that require multiple aggregates, we will encounter problems very quickly, if we don't prepare additional layers of abstraction.
+As for the shared view model repositories, they provide different view model schemas for different use cases and combine multiple data or action streams$. 
 
 ```
 @Injectable()
 class OrderForSalesRepository {
+    order: OrderForInitialisation = OrderFactory.empty();
     
     constructor(
-    private orderRepository: OrderRepository, 
-    private productRepository: ProductRepository, 
-    private dateService: DateService){
+      private orderRepository: OrderRepository, 
+      private productRepository: ProductRepository, 
+      private dateService: DateService){
     }
 
     public getOrderForSales(id): Observable<OrderForSales> {
         return this._orderRepository.getById(id).pipe(
-          map(order),
-          filter(order),
-          mergeMap((order)=>{
+          map(),
+          filter(),
+          mergeMap(()=>{
              return of(new OrderForSales(order.quantity));
           })
         )
@@ -367,12 +368,12 @@ class OrderForSalesRepository {
     
     public getOrderForProductSales(id): Observable<OrderForProductSales> {
         return combineLatest(this._orderRepository.getById(id), this._productRepository.getById(id)).pipe(
-          map((order, product) => {
+          map() => {
               let order.date = this.dateService.now();
               return order;
           }),
-          filter(() => order.cancel === !order.cancel),
-          mergeMap((oder, product) => {
+          filter() => order.cancel === !order.cancel),
+          mergeMap() => {
             return new OrderForProductSales(order.quantity, product.price);
           })
         )        
