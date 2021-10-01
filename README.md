@@ -61,7 +61,7 @@ It's debatable whether a higher granularity level distributed across multiple la
 ## Object-Oriented Design
 
 Although functional programming has gained a strong foothold in front-end development in recent years, a consistent object-oriented approach is better suited for Angular projects.
-Object-Oriented Design enables us to approach a more human-readable code base, where the UL (Ubiquitous language) can help to design a better taxonomy and right data types. 
+Object-Oriented Design enables us to approach a more human-readable code base, where the UL (Ubiquitous language) can help to design a better taxonomy and complex data types. 
 
 **» Applying SOLID principles**<br/>
 
@@ -79,7 +79,7 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-It's mandatory to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple categories. **Shared modules** contain the most commonly used code to be reused in domain modules. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. The **Service module** shares it's content application wide as singletons. The **root module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+It's good to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple categories. **Shared modules** contain the most commonly used code to be reused in domain modules. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. The **Service module** shares it's content application wide as singletons. The **root module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
  Angular's module system gives a clean design response:  
 
@@ -108,7 +108,7 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 **» Bounded context pattern**<br/>
 
 The bounded context pattern in Domain-Driven Design defines fragments inside a domain model by decomposing a domain into bounded subdomains. 
-In an service-based environment the bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern. This is similar to domain modules in Angualr where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven context. The following meta model illustrates the interaction between the bounded context pattern and domain modules:
+In an service-based environment the bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern. This is similar to domain modules in Angular where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven context. A bounded context should be presented at minimum scale as an aggregate. The following meta model illustrates the interaction between the bounded context pattern and domain modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
@@ -269,7 +269,7 @@ As previously mentioned, it's a common practice in Angular projects to use servi
 
 We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model. State changes are immediately replicated back to the read side. This process is named "projection". A projection can be leveraged in many different ways or layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not encounter any problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
 
-**A reactive API exposes Observables, Subjects or BehaviorSubjects** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure "eventual consistency" that normally arises when CQRS spans the client and server side, won't occur. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
+**A reactive API exposes hot Observables (BehaviorSubjects etc.)** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure "eventual consistency" that normally arises when CQRS spans the client and server side, won't occur. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
