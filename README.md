@@ -103,12 +103,10 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 -   **Do not** share contents of a domain module, instead add reusable elements to a shared module
 -   **Do not** import shared modules into the root module
 -   **Do not** import the service module more than once. Use dependency lookup hooks to prevent multiple instanciation
--   **Do not** use the Routing Module pattern (routing.module.ts) for submodules, use the routes.ts pattern 
 
 **» Bounded context pattern**<br/>
 
-The bounded context pattern in Domain-Driven Design defines fragments inside a domain model by decomposing a domain into bounded subdomains. 
-In an service-based environment the bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern. This is similar to domain modules in Angular where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven context. A bounded context should be presented at minimum scale as an aggregate. The following meta model illustrates the interaction between the bounded context pattern and domain modules:
+The bounded context pattern in Domain-Driven Design defines fragments inside a domain model by decomposing a domain into bounded subdomains. In an service-based environment the bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern. This is similar to domain modules in Angular where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven context. A bounded context should be presented at a minimum scale as an aggregate. The following meta model illustrates the interaction between the bounded context pattern and domain modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
