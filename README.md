@@ -273,7 +273,7 @@ We will combine the Repository pattern with the CQRS pattern to stem the heavy-l
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-Normally, application services provide methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring many dependencies. By using a view model repository however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation models. A view model repository then uses as many dependency necessary to fulfill the presentation layer requests. It may be advantageous to use view model repositories directly in UI controllers without a passthrough layer.
+Application services provide methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring many dependencies. By using a view model repository however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation models. A view model repository uses all dependencies required to fulfill the presentation layer requests. It may be advantageous to use view model repositories only in UI controllers without an application service. That is a personal preference.
 
 **» Why CQRS in the frontend?**<br/>
  
@@ -286,14 +286,14 @@ A challenge which is neglected by many frontend developers.
 
 A view model repository in the frontend design system has many advantages:
 
-- Separating concerns of each data model
+- Separating concerns of each data model and the provider API
 - No eventual consistency
 - Unidirectional data flow 
 - Easily composing multiple API endoints 
 - Immutable view models complies with the `.onPush` strategy
 - Sort and filter functions can be detached from template pipes (https://angular.io/guide/styleguide#do-not-add-filtering-and-sorting-logic-to-pipes)
 - Storing UI state on the server side 
-- Much better unit testing 
+- Much better testing 
  
 **» Projection patterns**<br/>
 
