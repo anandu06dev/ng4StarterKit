@@ -45,7 +45,7 @@ Our layered architecture consists of the following conceptual layers:
 *» Validation layers*<br/>
 
 - Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard)
-- Domain Layer: Business/Domain Rules <br/><br/>
+- Domain Layer: Business/Domain Rules <br/>
 
 Examples of the infrastructure layer: *Repository, Persistence, Caching, Messaging, Crypto, Converter, Translation*.
 Examples of the cross-cutting layer: *Logging, Error, Tracing, Security, Configuration, Token, Monitoring, Date*. 
