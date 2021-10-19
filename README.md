@@ -47,7 +47,8 @@ Our layered architecture consists of the following conceptual layers:
 - Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard, birthday)
 - Domain Layer: Business/Domain Rules <br/><br/>
 
-Examples of the infrastructure layer: *Repository, Logging, Caching, Error, Tracing, Security, Configuration, Token, Persistence, Monitoring, Messaging, Crypto,   Generator, Converter, Date, Translation*.
+Examples of the infrastructure layer: *Repository, Persistence, Caching, Messaging, Crypto, Generator, Converter, Translation*.
+Examples of the cross-cuttin layer: *Logging, Error, Tracing, Security, Configuration, Token, Monitoring, Date*. 
 
 **» Applying DDD to Angular**<br/>
 
@@ -79,9 +80,7 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-It's good to maintain a clear module structure and split code into reusable blocks. A common practice in Angular is to classify modules into different categories. The Angular guidelines for creating NgModules defines multiple categories. **Shared modules** contain the most commonly used code to be reused in domain modules. While **domain modules** encapsulate blocks of code that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. 
-The **Service module** shares it's content application wide as singletons. 
-The **root module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+To organize a modular structure we split code into reusable blocks. The Angular guidelines for organizing those blocks provides different categories. **Shared modules** and **Widget module** contain the most commonly used code to be reused in domain modules, while **domain modules** encapsulate blocks of code, that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. The **Service module** and shares it's content application wide as singletons. The **root module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
  Angular's module system gives a clean design response:  
 
@@ -111,6 +110,14 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 The bounded context pattern in Domain-Driven Design defines fragments inside a domain model by decomposing a domain into bounded subdomains. In an service-based environment the bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern. This is similar to domain modules in Angular where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven context. A bounded context should be presented at a minimum scale as an aggregate. The following meta model illustrates the interaction between the bounded context pattern and domain modules:
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
+
+
+**» Angular vs. Domain-Driven Design**<br/>
+
+Many similarities exist when comparing the tactical patterns between Domain-Driven Design and Angular. However, there are also some technical points of friction. 
+For example, the classification of DomainModules is the only artifact that can be directly attributed to Domain-Driven Design. Modular categories such as the RoutingModule, WidgetModule, or ServiceModule cannot be directly mapped to Domain-Driven Design.  The SharedModule could be equated with the CrossCutting Layer. Another aspect is the visibility of services. In Angular, services are often made available as a global singleton, which automatically gives them a shared status.
+
+Accordingly, work must be done on how to harmonize these points of friction. A symbiosis of both strategies must be found as shown in the following example:
 
 **» Project scaffolding in the sense of DDD**<br/>
 
