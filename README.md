@@ -119,7 +119,7 @@ For example, the classification of **Domain Modules** is the only artifact that 
 Domain-oriented layering is often considered to be the first structuring criterion, because it resolves the technical layer criterion. However, layered architecture is a building block in Domain-Driven Design, which is an attractive approach, even without modular encapsulation. Hence, using only abstraction layers in terms of folders is quite sufficient. The main reason for modular segmentation in Angular is lazy-loading. 
 
 Another aspect of friction relates to visibility. Angular services are often made available as global singleton instances, which automatically gives them a shared status. 
-A symbiosis of both strategies must be found as shown in the following:
+A symbiosis of both strategies must be reached:
 
 **» Project scaffolding in the sense of DDD**<br/>
 
