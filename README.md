@@ -103,7 +103,7 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 -	Except services, module contents are private by default and transitive dependencies aren't visible
 -   **Do not** share contents of a domain module, instead add reusable elements to a shared module
 -   **Do not** import shared modules into the root module
--   **Do not** import the service module more than once. Use DI lookup hooks to prevent multiple instansiation
+-   **Do not** import the service module more than once. Use DI lookup hooks to prevent multiple instantiation
 
 **» Bounded context pattern**<br/>
 
