@@ -111,7 +111,7 @@ The bounded context pattern in Domain-Driven Design defines fragments inside a d
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
-**» Angular vs. Domain-Driven Design**<br/>
+**» Applying DDD to Angular II**<br/>
 
 Many similarities exist when comparing the tactical patterns between Domain-Driven Design and Angular. However, there are also some technical points of friction. 
 For example, the classification of **Domain Module** is the only artifact that can be attributed to Domain-Driven Design. Modular categories such as the **Routing Module**, **Widget Module** or **Service Module** cannot be directly aligned to Domain-Driven Design. The **Shared Module** could be the equivalent of the **Cross-Cutting Module**. Another aspect is the visibility of services. In Angular, services are often made available as global singletons, which automatically gives them a shared status.
