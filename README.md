@@ -47,7 +47,7 @@ Our layered architecture consists of the following conceptual layers:
 - Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard, birthday)
 - Domain Layer: Business/Domain Rules <br/><br/>
 
-Examples of the infrastructure layer: *Repository, Persistence, Caching, Messaging, Crypto, Generator, Converter, Translation*.
+Examples of the infrastructure layer: *Repository, Persistence, Caching, Messaging, Crypto, Converter, Translation*.
 Examples of the cross-cuttin layer: *Logging, Error, Tracing, Security, Configuration, Token, Monitoring, Date*. 
 
 **» Applying DDD to Angular**<br/>
