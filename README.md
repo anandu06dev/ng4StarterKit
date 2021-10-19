@@ -114,9 +114,12 @@ The bounded context pattern in Domain-Driven Design defines fragments inside a d
 **» Applying DDD to Angular II**<br/>
 
 Many similarities exist when comparing the tactical patterns between Domain-Driven Design and Angular. However, there are also some technical points of friction. 
-For example, the classification of **Domain Module** is the only artifact that can be attributed to Domain-Driven Design. Other modular categories such as the **Routing Module**, **Widget Module** or **Service Module** cannot be directly attributed to Domain-Driven Design. The **Shared Module** would be the equivalent definition of the **Cross-Cutting Module**. 
+For example, the classification of **Domain Modules** is the only artifact that can be attributed to Domain-Driven Design. Other modular categories such as the **Routing Module**, **Widget Module** or **Service Module** cannot be directly attributed to Domain-Driven Design. The **Shared Module** would be the equivalent definition of the **Cross-Cutting Module**. 
 
-Furthermore, it's not mandatory to perform a vertical cut in the layered architecture to form out **Domain Modules**. Layered architecture is a building block in Domain-Driven Design, which is an attractive approach, even without modular encapsulation. Hence, the frontend architecture would only consist of abstraction layers (folders). The main reason for modular segmentation in Angular is lazy loading. Another aspect of friction relates to visibility of services. In Angular, services are often made available as global singleton instances, which automatically gives them a shared status. Accordingly, work must be done on how to harmonize these points of friction. A symbiosis of both strategies must be found as shown in the following:
+Domain-oriented layering is often considered to be the first structuring criterion, because it resolves the technical layer criterion. However, layered architecture is a building block in Domain-Driven Design, which is an attractive approach, even without modular encapsulation. Hence, using only abstraction layers in terms of folders is quite sufficient. The main reason for modular segmentation in Angular is lazy-loading. 
+
+Another aspect of friction relates to visibility. Angular services are often made available as global singleton instances, which automatically gives them a shared status. 
+A symbiosis of both strategies must be found as shown in the following:
 
 **» Project scaffolding in the sense of DDD**<br/>
 
