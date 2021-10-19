@@ -48,7 +48,8 @@ Our layered architecture consists of the following conceptual layers:
 - Domain Layer: Business/Domain Rules <br/><br/>
 
 Examples of the infrastructure layer: *Repository, Persistence, Caching, Messaging, Crypto, Converter, Translation*.
-Examples of the cross-cuttin layer: *Logging, Error, Tracing, Security, Configuration, Token, Monitoring, Date*. 
+
+Examples of the cross-cutting layer: *Logging, Error, Tracing, Security, Configuration, Token, Monitoring, Date*. 
 
 **» Applying DDD to Angular**<br/>
 
@@ -80,7 +81,7 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-To organize a modular structure we split code into reusable blocks. The Angular guidelines for organizing those blocks provides different categories. **Shared modules** and **Widget module** contain the most commonly used code to be reused in domain modules, while **domain modules** encapsulate blocks of code, that is not intended to be used outside that module, makes **domain modules** a good candidate for the **bounded context** pattern. The **Service module** and shares it's content application wide as singletons. The **root module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+To organize a modular structure we split code into reusable blocks. The Angular guidelines for organizing those blocks provides different categories. **Shared Module** and **Widget Module** contain the most commonly used code to be reused in domain modules, while **Domain Modules** encapsulate blocks of code, that is not intended to be used outside that module, makes **Domain Module** a good candidate for the bounded context pattern. The **Service Module** and shares it's content application wide as singletons. The **Root Module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
  Angular's module system gives a clean design response:  
 
@@ -90,9 +91,9 @@ To organize a modular structure we split code into reusable blocks. The Angular 
 
 **» Examples**<br/>
 
-`Service modules`: Application wide services as singletons e.g. *AuthenticationService*<br/>
-`Shared modules`: Highly reusable components as multiple instances e.g. *PaginatorComponent* <br/>
-`Domain modules`: Domain modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
+`Service Module`: Application wide services as singletons e.g. *AuthenticationService*<br/>
+`Shared Module`: Highly reusable components as transient instances e.g. *PaginatorComponent* <br/>
+`Domain Module`: Domain modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
 **» Module guidelines**<br/>
 
@@ -103,7 +104,7 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 -	Except services, module contents are private by default and transitive dependencies aren't visible
 -   **Do not** share contents of a domain module, instead add reusable elements to a shared module
 -   **Do not** import shared modules into the root module
--   **Do not** import the service module more than once. Use dependency lookup hooks to prevent multiple instanciation
+-   **Do not** import the service module more than once. Use DI lookup hooks to prevent multiple instansiation
 
 **» Bounded context pattern**<br/>
 
@@ -111,13 +112,11 @@ The bounded context pattern in Domain-Driven Design defines fragments inside a d
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/BoundedContext.PNG)
 
-
 **» Angular vs. Domain-Driven Design**<br/>
 
 Many similarities exist when comparing the tactical patterns between Domain-Driven Design and Angular. However, there are also some technical points of friction. 
-For example, the classification of DomainModules is the only artifact that can be directly attributed to Domain-Driven Design. Modular categories such as the RoutingModule, WidgetModule, or ServiceModule cannot be directly mapped to Domain-Driven Design.  The SharedModule could be equated with the CrossCutting Layer. Another aspect is the visibility of services. In Angular, services are often made available as a global singleton, which automatically gives them a shared status.
-
-Accordingly, work must be done on how to harmonize these points of friction. A symbiosis of both strategies must be found as shown in the following example:
+For example, the classification of **Domain Module** is the only artifact that can be attributed to Domain-Driven Design. Modular categories such as the **Routing Module**, **Widget Module** or **Service Module** cannot be directly aligned to Domain-Driven Design. The **Shared Module** could be the equivalent of the **Cross-Cutting Module**. Another aspect is the visibility of services. In Angular, services are often made available as global singletons, which automatically gives them a shared status.
+Accordingly, work must be done on how to harmonize these points of friction. A symbiosis of both strategies must be found as shown in the following:
 
 **» Project scaffolding in the sense of DDD**<br/>
 
