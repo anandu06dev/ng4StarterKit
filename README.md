@@ -45,9 +45,9 @@ Our layered architecture consists of the following conceptual layers:
 *» Validation layers*<br/>
 
 - Application layer: Data types (null, undefined), format (length, empty, whitespace), schema (email, creditcard)
-- Domain Layer: Business/Domain Rules <br/>
+- Domain Layer: Business/Domain Rules, Invariants<br/>
 
-Examples - Infrastructure Layer: *Repository, Persistence, Caching, Messaging, Crypto, Converter, Translation*<br/>
+Examples - Infrastructure Layer: *Repository, Persistence, Caching, Messaging, Crypto, Converter, Validation, Translation*<br/>
 Examples - Cross-Cutting Layer: *Logging, Error, Tracing, Security, Configuration, Token, Monitoring, Date*
 
 **» Applying DDD to Angular**<br/>
@@ -66,7 +66,7 @@ Object-Oriented Design enables us to approach a more human-readable code base, w
 
 **» Applying SOLID principles**<br/>
 
-In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the Dependency Inversion Principle, we ensure that layers depend on abstraction as opposed to depending on concretion. 
+In object orientation the SOLID principles may help to make better design decisions (high cohesion and low coupling). Applying the Dependency Inversion Principle, we ensure that layers depend on abstraction as opposed to depending on concretion. Please don't mistake DIP with LSP!
 
 For example, we provide the domain layer as an abstraction by using interfaces / type aliases.
 
@@ -90,7 +90,7 @@ Organizing a modular structure we must split code into reusable blocks. The Angu
 
 **» Examples**<br/>
 
-`Service Module`: Application wide services as singletons e.g. *AuthenticationService*<br/>
+`Service Module`: Application wide services as singletons e.g. *TranslationService*<br/>
 `Shared Module`: Highly reusable components as transient instances e.g. *PaginatorComponent* <br/>
 `Domain Module`: Domain modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
@@ -107,7 +107,7 @@ Following guidelines can help to facilitate the orchestration of ngModules:<br/>
 
 **» Bounded context pattern**<br/>
 
-The bounded context pattern in Domain-Driven Design defines fragments in the domain layer by decomposing a domain model into bounded subdomains. In a service-based environment the bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern. This is similar to **Domain Modules** in Angular, where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven approach. A bounded context should be presented at a minimum scale as an aggregate. In addition, the bounded context must provide a REST API because the Angular router engine complies with the navigatorial behaviour of hypermedia APIs. A bounded context is only coupled to the URI of the entry point resource (root), then it's hypermedia to navigate through the API e.g. `/boundedContextA/*API`; `/boundedContextB/*API`. 
+The bounded context pattern in Domain-Driven Design divides the domain model into related domain fragments. In a service-based environment a bounded context marks the boundaries of an application service. An application service is a concretion of the bounded context pattern! This is similar to **Domain Modules** where we mark the boundries based on features. Applying the bounded context pattern to domain modules allows us to structure modules in a domain-driven approach. A bounded context should be presented at a minimum scale as an aggregate. A bounded context may consist of several aggregates? An important aspect in conjunction with SPA applications is that a (client- or server-side) bounded context must provide a REST-based API because the router engine complies with the navigatorial behaviour of hypermedia APIs. A bounded context is only coupled to the URI of the entry point resource (root), then it's hypermedia to navigate through the API e.g. `/boundedContextA/*API`; `/boundedContextB/*API`. 
 
 The following meta model illustrates the interaction between the bounded context pattern and domain modules:
 
@@ -118,7 +118,7 @@ The following meta model illustrates the interaction between the bounded context
 Many similarities exist when comparing the tactical patterns between Domain-Driven Design and Angular. However, there are also some technical points of friction. 
 For example, the classification of **Domain Modules** is the only artifact that can be attributed to Domain-Driven Design. Other modular categories such as the **Routing Module**, **Widget Module** or **Service Module** cannot be directly attributed to Domain-Driven Design. The **Shared Module** would be the equivalent definition of the **Cross-Cutting Module**. 
 
-Domain-oriented layering is often considered to be the first structuring criterion, because it resolves the technical layer criterion. However, layered architecture is a building block in Domain-Driven Design, which is an attractive approach, even without modular encapsulation. Hence, using only abstraction layers in terms of folders is quite sufficient. The main reason for modular segmentation in Angular is lazy-loading. 
+Domain-oriented layering is often considered to be the first structuring criterion, because it resolves the technical layer criterion. However, layered architecture is a building block in Domain-Driven Design, which is an attractive approach, even without modular encapsulation. Hence, using only abstraction layers in terms of folders is quite sufficient. The main reason for modular segmentation in Angular is lazy-loading. Since Angular 13 we may consider to only comply with "standalone" components!
 
 Another aspect of friction relates to visibility. Angular services are often made available as global singleton instances, which automatically gives them a shared status. 
 A symbiosis of both strategies must be reached:
@@ -183,7 +183,7 @@ A rich domain model instead hides and encapsulates domain logic:
 
 In the second example the domain logic is loosely coupled from the UI controller. Encapsulation protects the integrity of the model data.
 Keeping the model as independent as possible improves reusability and allows easier refactoring.
-**Neither domain state nor domain logic should be coded in the UI controller**.
+**Neither domain state nor domain logic should be coded in UI controllers**.
 
 **» Mapper pattern**<br/>
 
@@ -265,22 +265,22 @@ Following guidelines can help to facilitate scope and lifetime of providers:
 
 **» Services shared through the component providers array**<br/>
 
--	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton.
--	If a component is instantiated more than once, a new service instance will be injected to the respective component. 
-- Use dependency lookup hook decorators `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups.  
+-	The component `providers` array will request a service instance from the injector and shares the service class with its children as singleton
+-	If a component is instantiated more than once, a new service instance will be injected to the respective component
+- Use dependency lookup hook decorators `@Host, @Optional, @Skip or @SkipSelf` to manage the dependency lookups 
 
 **» Services shared through the provideIn property**<br/>
 
 @TODO [text]
 @TODO [image]
 
-**» Stateful Services vs. Shared Repositories**<br/>
+**» Stateful services vs. shared repositories**<br/>
 
-As previously mentioned, it's a common practice in Angular projects to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive shared repositories in favor of an active data store**. Technically speaking, there is no big difference! It's just a matter of convention. 
+As previously mentioned, it's a common practice in Angular projects to use services for business functionality and shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive  repositories in favor of an active data store**. Technically speaking, there is no big difference! It's just a matter of convention. 
 
-We will combine the Repository pattern with the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for form or UI models. The CQRS pattern allows us to answer different use cases with the respective data model. State changes are immediately replicated back to the read side. This process is named "projection". A projection can be leveraged in many different ways or layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not encounter any problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
+We will expand the repository pattern by the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for reactive read models. The CQRS pattern allows us to answer different use cases with the respective data model. State changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways or layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not encounter any problems of this kind, because of Angular's (RxJS) reactive change detection behaviour. 
 
-**A reactive API exposes hot Observables (BehaviorSubjects etc.)** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure "eventual consistency" that normally arises when CQRS spans the client and server side, won't occur. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
+**A reactive API exposes hot observables (BehaviorSubjects etc.)** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure "eventual consistency" that normally arises when CQRS spans the client and server side, won't occur. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
@@ -312,37 +312,36 @@ The "projection by entity" pattern makes domain events and eventual consistency 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/VMPRO.PNG)   
 
-Let's have a look at how to keep models in sync:
+Let's have a look at how to keep models in sync using static factory methods:
 
 ```
 class Order {
     private orderId: number;
     private quantity: number; 
 
-    public getOrderForSales(): OrderForSales {
+    public static getOrderForSales(): OrderForSales {
         return new OrderForSales(this.quantity);
     }
 
-    public getOrderForCatalog(): OrderForCatalog {
+    public static getOrderForCatalog(): OrderForCatalog {
         return new OrderForCatalog(this.orderId);
     }
 }
 ``` 
 
-One obvious caveat in this approach is that it only works for a single entity. What if a view model demands multiple sources? 
 Providing view models incorporated into a domain model implementation violates the single responsibility rule. 
-By using an abstract class we can unite reusable factory methods:
+By using an abstract class we can merge reusable static factory methods:
 
 ```
 abstract class OrderViewModel {
     abstract quantity;
     abstract orderId;
 
-    public getOrderForSales(): OrderForSales {
+    public static getOrderForSales(): OrderForSales {
         return new OrderForSales(this.quantity);
     }
 
-    public getOrderForCatalog(): OrderForCatalog {
+    public static getOrderForCatalog(): OrderForCatalog {
         return new OrderForCatalog(this.orderId);
     }
 }
@@ -353,12 +352,14 @@ class Order extends OrderViewModel {
 }
 ``` 
 
-When building complex user interfaces that require multiple aggregates, we will encounter problems very quickly, if we don't prepare additional layers of abstraction.
-As for the shared view model repositories, they provide different view model schemas for different use cases and combine multiple data or action streams$. 
+An obvious problem here is that this only works for a single entity. What if a view model demands multiple sources? 
+When building complex user interfaces that require multiple aggregates, we will encounter problems very quickly, if we don't prepare additional layers.
+As for the shared view model repositories, they may provide different view model schemas for different use cases and combine multiple data- or action-streams. 
 
 ```
 @Injectable()
 class OrderForSalesRepository {
+
     order: OrderForInitialisation = OrderFactory.empty();
     
     constructor(
@@ -368,7 +369,7 @@ class OrderForSalesRepository {
       private dateService: DateService){
     }
 
-    public getOrderForSales(id): Observable<OrderForSales> {
+    public static getOrderForSales(id): Observable<OrderForSales> {
         return this._orderRepository.getById(id).pipe(
           map(),
           filter(),
@@ -378,7 +379,7 @@ class OrderForSalesRepository {
         )
     }
     
-    public getOrderForProductSales(id): Observable<OrderForProductSales> {
+    public static getOrderForProductSales(id): Observable<OrderForProductSales> {
         return combineLatest(this._orderRepository.getById(id), this._productRepository.getById(id)).pipe(
           map() => {
               let order.date = this.dateService.now();
