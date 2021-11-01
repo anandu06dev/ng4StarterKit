@@ -38,7 +38,7 @@ Our layered architecture consists of the following conceptual layers:
 *» Service layers* <br/>
 
 - Stateful UI services coordinate UI/UX logic and state that does not change the domain state
-- Stateless application services carry out full business use cases and are procedural 
+- Statelful application services carry out full business use cases and are procedural 
 - Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
 - Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
 
