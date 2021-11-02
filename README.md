@@ -39,8 +39,8 @@ Our layered architecture consists of the following conceptual layers:
 
 - Stateful UI services coordinate UX logic and state that doesn't change the domain state
 - Stateful application services carry out business use cases and are procedural 
-- Stateless domain services carry out use cases at a higher level of granularity than entities and value objects
-- Infrastructure services help to separate technical and business concepts and provide cross-cutting concerns <br/>
+- Stateless domain services carry out business use cases at a higher level than entities or value objects
+- Infrastructure services help to separate technical and business concepts  <br/>
 
 *» Validation layers*<br/>
 
@@ -279,13 +279,13 @@ Following guidelines can help to facilitate scope and lifetime of providers:
 
 As previously mentioned, it's a common practice in Angular projects to use services for business functionality or shared state. We relate to stateful services if we need to share data across components. Often simple services process HTTP requests and responses that perform CRUD operations. **We will depart from the status quo and use reactive repositories in favor of an active data store**. Technically speaking, there is no big difference! It's just a matter of convention. 
 
-We will expand the repository pattern by the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository implementation only for reactive read models. The CQRS pattern allows us to answer different use cases with the respective data model. State changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways or layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not encounter any problems of this kind, because of Angular's (RxJS) reactive change detection behaviour. 
+We will expand the repository pattern by the CQRS pattern to stem the heavy-lift when building complex user interfaces by introducing a repository (factory) implementation only for reactive read models. The CQRS pattern allows us to answer different use cases with the respective data model. State changes are immediately replicated back to the read side. This process is called "projection". A projection can be leveraged in many different ways or layers. The most commonly used approach is an event-based projection causing an eventually consistent system. However, we will not encounter any problems of this kind, due to Angular's (RxJS) reactive change detection behaviour. 
 
 **A reactive API exposes hot observables (BehaviorSubjects etc.)** to manage the complexity of asynchronous data handling. If we share data with other components, we must keep track of changes by applying reactivity to prevent stale data and keep the UI in sync. Hence, we ensure "eventual consistency" that normally arises when CQRS spans the client and server side, won't occur. RxJS gives us many great tools and operators to implement the "projection phase" between the read and write side. 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-Application services provide methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring many dependencies. By using a view model repository however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation models. A view model repository uses all dependencies required to fulfill the presentation layer requests. It may be advantageous to use view model repositories only in UI controllers without an application service. That is a personal preference.
+Application services provide methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring many dependencies. By using a view model repository (factory) however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation data. A view model repository uses all dependencies required to fulfill the presentation layer requests. It may be advantageous to use view model repositories directly in UI controllers without an application service. That depends on the specific use case.
 
 **» Why CQRS in the frontend?**<br/>
  
