@@ -286,7 +286,7 @@ We will expand the repository pattern by the CQRS pattern to stem the heavy-lift
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Reactive_Flow.PNG)
 
-Application services provide methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring many dependencies. By using a view model repository (factory) however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model repository to provide presentation data. A view model repository uses all dependencies required to fulfill the presentation layer requests. It may be advantageous to use view model repositories directly in UI controllers without an application service. That depends on the specific use case.
+Application services provide methods for retrieving view models of domain state. However, for complex user interfaces it would be inefficient to construct view models in an application service method requiring many dependencies. By using a view model factory however, we facilitate access to view models in a more efficient manner. Consequently, the UI controller uses the application service, that in turn, uses the view model factory to provide presentation data. In return a view model factory uses all dependencies required to fulfill the presentation layer needs. It may be advantageous to use view model factories in UI controllers without an application service. It depends on the specific use case.
 
 **» Why CQRS in the frontend?**<br/>
  
@@ -294,10 +294,10 @@ With traditional CRUD-based web applications, conform to the REST architectural 
 
 ![alt text](https://raw.githubusercontent.com/bilgino/ng4StarterKit/master/src/assets/images/Up_Down_Flow.PNG)
 
-Domain model objects shouldn't be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than view layer concerns. Taking this to the next level. It's better to use view model repositories for the purpose of creating complex user interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential to the view properties. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A view model respository is a perfect layer to pre-compute filtering and sorting logic (https://angular.io/guide/styleguide#style-04-13). 
+Domain model objects shouldn't be presented in the view layer or sent via message-passing queues. The domain model focuses on invariants and use cases rather than view layer concerns. Taking this to the next level. It's better to use view model repositories for the purpose of creating complex user interfaces. Creating a meaningful layer, where we accommodate the needs of the view layer and only resolve dependencies that are essential to the view properties. In complex UI flows, CQRS can help to avoid over-bloated single models for every use case scenario. A view model factory is a perfect layer to pre-compute filtering and sorting logic (https://angular.io/guide/styleguide#style-04-13). 
 A challenge which is neglected by many frontend developers. 
 
-A view model repository in the frontend design system has many advantages:
+A view model factory in the frontend design system has many advantages:
 
 - Separating concerns of each data model and the provider API
 - No eventual consistency
@@ -390,7 +390,8 @@ class OrderForSalesRepository {
           filter() => order.cancel === !order.cancel),
           mergeMap() => {
             return of(new OrderForProductSales(order.quantity, product.price));
-          })
+          }),
+          shareReplay(1)
         )        
     }
     ...
@@ -408,7 +409,7 @@ There are an array of different state types to deal with:
 
 Domain State | Addressable State (URL) | Draft State | Persisted State | View State | Session State | Application State |
 ------------|------------------|-------------|-----------------|--------------|--------------|--------------|
-Aggregate | Sort/Filter/Search | E-Mail, Comments | IndexedDB, Local Storage | Scroll-position| Cookies, Session Storage | Online/Offline|
+Entity | Sort/Filter/Search | E-Mail, Comments | IndexedDB, Local Storage | Scroll-position| Cookies, Session Storage | Online/Offline|
 
 ## Domain State   
 
