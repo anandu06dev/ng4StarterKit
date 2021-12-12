@@ -31,9 +31,10 @@ Our layered architecture consists of the following conceptual layers:
 
 *» Abstraction layers*<br/>
 
-- Application layer: Use Case & UI services, Read models, Read model repository interfaces <br/>
+- Presentation Layer: GUI Components, Widgets
+- Application layer: Use Case & UI services, Read models, Read model factories <br/>
 - Domain layer: Aggregates, Entities, Value objects, Write model repository interfaces <br/>
-- Infrastructure layer: Write and read model repository implementations <br/>
+- Infrastructure layer: Write repository implementations <br/>
 
 *» Service layers* <br/>
 
@@ -53,11 +54,11 @@ Examples - Cross-Cutting Layer: *Logging, Error, Tracing, Security, Configuratio
 **» Applying DDD to Angular**<br/>
 
 Domain-Driven Design doesn't dictate an application architecture! It demands that the complexity of the domain model is kept isolated from other layers to separate concerns 
-of the application. In the best case, the domain layer is self-contained to evolve independently. In addition, DDD focuses on abstracting business use cases of the application.
+of the application. Preferably, the domain layer is self-contained to evolve independently. Further more Domain-Driven Design focuses on abstracting business use cases of the application. Why would one implement the domain model in the frontend design system? Because frontends also evaluate business rules which must be reflected in the presentation layer. There is no question of Backend vs. Frontend. If domain-oriented logic exists, then it must also be implemented twice in different contexts.
 
 When application services carry out business use cases, it may be a good idea to place use cases that contain less logic in UI controllers. However, we don't want to hide use cases from the rest of the application! Furthermore, we may want to share state and logic of an application service / use case with other components. 
 
-Using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than business services.
+Using business services only for structural and behavioral modeling while domain models remain pure value containers that can't protect their invariants is a common bad practice in Angular frontend projects. Hence, building fine-grained rich domain models is a major objective in object-oriented business applications. In general, using rich domain models means more entities than business services. 
 
 It's debatable whether higher granularity distributed across many layers introduce unnecessary complexity in the frontend design system. Do we really need all tactical patterns such as factories, aggregates, domain events, repositories, domain services etc. in frontend development? As a consequence, many developers tend to lean toward weaker architecture abstraction because they see it as an unnecessary practice. Often a simpler data-driven approach is sufficient enough. For most web applications MVC or Flux may be more appropriate. Before starting using advanced concepts we have to evaluate incoming requirements and the code base!
 
@@ -81,7 +82,7 @@ Angular's design strategies such as modules, services, components etc. encourage
 
 ## Modules
 
-When organizing code by modules we split code into reusable blocks. The Angular styleguide for organizing those blocks provide different categories. **Shared Modules** and **Widget Modules** contain the most commonly used code to be reused in domain modules, while **Domain Modules** encapsulate blocks of code, that is not intended to be used outside that module, makes **Domain Modules** a good candidate for the bounded context pattern. The **Service Module** shares it's content application wide as singletons. The **Root Module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
+The Angular styleguides for organizing blocks of code names different categories. **Shared Modules** and **Widget Modules** contain the most commonly used code to be reused in domain modules, while **Domain Modules** encapsulate blocks of code, that is not intended to be used outside that module, makes **Domain Modules** a good candidate for the bounded context pattern. The **Service Module** shares it's content application wide as singletons. The **Root Module** includes multiple domain modules. That is, the entry point is the root module. For a more complete overview, visit the following website https://angular.io/guide/module-types#summary-of-ngmodule-categories
 
  Angular's module system gives a clean design response:  
 
@@ -92,7 +93,7 @@ When organizing code by modules we split code into reusable blocks. The Angular 
 **» Examples**<br/>
 
 `Service Module`: Application wide services as singletons e.g. *TranslationService*<br/>
-`Shared Module`: Highly reusable components as transient instances e.g. *PaginatorComponent* <br/>
+`Shared Module`: Highly reusable components as multitons e.g. *PaginatorComponent* <br/>
 `Domain Module`: Domain modules such as *OrderModule* (Bounded Context) or *SalesModule* (Bounded Context) 
 
 **» Module guidelines**<br/>
@@ -117,13 +118,13 @@ The following meta model illustrates the interaction between the bounded context
 **» Applying DDD to Angular II**<br/>
 
 Many similarities exist when comparing the tactical patterns between Domain-Driven Design and Angular. However, there are also some technical points of friction. 
-For example, the classification of **Domain Modules** is the only artifact that can be attributed to Domain-Driven Design. Other modular categories such as the **Routing Module**, **Widget Module** or **Service Module** cannot be directly attributed to Domain-Driven Design. The **Shared Module** would be the equivalent definition of the **Cross-Cutting Module**. 
+For example, the classification of a **Domain Module** is the only artifact that can be attributed to Domain-Driven Design. Other modular categories such as the **Routing Module**, **Widget Module** or **Service Module** can't be attributed to Domain-Driven Design. The **Shared Module** would be the equivalent definition of the **Cross-Cutting Module**. 
 
-Domain-oriented layering is often considered to be the first structuring criterion, because it resolves the technical layer criterion. However, layered architecture is a building block in Domain-Driven Design, which is an attractive approach, even without modular encapsulation. Hence, using only abstraction layers in terms of folders is quite sufficient. The main reason for modular segmentation in Angular is lazy-loading. Since Angular 13 we may consider to only comply with "standalone" components!
+Domain-oriented layering is often considered to be the first structuring criterion, because it resolves the technical layering criterion. However, layered architecture is a building block in Domain-Driven Design, which is a good approach, even without modular encapsulation. Hence, using only abstraction layers in terms of simple folders is quite sufficient. The main reason for modular segmentation in Angular is lazy-loading or a distribution context. 
 
-Another aspect of friction relates to visibility. Angular services are very often made available as global singleton instance, which automatically gives them a shared status. Hence, shared singletons and modular encapsulation aren't good to work hand-in-hand.
+Another aspect of friction relates to visibility. Angular services are very often made available as global singleton instance, which automatically gives them technical wise a shared status. Shared singletons and modular encapsulation aren't good to work hand-in-hand.
 
-A symbiosis of both strategies must be reached:
+A symbiosis of both strategies must be used:
 
 **» Project scaffolding in the sense of DDD**<br/>
 
